@@ -17,7 +17,6 @@ public class MenuA extends JFrame {
 
     public MenuA() {
 
-        // Configura la ventana
         setTitle("Ajedrez");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,7 +27,6 @@ public class MenuA extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                // Dibuja la imagen de fondo en el panel
             }
         };
 
@@ -63,11 +61,10 @@ public class MenuA extends JFrame {
         botonSalir.setFont(new Font("Arial", Font.BOLD, 50));
 
 
-
         botonIniciar.addActionListener(e -> {
 
             new Tablero();
-
+            
         });
 
 
