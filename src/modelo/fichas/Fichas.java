@@ -4,7 +4,7 @@
  */
 package modelo.fichas;
 
-import modelo.Tablero.Tablero;
+
 
 /**
  *

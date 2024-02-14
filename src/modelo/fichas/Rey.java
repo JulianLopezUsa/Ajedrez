@@ -6,7 +6,7 @@ package modelo.fichas;
 
 import java.util.ArrayList;
 
-import modelo.Tablero.Tablero;
+
 
 /**
  *

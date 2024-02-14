@@ -2,12 +2,7 @@ package ajedrez;
 
 import javax.swing.SwingUtilities;
 
-import modelo.fichas.Alfil;
-import modelo.fichas.Caballo;
-import modelo.fichas.Dama;
-import modelo.fichas.Peon;
-import modelo.fichas.Rey;
-import modelo.fichas.Torre;
+import controlador.EventosVentanaInicio;
 import vista.MenuA;
 
 public class Ajedrez {
@@ -22,10 +17,10 @@ public class Ajedrez {
                 // Caballo nuevo = new Caballo(0, 0, "Negro");
                 // nuevo.movimientoFicha("h 8");
                 
-                Peon nuevo1 = new Peon(0, 0, "Negro");
+                /*Peon nuevo1 = new Peon(0, 0, "Negro");
                 nuevo1.movimientoFicha("g 2", 0);
                 nuevo1.movimientoFicha("f 2 ", 0);
-                nuevo1.movimientoFicha("e 2 ", 0); 
+                nuevo1.movimientoFicha("e 2 ", 0);  */
 
                 /*Alfil nuevo = new Alfil(0, 0, "Negro");
                 nuevo.movimientoFicha("e 6",0);*/
@@ -39,7 +34,7 @@ public class Ajedrez {
                 /*Rey nuevo = new Rey(0, 0, "Negro");
                 nuevo.movimientoFicha("b 5",0);*/
 
-                new MenuA();
+                new EventosVentanaInicio(new MenuA());
 
             }
         });
