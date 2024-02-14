@@ -66,7 +66,7 @@ public class MenuA extends JFrame {
 
         botonIniciar.addActionListener(e -> {
 
-            new Tablero();
+            //new Tablero();
 
         });
 

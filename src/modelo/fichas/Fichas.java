@@ -4,6 +4,8 @@
  */
 package modelo.fichas;
 
+import modelo.Tablero.Tablero;
+
 /**
  *
  * @author Laura
@@ -48,7 +50,7 @@ public abstract class Fichas {
         return "Fichas{" + "posX=" + posX + ", posY=" + posY + ", color=" + color + '}';
     }
     
-    public void movimientoFicha(){
+    public void movimientoFicha(String posicionActual, int turno/* Tablero tablero*/){
         
     };
 }
