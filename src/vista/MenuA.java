@@ -5,6 +5,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,15 +20,24 @@ import javax.swing.JPanel;
 
 public class MenuA extends JFrame {
 
+    private Image backgroundImage;
+
     public JButton botonIniciar, botonSalir;
 
     public MenuA() {
+        try {
+            backgroundImage = ImageIO.read(new File("src/img/Inicio.jpg"));
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         initComponents();
     }
 
+
     public void initComponents(){
         
-        setTitle("Ajedrez");
+        setTitle("AJEDREZ");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -33,6 +47,7 @@ public class MenuA extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
             }
         };
 
@@ -40,10 +55,10 @@ public class MenuA extends JFrame {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centra el panel
 
         // Etiqueta de título
-        JLabel titulo = new JLabel("Ajedrez");
+        JLabel titulo = new JLabel(" JUEGO DE AJEDREZ");
         titulo.setFont(new Font("Arial", Font.BOLD, 90));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titulo.setForeground(Color.BLACK);
+        titulo.setForeground(Color.white);
         panel.add(titulo);
 
         // Botón para iniciar el juego

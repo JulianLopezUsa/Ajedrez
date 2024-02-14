@@ -1,4 +1,4 @@
-package vista;
+package vista; 
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,31 +8,29 @@ import java.awt.*;
 public class VistaTablero extends JFrame {
 
     public VistaTablero() {
-
         initComponents();
     }
 
-    public void initComponents(){
+    public void initComponents() {
         setTitle("Ajedrez");
-        setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-        JButton[][] cuadro = new JButton[8][8];
 
         JPanel panelTablero = new JPanel(new GridLayout(8, 8));
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                cuadro[i][j] = new JButton();
+                JButton boton = new JButton();
+                boton.setPreferredSize(new Dimension(80, 80)); // se establece el tamaño preferido del botón
                 if ((i + j) % 2 == 0) {
-                    cuadro[i][j].setBackground(Color.white);
+                    boton.setBackground(new Color(222, 184, 135));
                 } else {
-                    cuadro[i][j].setBackground(Color.BLACK);
+                    boton.setBackground(new Color(139, 0, 0));
                 }
-                panelTablero.add(cuadro[i][j]);
+                panelTablero.add(boton);
             }
         }
         add(panelTablero);
+        pack(); // Ajusta el tamaño de la ventana al contenido
+        setVisible(true);
     }
-
 }
