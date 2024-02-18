@@ -17,6 +17,7 @@ public class Alfil extends Fichas {
         super(posX, posY, color);
     }
 
+    
     @Override
     public void movimientoFicha(String posicionActual, int turno) {
         String[] pos = posicionActual.split(" ");
@@ -37,8 +38,20 @@ public class Alfil extends Fichas {
                 }
             }
         }
-
+        setLista(listaDeMovimientos);
         System.out.println(listaDeMovimientos);
+    }
+
+
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
+
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
     }
 }
 

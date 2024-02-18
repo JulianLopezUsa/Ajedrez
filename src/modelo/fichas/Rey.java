@@ -32,14 +32,25 @@ public class Rey extends Fichas {
                 int nuevaLetra = letraF + i;
                 int nuevoNumero = numeroF + j;
                 // Verificar si el movimiento está dentro del tablero y no es la misma posición actual
-                if (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 1 && nuevoNumero <= 8
+                if (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7
                         && (i != 0 || j != 0)) {
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
             }
         }
-
+        setLista(listaDeMovimientos);
         System.out.println(listaDeMovimientos);
+    }
+
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
+
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
     }
 }
 

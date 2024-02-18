@@ -50,8 +50,6 @@ public class Peon extends Fichas {
             }
         }
 
-        
-
         // Validar cada posible movimiento
         for (int[] movimiento : desplazamientos) {
             int nuevaLetra = movimiento[0];
@@ -59,19 +57,28 @@ public class Peon extends Fichas {
 
             if (letraff >= 97 && letraff <= 103 && turno==0) {
                 // Verificar si el movimiento está dentro del tablero
-                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 1 && nuevoNumero <= 8 ) {
+                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7 ) {
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
             }else  if (letraff >= 98 && letraff <= 104 && turno==1) {
                 // Verificar si el movimiento está dentro del tablero
-                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 1 && nuevoNumero <= 8 ) {
+                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7 ) {
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
             }
         }
-
+        setLista(listaDeMovimientos);
         System.out.println(listaDeMovimientos);
     }
 
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
 
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
+    }
 }

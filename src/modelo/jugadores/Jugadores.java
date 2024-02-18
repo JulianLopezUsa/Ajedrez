@@ -4,7 +4,14 @@
  */
 package modelo.jugadores;
 
+import modelo.fichas.Alfil;
+import modelo.fichas.Caballo;
+import modelo.fichas.Dama;
 import modelo.fichas.Fichas;
+import modelo.fichas.Peon;
+import modelo.fichas.Rey;
+import modelo.fichas.Torre;
+
 import java.util.ArrayList;
 
 /**
@@ -12,14 +19,14 @@ import java.util.ArrayList;
  * @author Laura
  */
 public class Jugadores {
-    
-    private String nombre;
-    private ArrayList<Fichas> fichas;
-    private int numFichas;
-    
+
+    public String nombre;
+    public ArrayList<Fichas> fichas;
+    public int numFichas;
+
     public Jugadores(String nombre) {
         this.nombre = nombre;
-        numFichas = 0;
+        numFichas = 16;
         fichas = new ArrayList<>(numFichas);
     }
 
@@ -46,6 +53,5 @@ public class Jugadores {
     public void setNumFichas(int numFichas) {
         this.numFichas = numFichas;
     }
-    
-    
+
 }

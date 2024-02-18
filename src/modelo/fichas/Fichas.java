@@ -4,7 +4,7 @@
  */
 package modelo.fichas;
 
-
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +14,7 @@ public abstract class Fichas {
     private int posX;
     private int posY;
     private String color; 
+    public ArrayList<String> listaDeMovimientos = new ArrayList<>();
     
     public Fichas(int posX, int posY, String color) {
         this.posX = posX;
@@ -39,6 +40,14 @@ public abstract class Fichas {
 
     public String getColor() {
         return color;
+    }
+
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        this.listaDeMovimientos = listaDeMovimientos;
+    }
+
+    public ArrayList<String> getLista() {
+        return listaDeMovimientos;
     }
 
     public void setColor(String color) {

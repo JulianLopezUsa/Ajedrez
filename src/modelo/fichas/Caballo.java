@@ -43,15 +43,25 @@ public class Caballo extends Fichas {
             int nuevoNumero = movimiento[1];
     
             // Verificar si el movimiento está dentro del tablero
-            if (nuevaLetra >= 97 && nuevaLetra < 105 && nuevoNumero >= 1 && nuevoNumero <= 8) {
+            if (nuevaLetra >= 97 && nuevaLetra < 105 && nuevoNumero >= 0 && nuevoNumero <= 7) {
                 // Agregar el movimiento a la lista de movimientos válidos
                 
                 listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
             }
         }
-
+        setLista(listaDeMovimientos);
         System.out.println(listaDeMovimientos);
     }
     
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
+
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
+    }
 
 }

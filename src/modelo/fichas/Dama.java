@@ -26,10 +26,10 @@ public class Dama extends Fichas {
         char letraF = pos[0].charAt(0);
         int numeroF = Integer.parseInt(pos[1]);
 
-        for (int i = numeroF + 1; i <= 8; i++) {
+        for (int i = numeroF + 1; i <= 7; i++) {
             listaDeMovimientos.add(letraF + " " + i); // Movimientos hacia derecha
         }
-        for (int i = numeroF - 1; i >= 1; i--) {
+        for (int i = numeroF - 1; i >= 0; i--) {
             listaDeMovimientos.add(letraF + " " + i); // Movimientos hacia izquierda
         }
         for (char letra = (char) (letraF + 1); letra <= 'h'; letra++) {
@@ -44,15 +44,26 @@ public class Dama extends Fichas {
             for (int j = -1; j <= 1; j += 2) {
                 int nuevaLetra = letraF + i;
                 int nuevoNumero = numeroF + j;
-                while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 1 && nuevoNumero <= 8) {
+                while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7) {
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                     nuevaLetra += i;
                     nuevoNumero += j;
                 }
             }
         }
-
+        setLista(listaDeMovimientos);
         System.out.println(listaDeMovimientos);
+    }
+
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
+
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
     }
 }
 
