@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import modelo.Tablero.Tablero;
-import modelo.juego.Game;
 import vista.MenuA;
 import vista.VistaTablero;
 

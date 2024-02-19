@@ -18,6 +18,7 @@ public class Caballo extends Fichas {
 
     @Override
     public void movimientoFicha(String posicionActual, Tablero tablero) {
+        listaDeMovimientos.clear();
         String[] pos = posicionActual.split(" ");
     
         char letraF = pos[0].charAt(0);
@@ -28,20 +29,23 @@ public class Caballo extends Fichas {
 
         // Array con los posibles desplazamientos en forma de "L"
         int[][] desplazamientos = {
-                {letraff - 2, numeroF - 1}, {letraff - 2, numeroF + 1}, {letraff - 1, numeroF - 2},
-                {letraff - 1, numeroF + 2}, {letraff + 1, numeroF - 2}, {letraff + 1, numeroF + 2},
+                {letraff - 2, numeroF - 1}, {letraff - 2, numeroF + 1},
+                {letraff - 1, numeroF - 2}, {letraff - 1, numeroF + 2},
+                {letraff + 1, numeroF - 2}, {letraff + 1, numeroF + 2},
                 {letraff + 2, numeroF - 1}, {letraff + 2, numeroF + 1}
         };
     
         // Validar cada posible movimiento
         for (int[] movimiento : desplazamientos) {
+            
             int nuevaLetra = movimiento[0];
             int nuevoNumero = movimiento[1];
-    
+
             // Verificar si el movimiento está dentro del tablero
-            if (nuevaLetra >= 97 && nuevaLetra < 105 && nuevoNumero >= 0 && nuevoNumero <= 7) {
+            if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
                 // Verificar si hay una ficha del mismo equipo en la casilla final del movimiento
-                Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero,tablero.getTurno());
+                Fichas ficha = tablero.hayFicha( nuevaLetra - 'a', nuevoNumero,tablero.getTurno());
+                
                 if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                     // Si no hay una ficha del mismo equipo, agregar el movimiento a la lista de movimientos válidos
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
@@ -49,7 +53,7 @@ public class Caballo extends Fichas {
             }
         }
         setLista(listaDeMovimientos);
-        System.out.println(listaDeMovimientos);
+
     }
 
     @Override

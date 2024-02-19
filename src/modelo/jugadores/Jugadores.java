@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo.jugadores;
 
-import modelo.fichas.Alfil;
-import modelo.fichas.Caballo;
-import modelo.fichas.Dama;
 import modelo.fichas.Fichas;
-import modelo.fichas.Peon;
-import modelo.fichas.Rey;
-import modelo.fichas.Torre;
+
 
 import java.util.ArrayList;
 

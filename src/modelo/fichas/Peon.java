@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo.fichas;
 
 import java.util.ArrayList;
@@ -34,14 +31,14 @@ public class Peon extends Fichas {
 
         // Array con los posibles desplazamientos que en este caso son solo derecho
         if (tablero.getTurno() == 0) {
-            if (contadorMov == 2) {
+            if (movio) {
                 desplazamientos = new int[][] { { letraff - 1, numeroF } };
             } else {
                 contadorMov++;
                 desplazamientos = new int[][] { { letraff - 2, numeroF }, { letraff - 1, numeroF } };
             }
-        } else if(tablero.getTurno()==1){
-            if (contadorMov == 2) {
+        } else if (tablero.getTurno() == 1) {
+            if (movio) {
                 desplazamientos = new int[][] { { letraff + 1, numeroF } };
             } else {
                 contadorMov++;
@@ -57,43 +54,27 @@ public class Peon extends Fichas {
             if (letraff >= 97 && letraff <= 103 && tablero.getTurno() == 0) {
                 // Verificar si el movimiento está dentro del tablero
                 if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
-                    // verificarOtrasFichas(tablero, nuevaLetra, numeroF);
-                    listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                    verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero);
+                    // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
             } else if (letraff >= 98 && letraff <= 104 && tablero.getTurno() == 1) {
                 // Verificar si el movimiento está dentro del tablero
                 if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
-                    // verificarOtrasFichas(tablero, nuevaLetra, numeroF);
-                    listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                    verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero);
+
+                    // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
             }
         }
         setLista(listaDeMovimientos);
-        System.out.println(listaDeMovimientos);
+
     }
 
-    public void verificarOtrasFichas(Tablero tablero, int nuevaLetra, int numeroF) {
-        // Verificar si no hay una ficha en la casilla delante del peón
-        boolean noHayFichaDelante = true;
-        // Revisar si hay una ficha en la posición delante del peón
-        if (tablero.getTurno() == 0) {
-            for (Fichas ficha : tablero.jugador1.fichas) {
-                if (ficha.getPosX() == nuevaLetra && ficha.getPosY() == numeroF) {
-                    noHayFichaDelante = false;
-                    break;
-                }
-            }
-        }else if(tablero.getTurno() == 1){
-            for (Fichas ficha : tablero.jugador2.fichas) {
-                if (ficha.getPosX() == nuevaLetra && ficha.getPosY() == numeroF) {
-                    noHayFichaDelante = false;
-                    break;
-                }
-            }
-        }
-        // Si no hay una ficha delante, agregar el movimiento a la lista
-        if (noHayFichaDelante) {
-            listaDeMovimientos.add((char) nuevaLetra + " " + numeroF);
+    public void verificarOtrasFichas(Tablero tablero, int nuevaLetra, int nuevoNumero) {
+        // Verificar si hay una ficha en la casilla adyacente
+        Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tablero.getTurno());
+        if (ficha == null || !ficha.getColor().equals(this.getColor())) {
+            listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
         }
     }
 
@@ -105,5 +86,22 @@ public class Peon extends Fichas {
     @Override
     public void setLista(ArrayList<String> listaDeMovimientos) {
         super.setLista(listaDeMovimientos);
+    }
+
+    public void setListaDeMovimientos(ArrayList<String> listaDeMovimientos) {
+        this.listaDeMovimientos = listaDeMovimientos;
+    }
+
+    public void setContadorMov(int contadorMov) {
+        this.contadorMov = contadorMov;
+    }
+
+    public void setDesplazamientos(int[][] desplazamientos) {
+        this.desplazamientos = desplazamientos;
+    }
+
+    @Override
+    public void setMovio(boolean movio) {
+        this.movio = movio;
     }
 }

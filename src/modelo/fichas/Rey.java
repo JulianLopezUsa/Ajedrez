@@ -17,6 +17,7 @@ public class Rey extends Fichas {
 
     @Override
     public void movimientoFicha(String posicionActual,  Tablero tablero) {
+        listaDeMovimientos.clear();
         String[] pos = posicionActual.split(" ");
 
         char letraF = pos[0].charAt(0);
@@ -39,7 +40,7 @@ public class Rey extends Fichas {
             }
         }
         setLista(listaDeMovimientos);
-        System.out.println(listaDeMovimientos);
+
     }
 
     @Override

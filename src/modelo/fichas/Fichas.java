@@ -17,6 +17,7 @@ public abstract class Fichas {
     private int posY;
     private String color; 
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
+    public boolean movio = false;
     
     public Fichas(int posX, int posY, String color) {
         this.posX = posX;
@@ -63,5 +64,21 @@ public abstract class Fichas {
     
     public void movimientoFicha(String posicionActual, Tablero tablero){
         
+    }
+
+    public ArrayList<String> getListaDeMovimientos() {
+        return listaDeMovimientos;
+    }
+
+    public void setListaDeMovimientos(ArrayList<String> listaDeMovimientos) {
+        this.listaDeMovimientos = listaDeMovimientos;
+    }
+
+    public boolean isMovio() {
+        return movio;
+    }
+
+    public void setMovio(boolean movio) {
+        this.movio = movio;
     };
 }

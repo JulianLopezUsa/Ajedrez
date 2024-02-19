@@ -99,4 +99,21 @@ public class VistaTablero extends JFrame {
         }
     }
 
+    public void actualizar(int posX, int posY, Fichas ficha){
+        
+        getBoton(posY, posX).setIcon(obtenerIconoFicha(ficha)); // Actualizar icono de la ficha en la vista
+    }
+
+    public void eliminarDeVista(int posX, int posY){
+        getBoton(posY, posX).setIcon(null);
+    }
+
+    private ImageIcon obtenerIconoFicha(Fichas ficha) {
+        String color = ficha.getColor();
+        String tipo = ficha.getClass().getSimpleName().toLowerCase(); // Obtener el nombre del tipo de ficha en minúsculas
+        String nombreIcono = "src/img/" + tipo + "_" + color + ".png"; // Nombre del archivo de la imagen de la ficha
+        
+        return new ImageIcon(nombreIcono);
+    }
+
 }
