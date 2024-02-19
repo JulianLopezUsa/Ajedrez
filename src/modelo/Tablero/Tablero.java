@@ -42,7 +42,7 @@ public class Tablero {
         jugador1.fichas.add(new Alfil(2, 0, "blanco"));
         jugador1.fichas.add(new Alfil(5, 0, "blanco"));
         jugador1.fichas.add(new Dama(3, 0, "blanco"));
-        jugador1.fichas.add(new Rey(4, 0, "negro"));
+        jugador1.fichas.add(new Rey(4, 0, "blanco"));
     }
 
     public void inicializarFichasEquipo2() {
