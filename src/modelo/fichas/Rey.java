@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo.fichas;
 
 import java.util.ArrayList;
 
-
+import modelo.Tablero.Tablero;
 
 /**
  *
@@ -20,7 +16,7 @@ public class Rey extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, int turno) {
+    public void movimientoFicha(String posicionActual,  Tablero tablero) {
         String[] pos = posicionActual.split(" ");
 
         char letraF = pos[0].charAt(0);
@@ -34,7 +30,11 @@ public class Rey extends Fichas {
                 // Verificar si el movimiento está dentro del tablero y no es la misma posición actual
                 if (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7
                         && (i != 0 || j != 0)) {
-                    listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                    // Verificar si hay una ficha en la casilla adyacente
+                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a',nuevoNumero,tablero.getTurno());
+                    if (ficha == null || !ficha.getColor().equals(this.getColor())) {
+                        listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                    }
                 }
             }
         }
@@ -53,4 +53,3 @@ public class Rey extends Fichas {
         super.setLista(listaDeMovimientos);
     }
 }
-

@@ -29,7 +29,7 @@ public class Tablero {
         this.jugador2 = new Jugadores(nombreJugador2);
         inicializarFichasEquipo1();
         inicializarFichasEquipo2();
-        turno = 0;
+        turno = 1;
     }
 
     public void inicializarFichasEquipo1() {
@@ -61,13 +61,34 @@ public class Tablero {
         jugador2.fichas.add(new Rey(4, 7, "blanco"));
     }
 
-    public Fichas hayFicha(int i, int j){
-        for (Fichas ficha : jugador2.fichas) {
-            if (ficha.getPosX() == j && ficha.getPosY() == i) {
-                return ficha;
+    public Fichas hayFicha(int i, int j, int turno) {
+        if (turno == 0) {
+            for (Fichas ficha : jugador2.fichas) {
+                if (ficha.getPosX() == j && ficha.getPosY() == i) {
+                    return ficha;
+                }
+            }
+        }else if(turno==1){
+            for (Fichas ficha : jugador1.fichas) {
+                if (ficha.getPosX() == j && ficha.getPosY() == i) {
+                    return ficha;
+                }
             }
         }
+
         return null;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public Jugadores getJugador1() {
+        return jugador1;
+    }
+
+    public Jugadores getJugador2() {
+        return jugador2;
     }
 
 }

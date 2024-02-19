@@ -36,11 +36,11 @@ public class EventosTablero implements ActionListener {
                 if (e.getSource() == this.tablero.cuadro[i][j]) {
                     // Verificar si hay una ficha en el botón presionado
                     System.out.println("Se presionó:"+ i+""+j);
-                    Fichas f = tablero2.hayFicha(i, j);
+                    Fichas f = tablero2.hayFicha(i, j, tablero2.getTurno());
                     System.out.println(f);
                     if (f != null) {
                         // Obtener los posibles movimientos de la ficha en esa posición
-                        f.movimientoFicha((char)(i + 97) + " " + j, 0);
+                        f.movimientoFicha((char)(i + 97) + " " + j, tablero2);
                         // Cambiar el color de los botones correspondientes a los movimientos válidos
                         this.tablero.resaltarMovimientos(f);
                     }

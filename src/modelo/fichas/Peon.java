@@ -6,7 +6,7 @@ package modelo.fichas;
 
 import java.util.ArrayList;
 
-
+import modelo.Tablero.Tablero;
 
 /**
  *
@@ -22,7 +22,7 @@ public class Peon extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, int turno) {
+    public void movimientoFicha(String posicionActual, Tablero tablero) {
         listaDeMovimientos.clear();
         String[] pos = posicionActual.split(" ");
 
@@ -33,15 +33,14 @@ public class Peon extends Fichas {
         int letraff = (int) letraF;
 
         // Array con los posibles desplazamientos que en este caso son solo derecho
-        if (turno == 0) {
+        if (tablero.getTurno() == 0) {
             if (contadorMov == 2) {
                 desplazamientos = new int[][] { { letraff - 1, numeroF } };
             } else {
                 contadorMov++;
                 desplazamientos = new int[][] { { letraff - 2, numeroF }, { letraff - 1, numeroF } };
             }
-
-        } else {
+        } else if(tablero.getTurno()==1){
             if (contadorMov == 2) {
                 desplazamientos = new int[][] { { letraff + 1, numeroF } };
             } else {
@@ -55,14 +54,16 @@ public class Peon extends Fichas {
             int nuevaLetra = movimiento[0];
             int nuevoNumero = movimiento[1];
 
-            if (letraff >= 97 && letraff <= 103 && turno==0) {
+            if (letraff >= 97 && letraff <= 103 && tablero.getTurno() == 0) {
                 // Verificar si el movimiento está dentro del tablero
-                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7 ) {
+                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
+                    // verificarOtrasFichas(tablero, nuevaLetra, numeroF);
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
-            }else  if (letraff >= 98 && letraff <= 104 && turno==1) {
+            } else if (letraff >= 98 && letraff <= 104 && tablero.getTurno() == 1) {
                 // Verificar si el movimiento está dentro del tablero
-                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7 ) {
+                if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
+                    // verificarOtrasFichas(tablero, nuevaLetra, numeroF);
                     listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                 }
             }
@@ -71,11 +72,35 @@ public class Peon extends Fichas {
         System.out.println(listaDeMovimientos);
     }
 
+    public void verificarOtrasFichas(Tablero tablero, int nuevaLetra, int numeroF) {
+        // Verificar si no hay una ficha en la casilla delante del peón
+        boolean noHayFichaDelante = true;
+        // Revisar si hay una ficha en la posición delante del peón
+        if (tablero.getTurno() == 0) {
+            for (Fichas ficha : tablero.jugador1.fichas) {
+                if (ficha.getPosX() == nuevaLetra && ficha.getPosY() == numeroF) {
+                    noHayFichaDelante = false;
+                    break;
+                }
+            }
+        }else if(tablero.getTurno() == 1){
+            for (Fichas ficha : tablero.jugador2.fichas) {
+                if (ficha.getPosX() == nuevaLetra && ficha.getPosY() == numeroF) {
+                    noHayFichaDelante = false;
+                    break;
+                }
+            }
+        }
+        // Si no hay una ficha delante, agregar el movimiento a la lista
+        if (noHayFichaDelante) {
+            listaDeMovimientos.add((char) nuevaLetra + " " + numeroF);
+        }
+    }
+
     @Override
     public ArrayList<String> getLista() {
         return super.getLista();
     }
-
 
     @Override
     public void setLista(ArrayList<String> listaDeMovimientos) {

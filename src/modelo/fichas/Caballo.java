@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo.fichas;
 
 import java.util.ArrayList;
 
-
+import modelo.Tablero.Tablero;
 
 /**
  *
@@ -21,7 +17,7 @@ public class Caballo extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, int turno) {
+    public void movimientoFicha(String posicionActual, Tablero tablero) {
         String[] pos = posicionActual.split(" ");
     
         char letraF = pos[0].charAt(0);
@@ -44,15 +40,18 @@ public class Caballo extends Fichas {
     
             // Verificar si el movimiento está dentro del tablero
             if (nuevaLetra >= 97 && nuevaLetra < 105 && nuevoNumero >= 0 && nuevoNumero <= 7) {
-                // Agregar el movimiento a la lista de movimientos válidos
-                
-                listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                // Verificar si hay una ficha del mismo equipo en la casilla final del movimiento
+                Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero,tablero.getTurno());
+                if (ficha == null || !ficha.getColor().equals(this.getColor())) {
+                    // Si no hay una ficha del mismo equipo, agregar el movimiento a la lista de movimientos válidos
+                    listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                }
             }
         }
         setLista(listaDeMovimientos);
         System.out.println(listaDeMovimientos);
     }
-    
+
     @Override
     public ArrayList<String> getLista() {
         return super.getLista();
