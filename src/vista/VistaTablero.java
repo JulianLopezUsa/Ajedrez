@@ -32,9 +32,9 @@ public class VistaTablero extends JFrame {
             for (int j = 0; j < 8; j++) {
                 cuadro[i][j] = new JButton();
                 if ((i + j) % 2 == 0) {
-                    cuadro[i][j].setBackground(Color.white);
+                    cuadro[i][j].setBackground(new Color(222, 184, 135));
                 } else {
-                    cuadro[i][j].setBackground(Color.BLACK);
+                    cuadro[i][j].setBackground(new Color(139, 0, 0));
                 }
                 panelTablero.add(cuadro[i][j]);
             }
@@ -91,9 +91,9 @@ public class VistaTablero extends JFrame {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((i + j) % 2 == 0) {
-                    cuadro[i][j].setBackground(Color.white);
+                    cuadro[i][j].setBackground(new Color(222, 184, 135));
                 } else {
-                    cuadro[i][j].setBackground(Color.BLACK);
+                    cuadro[i][j].setBackground(new Color(139, 0, 0));
                 }
             }
         }
