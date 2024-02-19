@@ -20,7 +20,6 @@ public class Peon extends Fichas {
 
   @Override
   public void movimientoFicha(String posicionActual, Tablero tablero) {
-    desplazamientos.clear();
     listaDeMovimientos.clear();
     String[] pos = posicionActual.split(" ");
 
@@ -71,7 +70,7 @@ public class Peon extends Fichas {
       //int nuevaLetra = movimiento[0];
       //int nuevoNumero = movimiento[1];
 
-      if (nuevaLetra >= 97 && nuevaLetra<= 103 && tablero.getTurno() == 0) {
+      if (letraff >= 97 && letraff <= 103 && tablero.getTurno() == 0) {
         // Verificar si el movimiento está dentro del tablero
         if (
           nuevaLetra >= 97 &&
@@ -82,7 +81,7 @@ public class Peon extends Fichas {
           verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero);
           // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
         }
-      } else if (nuevaLetra >= 98 && nuevaLetra<= 104 && tablero.getTurno() == 1) {
+      } else if (letraff >= 98 && letraff <= 104 && tablero.getTurno() == 1) {
         // Verificar si el movimiento está dentro del tablero
         if (
           nuevaLetra >= 97 &&
