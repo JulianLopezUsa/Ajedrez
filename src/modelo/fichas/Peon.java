@@ -20,6 +20,7 @@ public class Peon extends Fichas {
 
   @Override
   public void movimientoFicha(String posicionActual, Tablero tablero) {
+    desplazamientos.clear();
     listaDeMovimientos.clear();
     String[] pos = posicionActual.split(" ");
 
