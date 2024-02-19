@@ -8,6 +8,9 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
+import modelo.Tablero.Tablero;
 import vista.MenuA;
 import vista.VistaTablero;
 
@@ -32,8 +35,12 @@ public class EventosVentanaInicio implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.menuA.botonIniciar)) {
-            new EventosTablero(new VistaTablero());
             this.menuA.setVisible(false);
+            String nombreJ1 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 1:");
+            String nombreJ2 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 2:");
+            Tablero tablero = new Tablero(nombreJ1, nombreJ2);
+            new EventosTablero(new VistaTablero(), tablero);
+            
         }
 
         if (e.getSource().equals(this.menuA.botonSalir)) {

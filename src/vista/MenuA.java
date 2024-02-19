@@ -5,8 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.io.File;
+import java.awt.Image;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -34,11 +34,10 @@ public class MenuA extends JFrame {
         initComponents();
     }
 
-
     public void initComponents(){
         
-        setTitle("AJEDREZ");
-        setSize(1300, 700);
+        setTitle("Ajedrez");
+        setSize(1250, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -55,10 +54,10 @@ public class MenuA extends JFrame {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centra el panel
 
         // Etiqueta de título
-        JLabel titulo = new JLabel(" JUEGO DE AJEDREZ");
+        JLabel titulo = new JLabel("Juego Ajedrez");
         titulo.setFont(new Font("Arial", Font.BOLD, 90));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titulo.setForeground(Color.white);
+        titulo.setForeground(Color.WHITE);
         panel.add(titulo);
 
         // Botón para iniciar el juego

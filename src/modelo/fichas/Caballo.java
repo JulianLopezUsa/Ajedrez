@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo.fichas;
 
 import java.util.ArrayList;
 
-
+import modelo.Tablero.Tablero;
 
 /**
  *
@@ -21,7 +17,8 @@ public class Caballo extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, int turno) {
+    public void movimientoFicha(String posicionActual, Tablero tablero) {
+        listaDeMovimientos.clear();
         String[] pos = posicionActual.split(" ");
     
         char letraF = pos[0].charAt(0);
@@ -32,26 +29,42 @@ public class Caballo extends Fichas {
 
         // Array con los posibles desplazamientos en forma de "L"
         int[][] desplazamientos = {
-                {letraff - 2, numeroF - 1}, {letraff - 2, numeroF + 1}, {letraff - 1, numeroF - 2},
-                {letraff - 1, numeroF + 2}, {letraff + 1, numeroF - 2}, {letraff + 1, numeroF + 2},
+                {letraff - 2, numeroF - 1}, {letraff - 2, numeroF + 1},
+                {letraff - 1, numeroF - 2}, {letraff - 1, numeroF + 2},
+                {letraff + 1, numeroF - 2}, {letraff + 1, numeroF + 2},
                 {letraff + 2, numeroF - 1}, {letraff + 2, numeroF + 1}
         };
     
         // Validar cada posible movimiento
         for (int[] movimiento : desplazamientos) {
+            
             int nuevaLetra = movimiento[0];
             int nuevoNumero = movimiento[1];
-    
+
             // Verificar si el movimiento está dentro del tablero
-            if (nuevaLetra >= 97 && nuevaLetra < 105 && nuevoNumero >= 1 && nuevoNumero <= 8) {
-                // Agregar el movimiento a la lista de movimientos válidos
+            if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
+                // Verificar si hay una ficha del mismo equipo en la casilla final del movimiento
+                Fichas ficha = tablero.hayFicha( nuevaLetra - 'a', nuevoNumero,tablero.getTurno());
                 
-                listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                if (ficha == null || !ficha.getColor().equals(this.getColor())) {
+                    // Si no hay una ficha del mismo equipo, agregar el movimiento a la lista de movimientos válidos
+                    listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                }
             }
         }
+        setLista(listaDeMovimientos);
 
-        System.out.println(listaDeMovimientos);
     }
-    
+
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
+
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
+    }
 
 }

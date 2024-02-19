@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo.jugadores;
 
 import modelo.fichas.Fichas;
+
+
 import java.util.ArrayList;
 
 /**
@@ -12,14 +11,14 @@ import java.util.ArrayList;
  * @author Laura
  */
 public class Jugadores {
-    
-    private String nombre;
-    private ArrayList<Fichas> fichas;
-    private int numFichas;
-    
+
+    public String nombre;
+    public ArrayList<Fichas> fichas;
+    public int numFichas;
+
     public Jugadores(String nombre) {
         this.nombre = nombre;
-        numFichas = 0;
+        numFichas = 16;
         fichas = new ArrayList<>(numFichas);
     }
 
@@ -46,6 +45,5 @@ public class Jugadores {
     public void setNumFichas(int numFichas) {
         this.numFichas = numFichas;
     }
-    
-    
+
 }

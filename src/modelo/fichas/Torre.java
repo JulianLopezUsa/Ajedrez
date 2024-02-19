@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo.fichas;
 
 import java.util.ArrayList;
 
-
+import modelo.Tablero.Tablero;
 
 /**
  *
@@ -20,7 +16,8 @@ public class Torre extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, int turno) {
+    public void movimientoFicha(String posicionActual, Tablero tablero) {
+        listaDeMovimientos.clear();
         String[] pos = posicionActual.split(" ");
 
         char letraF = pos[0].charAt(0);
@@ -29,26 +26,65 @@ public class Torre extends Fichas {
         // Se castea a número la letra para trabajar con ASCII
         int letraff = (int) letraF;
 
-        // Moverse hacia derecha
-        for (int i = numeroF + 1; i <= 8; i++) {
+        // Moverse hacia la derecha
+        for (int i = numeroF + 1; i <= 7; i++) {
+            Fichas ficha = tablero.hayFicha(letraF - 'a',i,tablero.getTurno());
+            if (ficha != null && ficha.getColor().equals(this.getColor())) {
+                break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
+            }
             listaDeMovimientos.add(letraF + " " + i);
+            if (ficha != null) {
+                break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
+            }
         }
 
-        // Moverse hacia izquierda
-        for (int i = numeroF - 1; i >= 1; i--) {
+        // Moverse hacia la izquierda
+        for (int i = numeroF - 1; i >= 0; i--) {
+            Fichas ficha = tablero.hayFicha(letraF - 'a',i,tablero.getTurno());
+            if (ficha != null && ficha.getColor().equals(this.getColor())) {
+                break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
+            }
             listaDeMovimientos.add(letraF + " " + i);
+            if (ficha != null) {
+                break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
+            }
         }
 
-        // Moverse hacia la arriba
+        // Moverse hacia arriba
         for (int i = letraff + 1; i <= 'h'; i++) {
+            Fichas ficha = tablero.hayFicha( i - 'a',numeroF,tablero.getTurno());
+            if (ficha != null && ficha.getColor().equals(this.getColor())) {
+                break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
+            }
             listaDeMovimientos.add((char) i + " " + numeroF);
+            if (ficha != null) {
+                break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
+            }
         }
 
-        // Moverse hacia la abajo
+        // Moverse hacia abajo
         for (int i = letraff - 1; i >= 'a'; i--) {
+            Fichas ficha = tablero.hayFicha( i - 'a',numeroF,tablero.getTurno());
+            if (ficha != null && ficha.getColor().equals(this.getColor())) {
+                break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
+            }
             listaDeMovimientos.add((char) i + " " + numeroF);
+            if (ficha != null) {
+                break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
+            }
         }
 
-        System.out.println(listaDeMovimientos);
+        setLista(listaDeMovimientos);
+  
+    }
+
+    @Override
+    public ArrayList<String> getLista() {
+        return super.getLista();
+    }
+
+    @Override
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        super.setLista(listaDeMovimientos);
     }
 }

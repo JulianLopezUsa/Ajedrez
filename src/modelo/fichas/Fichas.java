@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo.fichas;
 
+import java.util.ArrayList;
 
+import modelo.Tablero.Tablero;
 
 /**
  *
@@ -14,6 +13,8 @@ public abstract class Fichas {
     private int posX;
     private int posY;
     private String color; 
+    public ArrayList<String> listaDeMovimientos = new ArrayList<>();
+    public boolean movio = false;
     
     public Fichas(int posX, int posY, String color) {
         this.posX = posX;
@@ -41,6 +42,14 @@ public abstract class Fichas {
         return color;
     }
 
+    public void setLista(ArrayList<String> listaDeMovimientos) {
+        this.listaDeMovimientos = listaDeMovimientos;
+    }
+
+    public ArrayList<String> getLista() {
+        return listaDeMovimientos;
+    }
+
     public void setColor(String color) {
         this.color = color;
     }
@@ -50,7 +59,23 @@ public abstract class Fichas {
         return "Fichas{" + "posX=" + posX + ", posY=" + posY + ", color=" + color + '}';
     }
     
-    public void movimientoFicha(String posicionActual, int turno/* Tablero tablero*/){
+    public void movimientoFicha(String posicionActual, Tablero tablero){
         
+    }
+
+    public ArrayList<String> getListaDeMovimientos() {
+        return listaDeMovimientos;
+    }
+
+    public void setListaDeMovimientos(ArrayList<String> listaDeMovimientos) {
+        this.listaDeMovimientos = listaDeMovimientos;
+    }
+
+    public boolean isMovio() {
+        return movio;
+    }
+
+    public void setMovio(boolean movio) {
+        this.movio = movio;
     };
 }
