@@ -76,14 +76,32 @@ public class Tablero {
         return null;
     }
 
-    public void moverFicha(Fichas fichaSeleccionada, int i, int j) {
+    public Fichas hayFicha2(int i, int j, int turno) {
+        if (turno == 0) {
+
+            for (Fichas ficha : jugador1.fichas) {
+                if (ficha.getPosX() == j && ficha.getPosY() == i) {
+                    System.out.println("lo encuentra");
+                    return ficha;
+                }
+            }
+        }else if(turno==1){
+            for (Fichas ficha : jugador2.fichas) {
+                if (ficha.getPosX() == j && ficha.getPosY() == i) {
+                    return ficha;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Fichas moverFicha(Fichas fichaSeleccionada, int i, int j) {
         // Actualizar la posición de la ficha en el tablero
-        fichaSeleccionada.setPosX(j);
-        fichaSeleccionada.setPosY(i);
-        
+    
         // Si la ficha se mueve a una posición ocupada por una ficha del otro jugador,
         // eliminar esa ficha del otro jugador
-        Fichas fichaEnNuevaPosicion = hayFicha(j,i, turno);
+        Fichas fichaEnNuevaPosicion = hayFicha2(i, j, turno);
+        System.out.println(fichaEnNuevaPosicion);
         if (fichaEnNuevaPosicion != null) {
             if (turno == 0) {
                 jugador1.fichas.remove(fichaEnNuevaPosicion);
@@ -91,26 +109,31 @@ public class Tablero {
                 jugador2.fichas.remove(fichaEnNuevaPosicion);
             }
         }
-        
+
+        fichaSeleccionada.setPosX(j);
+        fichaSeleccionada.setPosY(i);
+    
         // Eliminar la ficha de su posición anterior
         if (turno == 0) {
             jugador2.fichas.remove(fichaSeleccionada);
         } else {
             jugador1.fichas.remove(fichaSeleccionada);
         }
-        
+    
         // Agregar la ficha a su nueva posición
         if (turno == 0) {
             jugador2.fichas.add(fichaSeleccionada);
         } else {
             jugador1.fichas.add(fichaSeleccionada);
         }
-        
+    
         // Cambiar el turno
         fichaSeleccionada.setMovio(true);
         turno = (turno + 1) % 2;
+    
+        return fichaEnNuevaPosicion;
     }
-
+    
     public int getTurno() {
         return turno;
     }

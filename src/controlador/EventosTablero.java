@@ -43,7 +43,12 @@ public class EventosTablero implements ActionListener {
                     if ( tablero.cuadro[i][j].getBackground() == Color.YELLOW) {
                         // Mover la ficha seleccionada al cuadro amarillo
                         tablero.eliminarDeVista(cacheY, cacheX);
-                        tablero2.moverFicha(fichaSeleccionada, i, j);
+                        Fichas fichaX =tablero2.moverFicha(fichaSeleccionada, i, j);
+                        
+                        if(fichaX!=null){
+                            tablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
+                        }
+                
                         // Actualizar la vista para reflejar el movimiento
                         actualizarVista();
                         // Limpiar la ficha seleccionada
