@@ -15,7 +15,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MenuA extends JFrame {
@@ -26,7 +25,7 @@ public class MenuA extends JFrame {
 
     public MenuA() {
         try {
-            backgroundImage = ImageIO.read(new File("src/img/Inicio.jpg"));
+            backgroundImage = ImageIO.read(new File("src/img/inicio2.jpg"));
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,19 +52,14 @@ public class MenuA extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centra el panel
 
-        // Etiqueta de título
-        JLabel titulo = new JLabel("Juego Ajedrez");
-        titulo.setFont(new Font("Arial", Font.BOLD, 90));
-        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titulo.setForeground(Color.WHITE);
-        panel.add(titulo);
+        
 
         // Botón para iniciar el juego
         botonIniciar = new JButton("Iniciar Juego");
         botonIniciar.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonIniciar.setPreferredSize(new Dimension(200, 50));
-        botonIniciar.setBackground(new Color(0, 0, 0)); // Color de fondo
-        botonIniciar.setForeground(Color.WHITE); // Color del texto
+        botonIniciar.setBackground(new Color(220, 220, 220)); // Color de fondo
+        botonIniciar.setForeground(Color.BLACK); // Color del texto
         botonIniciar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margen interno
         botonIniciar.setFocusPainted(false); // Quitar el borde de enfoque
         botonIniciar.setFont(new Font("Arial", Font.BOLD, 50)); // Fuente y tamaño del texto
@@ -74,8 +68,8 @@ public class MenuA extends JFrame {
         botonSalir = new JButton("Salir");
         botonSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonSalir.setPreferredSize(new Dimension(200, 50));
-        botonSalir.setBackground(new Color(0, 0, 0));
-        botonSalir.setForeground(Color.WHITE);
+        botonSalir.setBackground(new Color(220, 220, 220));
+        botonSalir.setForeground(Color.BLACK);
         botonSalir.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         botonSalir.setFocusPainted(false);
         botonSalir.setFont(new Font("Arial", Font.BOLD, 50));

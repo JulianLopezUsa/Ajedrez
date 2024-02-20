@@ -1,9 +1,14 @@
 package vista;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,7 +23,7 @@ public class VistaTablero extends JFrame {
     }
 
     public void initComponents() {
-        setTitle("Ajedrez");
+        setTitle("AJEDREZ");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -38,6 +43,47 @@ public class VistaTablero extends JFrame {
             }
         }
         add(panelTablero);
+
+        JPanel panelDerecho = new JPanel();
+        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
+        panelDerecho.setPreferredSize(new Dimension(200, 700));
+
+        JLabel label = new JLabel("INFORMACIÓN");
+        JLabel label1 = new JLabel("Jugador 1:");
+        JButton boton1 = new JButton("Rendirse");
+
+        JLabel label2 = new JLabel("Jugador 2:");
+        JButton boton2 = new JButton("Rendirse");
+
+        panelDerecho.add(label);
+        panelDerecho.add(Box.createRigidArea(new Dimension(100, 20)));
+
+        panelDerecho.add(label1);
+        panelDerecho.add(Box.createRigidArea(new Dimension(10, 20)));
+        panelDerecho.add(boton1);
+        panelDerecho.add(Box.createRigidArea(new Dimension(10, 20)));
+
+        panelDerecho.add(label2);
+        panelDerecho.add(Box.createRigidArea(new Dimension(10, 20)));
+        panelDerecho.add(boton2);
+
+        JPanel contenido = new JPanel(new GridLayout(1, 2));
+        contenido.add(panelTablero);
+        contenido.add(panelDerecho);
+
+        JTextArea texto = new JTextArea();
+
+        // Deshabilitar edición
+        texto.setEditable(false);
+
+        // Agregar al panel
+        panelDerecho.add(texto);
+
+        // Ejemplo imprimir
+        texto.append("Jugador 1: María");
+        texto.append("\nJugador 2: Juan");
+
+        add(contenido);
     }
 
     public JButton getBoton(int x, int y) {
