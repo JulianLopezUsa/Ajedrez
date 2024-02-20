@@ -14,11 +14,18 @@ import java.util.ArrayList;
 
 import modelo.fichas.Fichas;
 
+
 public class VistaTablero extends JFrame {
 
     public JButton[][] cuadro;
+    private String nombreJ1;
+    private String nombreJ2;
 
-    public VistaTablero() {
+    
+
+    public VistaTablero(String nombreJ1, String nombreJ2) {
+        this.nombreJ1 = nombreJ1;
+        this.nombreJ2 = nombreJ2;
         initComponents();
     }
 
@@ -45,31 +52,47 @@ public class VistaTablero extends JFrame {
         add(panelTablero);
 
         JPanel panelDerecho = new JPanel();
+
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
         panelDerecho.setPreferredSize(new Dimension(200, 700));
+        
 
+        JPanel panelJugador1 = new JPanel();
+        panelJugador1.setLayout(new BoxLayout(panelJugador1, BoxLayout.X_AXIS));
+        
         JLabel label = new JLabel("INFORMACIÓN");
         JLabel label1 = new JLabel("Jugador 1:");
+        JLabel nombre1 = new JLabel(nombreJ1);
         JButton boton1 = new JButton("Rendirse");
 
+        panelJugador1.add(label1);
+        panelJugador1.add(Box.createRigidArea(new Dimension(10, 0)));
+        panelJugador1.add(nombre1);
+        panelJugador1.add(Box.createHorizontalGlue());
+        panelJugador1.add(boton1);
+
+        JPanel panelJugador2 = new JPanel();
+        panelJugador2.setLayout(new BoxLayout(panelJugador2, BoxLayout.X_AXIS));
+
         JLabel label2 = new JLabel("Jugador 2:");
+        JLabel nombre2 = new JLabel(nombreJ2);
         JButton boton2 = new JButton("Rendirse");
 
+        panelJugador2.add(label2);
+        panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
+        panelJugador2.add(nombre2);
+        panelJugador2.add(Box.createHorizontalGlue());
+        panelJugador2.add(boton2);
+
         panelDerecho.add(label);
-        panelDerecho.add(Box.createRigidArea(new Dimension(100, 20)));
+        panelDerecho.add(panelJugador1);
+        panelDerecho.add(panelJugador2);
 
-        panelDerecho.add(label1);
-        panelDerecho.add(Box.createRigidArea(new Dimension(10, 20)));
-        panelDerecho.add(boton1);
-        panelDerecho.add(Box.createRigidArea(new Dimension(10, 20)));
-
-        panelDerecho.add(label2);
-        panelDerecho.add(Box.createRigidArea(new Dimension(10, 20)));
-        panelDerecho.add(boton2);
-
-        JPanel contenido = new JPanel(new GridLayout(1, 2));
+        JPanel contenido = new JPanel(new GridLayout(1, 3));
         contenido.add(panelTablero);
         contenido.add(panelDerecho);
+
+        panelDerecho.add(Box.createRigidArea(new Dimension(100, 70)));
 
         JTextArea texto = new JTextArea();
 
@@ -79,9 +102,11 @@ public class VistaTablero extends JFrame {
         // Agregar al panel
         panelDerecho.add(texto);
 
-        // Ejemplo imprimir
-        texto.append("Jugador 1: María");
-        texto.append("\nJugador 2: Juan");
+        texto.setBackground(Color.BLACK);
+        texto.setForeground(Color.WHITE);
+
+        texto.append("Jugador 1: Movimiento x");
+        texto.append("\nJugador 2: Movimiento y");
 
         add(contenido);
     }

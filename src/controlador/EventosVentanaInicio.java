@@ -14,10 +14,7 @@ import modelo.Tablero.Tablero;
 import vista.MenuA;
 import vista.VistaTablero;
 
-/**
- *
- * @author Laura
- */
+
 public class EventosVentanaInicio implements ActionListener {
 
     public MenuA menuA;
@@ -38,8 +35,11 @@ public class EventosVentanaInicio implements ActionListener {
             this.menuA.setVisible(false);
             String nombreJ1 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 1:");
             String nombreJ2 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 2:");
+
+            VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
+
             Tablero tablero = new Tablero(nombreJ1, nombreJ2);
-            new EventosTablero(new VistaTablero(), tablero);
+            new EventosTablero(vistaTablero, tablero);
             
         }
 
