@@ -33,6 +33,7 @@ public class Rey extends Fichas {
                         && (i != 0 || j != 0)) {
                     // Verificar si hay una ficha en la casilla adyacente
                     Fichas ficha = tablero.hayFicha(nuevaLetra - 'a',nuevoNumero,tablero.getTurno());
+                    
                     if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                         listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                     }

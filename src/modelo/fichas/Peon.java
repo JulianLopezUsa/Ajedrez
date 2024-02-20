@@ -12,7 +12,7 @@ public class Peon extends Fichas {
   public ArrayList<String> listaDeMovimientos = new ArrayList<>();
   public int contadorMov = 1;
   ArrayList<String> desplazamientos = new ArrayList<>();
-  public boolean bandera = false;
+  public boolean bandera = false, bandera2 = false;
 
   public Peon(int posX, int posY, String color) {
     super(posX, posY, color);
@@ -42,21 +42,26 @@ public class Peon extends Fichas {
         }
         if (f.getPosX() == numeroF && f.getPosY() == (letraff - 1) - 97) {
           bandera = true;
+        }else if (f.getPosX() == numeroF && f.getPosY() == (letraff - 2) - 97){
+          bandera2= true;
         }
       }
       for (Fichas f : tablero.jugador2.fichas) {
         if (f.getPosX() == numeroF && f.getPosY() == (letraff - 1) - 97) {
           bandera = true;
+        }else if (f.getPosX() == numeroF && f.getPosY() == (letraff - 2) - 97){
+          bandera2= true;
         }
       }
 
       if (!bandera) {
         desplazamientos.add((letraff - 1) + " " + numeroF);
-        if (!movio) {
+        if (!movio && !bandera2) {
           desplazamientos.add((letraff - 2) + " " + numeroF);
         }
         
       }
+      bandera2 = false;
       bandera=false;
     } else if (tablero.getTurno() == 1) {
 
@@ -70,20 +75,25 @@ public class Peon extends Fichas {
         }
         if (f.getPosX() == numeroF && f.getPosY() == (letraff + 1) - 97) {
           bandera = true;
+        }else if (f.getPosX() == numeroF && f.getPosY() == (letraff + 2) - 97){
+          bandera2= true;
         }
       }
       for (Fichas f : tablero.jugador1.fichas) {
         if (f.getPosX() == numeroF && f.getPosY() == (letraff + 1) - 97) {
           bandera = true;
+        }else if (f.getPosX() == numeroF && f.getPosY() == (letraff + 2) - 97){
+          bandera2= true;
         }
       }
       if (!bandera) {
         desplazamientos.add((letraff + 1) + " " + numeroF);
-        if (!movio) {
+        if (!movio && !bandera2) {
           desplazamientos.add((letraff + 2) + " " + numeroF);
         }
       }
       bandera=false;
+      bandera2 = false;
     }
 
     // Validar cada posible movimiento
@@ -121,8 +131,6 @@ public class Peon extends Fichas {
       }
     }
     setLista(listaDeMovimientos);
-    System.out.println("lista:");
-    System.out.println(listaDeMovimientos);
   }
 
   public void verificarOtrasFichas(

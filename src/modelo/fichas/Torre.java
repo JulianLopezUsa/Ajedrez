@@ -29,11 +29,13 @@ public class Torre extends Fichas {
         // Moverse hacia la derecha
         for (int i = numeroF + 1; i <= 7; i++) {
             Fichas ficha = tablero.hayFicha(letraF - 'a',i,tablero.getTurno());
+            Fichas ficha2 = tablero.hayFicha2(letraF - 'a', i, tablero.getTurno());
+        
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
             listaDeMovimientos.add(letraF + " " + i);
-            if (ficha != null) {
+            if (ficha2 != null) {
                 break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
             }
         }
@@ -41,11 +43,13 @@ public class Torre extends Fichas {
         // Moverse hacia la izquierda
         for (int i = numeroF - 1; i >= 0; i--) {
             Fichas ficha = tablero.hayFicha(letraF - 'a',i,tablero.getTurno());
+            Fichas ficha2 = tablero.hayFicha2(letraF - 'a', i, tablero.getTurno());
+            
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
             listaDeMovimientos.add(letraF + " " + i);
-            if (ficha != null) {
+            if (ficha2 != null) {
                 break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
             }
         }
@@ -53,11 +57,13 @@ public class Torre extends Fichas {
         // Moverse hacia arriba
         for (int i = letraff + 1; i <= 'h'; i++) {
             Fichas ficha = tablero.hayFicha( i - 'a',numeroF,tablero.getTurno());
+            Fichas ficha2 = tablero.hayFicha2(i - 'a',numeroF, tablero.getTurno()); 
+                    
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
             listaDeMovimientos.add((char) i + " " + numeroF);
-            if (ficha != null) {
+            if (ficha2 != null) {
                 break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
             }
         }
@@ -65,11 +71,13 @@ public class Torre extends Fichas {
         // Moverse hacia abajo
         for (int i = letraff - 1; i >= 'a'; i--) {
             Fichas ficha = tablero.hayFicha( i - 'a',numeroF,tablero.getTurno());
+            Fichas ficha2 = tablero.hayFicha2(i - 'a', numeroF, tablero.getTurno()); 
+                    
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
             listaDeMovimientos.add((char) i + " " + numeroF);
-            if (ficha != null) {
+            if (ficha2 != null) {
                 break; // Si hay una ficha de color diferente, detener la exploración en esta dirección después de agregar la posición
             }
         }

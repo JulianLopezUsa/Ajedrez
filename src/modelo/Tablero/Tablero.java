@@ -81,7 +81,6 @@ public class Tablero {
 
             for (Fichas ficha : jugador1.fichas) {
                 if (ficha.getPosX() == j && ficha.getPosY() == i) {
-                    System.out.println("lo encuentra");
                     return ficha;
                 }
             }
@@ -101,7 +100,6 @@ public class Tablero {
         // Si la ficha se mueve a una posición ocupada por una ficha del otro jugador,
         // eliminar esa ficha del otro jugador
         Fichas fichaEnNuevaPosicion = hayFicha2(i, j, turno);
-        System.out.println(fichaEnNuevaPosicion);
         if (fichaEnNuevaPosicion != null) {
             if (turno == 0) {
                 jugador1.fichas.remove(fichaEnNuevaPosicion);
