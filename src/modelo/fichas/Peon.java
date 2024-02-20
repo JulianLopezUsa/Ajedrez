@@ -32,41 +32,66 @@ public class Peon extends Fichas {
 
     // Array con los posibles desplazamientos que en este caso son solo derecho
     if (tablero.getTurno() == 0) {
-      desplazamientos.add((letraff-1)+" "+numeroF);
-      if (!movio) {
-        desplazamientos.add((letraff-2)+" "+numeroF);
-      }
-
       for (Fichas f : tablero.jugador1.fichas) {
-        if (f.getPosX() == numeroF - 1 && f.getPosY() == (letraff - 1)-97 ) {
-          System.out.println(f.getPosX()+" "+f.getPosY());
-            desplazamientos.add((letraff-1)+" "+(numeroF-1));
-        } else if (f.getPosX() == numeroF + 1 && f.getPosY() == (letraff - 1)-97 ) {
-            desplazamientos.add((letraff-1)+" "+(numeroF+1));
+        if (f.getPosX() == numeroF - 1 && f.getPosY() == (letraff - 1) - 97) {
+          desplazamientos.add((letraff - 1) + " " + (numeroF - 1));
+        } else if (
+          f.getPosX() == numeroF + 1 && f.getPosY() == (letraff - 1) - 97
+        ) {
+          desplazamientos.add((letraff - 1) + " " + (numeroF + 1));
+        }
+        if (f.getPosX() == numeroF && f.getPosY() == (letraff - 1) - 97) {
+          bandera = true;
         }
       }
-    } else if (tablero.getTurno() == 1) {
-      desplazamientos.add((letraff+1)+" "+(numeroF));
-      if (!movio) {
-        desplazamientos.add((letraff+2)+" "+numeroF);
+      for (Fichas f : tablero.jugador2.fichas) {
+        if (f.getPosX() == numeroF && f.getPosY() == (letraff - 1) - 97) {
+          bandera = true;
+        }
       }
+
+      if (!bandera) {
+        desplazamientos.add((letraff - 1) + " " + numeroF);
+        if (!movio) {
+          desplazamientos.add((letraff - 2) + " " + numeroF);
+        }
+        
+      }
+      bandera=false;
+    } else if (tablero.getTurno() == 1) {
 
       for (Fichas f : tablero.jugador2.fichas) {
-        if (f.getPosX() ==  numeroF - 1 && f.getPosY() ==  (letraff + 1)-97) {
-          desplazamientos.add((letraff+1)+" "+(numeroF-1));
-        } else if (f.getPosX() == numeroF + 1 && f.getPosY() == (letraff + 1)-97 ) {
-          desplazamientos.add((letraff+1)+" "+(numeroF+1));
+        if (f.getPosX() == numeroF - 1 && f.getPosY() == (letraff + 1) - 97) {
+          desplazamientos.add((letraff + 1) + " " + (numeroF - 1));
+        } else if (
+          f.getPosX() == numeroF + 1 && f.getPosY() == (letraff + 1) - 97
+        ) {
+          desplazamientos.add((letraff + 1) + " " + (numeroF + 1));
+        }
+        if (f.getPosX() == numeroF && f.getPosY() == (letraff + 1) - 97) {
+          bandera = true;
         }
       }
+      for (Fichas f : tablero.jugador1.fichas) {
+        if (f.getPosX() == numeroF && f.getPosY() == (letraff + 1) - 97) {
+          bandera = true;
+        }
+      }
+      if (!bandera) {
+        desplazamientos.add((letraff + 1) + " " + numeroF);
+        if (!movio) {
+          desplazamientos.add((letraff + 2) + " " + numeroF);
+        }
+      }
+      bandera=false;
     }
 
     // Validar cada posible movimiento
     for (String movimiento : desplazamientos) {
-
       String[] pos1 = movimiento.split(" ");
 
       int nuevaLetra = Integer.parseInt(pos1[0]);
-      int nuevoNumero  = Integer.parseInt(pos1[1]);
+      int nuevoNumero = Integer.parseInt(pos1[1]);
 
       //int nuevaLetra = movimiento[0];
       //int nuevoNumero = movimiento[1];
