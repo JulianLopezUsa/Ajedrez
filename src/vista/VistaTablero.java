@@ -20,8 +20,7 @@ public class VistaTablero extends JFrame {
     public JButton[][] cuadro;
     private String nombreJ1;
     private String nombreJ2;
-
-    
+    public JButton fin1, fin2;
 
     public VistaTablero(String nombreJ1, String nombreJ2) {
         this.nombreJ1 = nombreJ1;
@@ -55,34 +54,33 @@ public class VistaTablero extends JFrame {
 
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
         panelDerecho.setPreferredSize(new Dimension(200, 700));
-        
 
         JPanel panelJugador1 = new JPanel();
         panelJugador1.setLayout(new BoxLayout(panelJugador1, BoxLayout.X_AXIS));
-        
+
         JLabel label = new JLabel("INFORMACIÓN");
         JLabel label1 = new JLabel("Jugador 1:");
         JLabel nombre1 = new JLabel(nombreJ1);
-        JButton boton1 = new JButton("Rendirse");
+        fin1 = new JButton("Rendirse");
 
         panelJugador1.add(label1);
         panelJugador1.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador1.add(nombre1);
         panelJugador1.add(Box.createHorizontalGlue());
-        panelJugador1.add(boton1);
+        panelJugador1.add(fin1);
 
         JPanel panelJugador2 = new JPanel();
         panelJugador2.setLayout(new BoxLayout(panelJugador2, BoxLayout.X_AXIS));
 
         JLabel label2 = new JLabel("Jugador 2:");
         JLabel nombre2 = new JLabel(nombreJ2);
-        JButton boton2 = new JButton("Rendirse");
+        fin2 = new JButton("Rendirse");
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador2.add(nombre2);
         panelJugador2.add(Box.createHorizontalGlue());
-        panelJugador2.add(boton2);
+        panelJugador2.add(fin2);
 
         panelDerecho.add(label);
         panelDerecho.add(panelJugador1);

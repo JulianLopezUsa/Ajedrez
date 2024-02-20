@@ -14,18 +14,16 @@ import modelo.Tablero.Tablero;
 import vista.MenuA;
 import vista.VistaTablero;
 
-
 public class EventosVentanaInicio implements ActionListener {
 
     public MenuA menuA;
-
 
     public EventosVentanaInicio(MenuA menuA) {
         this.menuA = menuA;
 
         this.menuA.botonIniciar.addActionListener(this);
         this.menuA.botonSalir.addActionListener(this);
-        
+
         this.menuA.setVisible(true);
     }
 
@@ -40,13 +38,13 @@ public class EventosVentanaInicio implements ActionListener {
 
             Tablero tablero = new Tablero(nombreJ1, nombreJ2);
             new EventosTablero(vistaTablero, tablero);
-            
+
         }
 
         if (e.getSource().equals(this.menuA.botonSalir)) {
             System.exit(0);
         }
-        
+
     }
 
 }
