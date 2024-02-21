@@ -35,7 +35,7 @@ public class MenuA extends JFrame {
 
     public void initComponents(){
         
-        setTitle("Ajedrez");
+        setTitle("MyLocalChess");
         setSize(1250, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

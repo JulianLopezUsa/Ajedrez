@@ -17,7 +17,7 @@ public class AccionRendir implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("pruestar");
+        System.out.println("pruebar");
 
         if (e.getSource().equals(this.vistaTablero.fin1)) {
             System.out.println("Prueba boton 1");
