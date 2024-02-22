@@ -27,7 +27,7 @@ public class Tablero {
         this.jugador2 = new Jugadores(nombreJugador2);
         inicializarFichasEquipo1();
         inicializarFichasEquipo2();
-        turno = 0;
+        turno = 1;
     }
 
     public void inicializarFichasEquipo1() {
