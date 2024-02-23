@@ -32,14 +32,16 @@ public class Alfil extends Fichas {
                 boolean puedeAvanzar = true; // Variable para verificar si puede avanzar en diagonal
                 while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7 && puedeAvanzar) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero, tablero.getTurno());
-                    
-                    if (ficha != null && ficha.getColor().equals(this.getColor())) {
-                        // Si la ficha en la casilla adyacente es del mismo color, no puede avanzar más en esta dirección
+                    Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero, tablero.getTurno()); //verifica las del otro color
+                    Fichas ficha2 = tablero.hayFicha2( nuevaLetra - 'a',nuevoNumero, tablero.getTurno()); // verfica las del mismo color
+                    if (ficha != null || ficha2 !=null) {
                         puedeAvanzar = false;
-                    } else {
+                        if(ficha2!=null){
+                            listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
+                        }
+                    } else  {
+                        // Si la casilla adyacente está vacía, puede moverse
                         listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
-                        puedeAvanzar = true;
                     }
                     // Avanzar en diagonal
                     nuevaLetra += i;
