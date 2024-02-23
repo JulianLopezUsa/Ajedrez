@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import modelo.fichas.Fichas;
 
-
 public class VistaTablero extends JFrame {
 
     public JButton[][] cuadro;
@@ -29,7 +28,7 @@ public class VistaTablero extends JFrame {
     }
 
     public void initComponents() {
-        setTitle("AJEDREZ");
+        setTitle("MyLocalChess");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -103,8 +102,8 @@ public class VistaTablero extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        texto.append("Jugador 1: Movimiento x");
-        texto.append("\nJugador 2: Movimiento y");
+        texto.append("Jugador 1: " + nombre1);
+        texto.append("\nJugador 2: " + nombre2);
 
         add(contenido);
     }
