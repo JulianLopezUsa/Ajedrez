@@ -102,8 +102,8 @@ public class VistaTablero extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        texto.append("Jugador 1: " + nombre1);
-        texto.append("\nJugador 2: " + nombre2);
+        texto.append("Jugador 1: " + nombreJ1);
+        texto.append("\nJugador 2: " + nombreJ2);
 
         add(contenido);
     }
