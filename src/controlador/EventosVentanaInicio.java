@@ -32,7 +32,6 @@ public class EventosVentanaInicio implements ActionListener {
         if (e.getSource().equals(this.menuA.botonIniciar)) {
             this.menuA.setVisible(false);
             String nombreJ1 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 1:");
-<<<<<<< HEAD
             if (nombreJ1 == null) {
                 System.exit(0);
             }
@@ -41,17 +40,9 @@ public class EventosVentanaInicio implements ActionListener {
                 System.exit(0);
             }
             Tablero tablero = new Tablero(nombreJ1, nombreJ2);
-            new EventosTablero(new VistaTablero(), tablero);
+            new EventosTablero(new VistaTablero(nombreJ1, nombreJ2), tablero);
             
-=======
-            String nombreJ2 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 2:");
 
-            VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
-
-            Tablero tablero = new Tablero(nombreJ1, nombreJ2);
-            new EventosTablero(vistaTablero, tablero);
-
->>>>>>> JulianL
         }
 
         if (e.getSource().equals(this.menuA.botonSalir)) {
