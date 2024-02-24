@@ -49,7 +49,6 @@ public class EventosTablero implements ActionListener {
                             tablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
                         }
                 
-                        tablero2.moverFicha(fichaSeleccionada, i, j);
                         // Actualizar la vista para reflejar el movimiento
                         actualizarVista();
                         // Limpiar la ficha seleccionada
