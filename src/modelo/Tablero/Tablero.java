@@ -28,31 +28,31 @@ public class Tablero {
 
     public void inicializarFichasEquipo1() {
         for (int i = 0; i < 8; i++) {
-            jugador1.fichas.add(new Peon(i, 1, "blanco"));
+            jugador1.fichas.add(new Peon(i, 1, "negro"));
         }
 
-        jugador1.fichas.add(new Torre(0, 0, "blanco"));
-        jugador1.fichas.add(new Torre(7, 0, "blanco"));
-        jugador1.fichas.add(new Caballo(1, 0, "blanco"));
-        jugador1.fichas.add(new Caballo(6, 0, "blanco"));
-        jugador1.fichas.add(new Alfil(2, 0, "blanco"));
-        jugador1.fichas.add(new Alfil(5, 0, "blanco"));
-        jugador1.fichas.add(new Dama(3, 0, "blanco"));
-        jugador1.fichas.add(new Rey(4, 0, "blanco"));
+        jugador1.fichas.add(new Torre(0, 0, "negro"));
+        jugador1.fichas.add(new Torre(7, 0, "negro"));
+        jugador1.fichas.add(new Caballo(1, 0, "negro"));
+        jugador1.fichas.add(new Caballo(6, 0, "negro"));
+        jugador1.fichas.add(new Alfil(2, 0, "negro"));
+        jugador1.fichas.add(new Alfil(5, 0, "negro"));
+        jugador1.fichas.add(new Dama(3, 0, "negro"));
+        jugador1.fichas.add(new Rey(4, 0, "negro"));
     }
 
     public void inicializarFichasEquipo2() {
         for (int i = 0; i < 8; i++) {
-            jugador2.fichas.add(new Peon(i, 6, "negro"));
+            jugador2.fichas.add(new Peon(i, 6, "blanco"));
         }
-        jugador2.fichas.add(new Torre(0, 7, "negro"));
-        jugador2.fichas.add(new Torre(7, 7, "negro"));
-        jugador2.fichas.add(new Caballo(1, 7, "negro"));
-        jugador2.fichas.add(new Caballo(6, 7, "negro"));
-        jugador2.fichas.add(new Alfil(2, 7, "negro"));
-        jugador2.fichas.add(new Alfil(5, 7, "negro"));
-        jugador2.fichas.add(new Dama(3, 7, "negro"));
-        jugador2.fichas.add(new Rey(4, 7, "negro"));
+        jugador2.fichas.add(new Torre(0, 7, "blanco"));
+        jugador2.fichas.add(new Torre(7, 7, "blanco"));
+        jugador2.fichas.add(new Caballo(1, 7, "blanco"));
+        jugador2.fichas.add(new Caballo(6, 7, "blanco"));
+        jugador2.fichas.add(new Alfil(2, 7, "blanco"));
+        jugador2.fichas.add(new Alfil(5, 7, "blanco"));
+        jugador2.fichas.add(new Dama(3, 7, "blanco"));
+        jugador2.fichas.add(new Rey(4, 7, "blanco"));
     }
 
     public Fichas hayFicha(int i, int j, int turno) {

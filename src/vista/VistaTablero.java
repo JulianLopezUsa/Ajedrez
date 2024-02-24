@@ -114,27 +114,27 @@ public class VistaTablero extends JFrame {
 
     public void agregarFichas() {
         for (int i = 0; i < 8; i++) {
-            cuadro[1][i].setIcon(escalarImagen("src/img/peon_blanco.png"));
-            cuadro[6][i].setIcon(escalarImagen("src/img/peon_negro.png"));
+            cuadro[1][i].setIcon(escalarImagen("src/img/peon_negro.png"));
+            cuadro[6][i].setIcon(escalarImagen("src/img/peon_blanco.png"));
         }
 
-        cuadro[0][0].setIcon(escalarImagen("src/img/torre_blanco.png"));
-        cuadro[0][7].setIcon(escalarImagen("src/img/torre_blanco.png"));
-        cuadro[0][1].setIcon(escalarImagen("src/img/caballo_blanco.png"));
-        cuadro[0][6].setIcon(escalarImagen("src/img/caballo_blanco.png"));
-        cuadro[0][2].setIcon(escalarImagen("src/img/alfil_blanco.png"));
-        cuadro[0][5].setIcon(escalarImagen("src/img/alfil_blanco.png"));
-        cuadro[0][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
-        cuadro[0][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
+        cuadro[0][0].setIcon(escalarImagen("src/img/torre_negro.png"));
+        cuadro[0][7].setIcon(escalarImagen("src/img/torre_negro.png"));
+        cuadro[0][1].setIcon(escalarImagen("src/img/caballo_negro.png"));
+        cuadro[0][6].setIcon(escalarImagen("src/img/caballo_negro.png"));
+        cuadro[0][2].setIcon(escalarImagen("src/img/alfil_negro.png"));
+        cuadro[0][5].setIcon(escalarImagen("src/img/alfil_negro.png"));
+        cuadro[0][3].setIcon(escalarImagen("src/img/dama_negro.png"));
+        cuadro[0][4].setIcon(escalarImagen("src/img/rey_negro.png"));
 
-        cuadro[7][0].setIcon(escalarImagen("src/img/torre_negro.png"));
-        cuadro[7][7].setIcon(escalarImagen("src/img/torre_negro.png"));
-        cuadro[7][1].setIcon(escalarImagen("src/img/caballo_negro.png"));
-        cuadro[7][6].setIcon(escalarImagen("src/img/caballo_negro.png"));
-        cuadro[7][2].setIcon(escalarImagen("src/img/alfil_negro.png"));
-        cuadro[7][5].setIcon(escalarImagen("src/img/alfil_negro.png"));
-        cuadro[7][3].setIcon(escalarImagen("src/img/dama_negro.png"));
-        cuadro[7][4].setIcon(escalarImagen("src/img/rey_negro.png"));
+        cuadro[7][0].setIcon(escalarImagen("src/img/torre_blanco.png"));
+        cuadro[7][7].setIcon(escalarImagen("src/img/torre_blanco.png"));
+        cuadro[7][1].setIcon(escalarImagen("src/img/caballo_blanco.png"));
+        cuadro[7][6].setIcon(escalarImagen("src/img/caballo_blanco.png"));
+        cuadro[7][2].setIcon(escalarImagen("src/img/alfil_blanco.png"));
+        cuadro[7][5].setIcon(escalarImagen("src/img/alfil_blanco.png"));
+        cuadro[7][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
+        cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
 
     public ImageIcon escalarImagen(String ruta) {
