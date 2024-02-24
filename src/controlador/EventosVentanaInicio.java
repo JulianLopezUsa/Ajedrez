@@ -14,21 +14,16 @@ import modelo.Tablero.Tablero;
 import vista.MenuA;
 import vista.VistaTablero;
 
-/**
- *
- * @author Laura
- */
 public class EventosVentanaInicio implements ActionListener {
 
     public MenuA menuA;
-
 
     public EventosVentanaInicio(MenuA menuA) {
         this.menuA = menuA;
 
         this.menuA.botonIniciar.addActionListener(this);
         this.menuA.botonSalir.addActionListener(this);
-        
+
         this.menuA.setVisible(true);
     }
 
@@ -37,6 +32,7 @@ public class EventosVentanaInicio implements ActionListener {
         if (e.getSource().equals(this.menuA.botonIniciar)) {
             this.menuA.setVisible(false);
             String nombreJ1 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 1:");
+<<<<<<< HEAD
             if (nombreJ1 == null) {
                 System.exit(0);
             }
@@ -47,12 +43,21 @@ public class EventosVentanaInicio implements ActionListener {
             Tablero tablero = new Tablero(nombreJ1, nombreJ2);
             new EventosTablero(new VistaTablero(), tablero);
             
+=======
+            String nombreJ2 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 2:");
+
+            VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
+
+            Tablero tablero = new Tablero(nombreJ1, nombreJ2);
+            new EventosTablero(vistaTablero, tablero);
+
+>>>>>>> JulianL
         }
 
         if (e.getSource().equals(this.menuA.botonSalir)) {
             System.exit(0);
         }
-        
+
     }
 
 }

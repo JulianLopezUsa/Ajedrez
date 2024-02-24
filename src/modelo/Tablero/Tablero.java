@@ -11,10 +11,6 @@ import modelo.fichas.Torre;
 
 import modelo.jugadores.Jugadores;
 
-/**
- *
- * @author Laura
- */
 public class Tablero {
 
     public int turno;
