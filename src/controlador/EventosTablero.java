@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
@@ -39,7 +41,6 @@ public class EventosTablero implements ActionListener {
             for (int j = 0; j < 8; j++) {
                 if (e.getSource() == this.tablero.cuadro[i][j]) {
                     // Verificar si hay una ficha en el botón presionado
-
                     Fichas f = tablero2.hayFicha(i, j, tablero2.getTurno());
 
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
@@ -59,15 +60,16 @@ public class EventosTablero implements ActionListener {
 
                         // Para coronación del peón
                         if (fichaSeleccionada instanceof Peon) {
-                            if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i,j)) {
+                            if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
                                 tablero2.eliminarFicha(fichaSeleccionada);
                                 tablero.eliminarDeVista(fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
 
                                 String nn = tablero.coronacionPieza(tablero2.getTurno(), fichaSeleccionada.getPosY(),
-                                fichaSeleccionada.getPosX());
+                                        fichaSeleccionada.getPosX());
                                 tablero2.crearFichaNueva(nn, fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
                             }
                         }
+                        
                         // Limpiar la ficha seleccionada
                         fichaSeleccionada = null;
                     } else {
@@ -78,6 +80,11 @@ public class EventosTablero implements ActionListener {
                             cacheY = j;
                             // Obtener los posibles movimientos de la ficha en esa posición
                             f.movimientoFicha((char) (i + 97) + " " + j, tablero2);
+                             // Verificar si el rey está en jaque después del movimiento
+                            if (tablero2.estaEnJaque(tablero2.getTurno(), fichaSeleccionada)) {
+                                // Realizar acciones correspondientes, por ejemplo, mostrar un mensaje
+                                JOptionPane.showMessageDialog(null, "¡El rey está en jaque!");
+                            }
                             // Cambiar el color de los botones correspondientes a los movimientos válidos
                             this.tablero.resaltarMovimientos(f);
                         }

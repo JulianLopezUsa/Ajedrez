@@ -23,6 +23,7 @@ public class Tablero {
     public Jugadores jugador1;
     public Jugadores jugador2;
     public ArrayList<Fichas> arregloFichasMovimiento;
+    public Jugadores oponente;
 
     public Tablero(String nombreJugador1, String nombreJugador2) {
         this.jugador1 = new Jugadores(nombreJugador1);
@@ -182,6 +183,39 @@ public class Tablero {
 
     public Jugadores getJugador2() {
         return jugador2;
+    }
+
+    public boolean estaEnJaque(int turno, Fichas ficha) {
+        // Obtener la posición del rey del jugador en turno
+        Fichas rey;
+        if (turno == 0) {
+            rey = obtenerRey(jugador2.getFichas());
+        } else {
+            rey = obtenerRey(jugador1.getFichas());
+        }
+
+        ArrayList<String> movimientos = ficha.listaDeMovimientos;
+        for (String movimiento : movimientos) {
+            String[] pos = movimiento.split(" ");
+            int newX = pos[0].charAt(0) - 'a';
+            int newY = Integer.parseInt(pos[1]);
+            System.out.println("AM" + newX + " " + newY);
+            if (newX == rey.getPosY() && newY == rey.getPosX()) {
+                return true; // El rey está en jaque
+            }
+        }
+
+        return false; // El rey no está en jaque
+    }
+
+    public Fichas obtenerRey(ArrayList<Fichas> fichas) {
+        for (Fichas ficha : fichas) {
+            if (ficha instanceof Rey) {
+                System.out.println("REY" + ficha.getPosX() + " " + ficha.getPosY());
+                return ficha; // Devolver la instancia del rey
+            }
+        }
+        return null; // Si no se encuentra el rey
     }
 
 }
