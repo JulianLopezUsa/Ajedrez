@@ -10,15 +10,17 @@ import modelo.fichas.Rey;
 import modelo.fichas.Torre;
 
 import modelo.jugadores.Jugadores;
+import vista.VistaTablero;
 
 public class Tablero {
 
     public int turno;
     public Jugadores jugador1;
     public Jugadores jugador2;
-   
+    private VistaTablero vistaTablero;
 
-    public Tablero(String nombreJugador1, String nombreJugador2) {
+    public Tablero(String nombreJugador1, String nombreJugador2, VistaTablero vistaTablero) {
+        this.vistaTablero = vistaTablero;
         this.jugador1 = new Jugadores(nombreJugador1);
         this.jugador2 = new Jugadores(nombreJugador2);
         inicializarFichasEquipo1();
@@ -62,7 +64,7 @@ public class Tablero {
                     return ficha;
                 }
             }
-        }else if(turno==1){
+        } else if (turno == 1) {
             for (Fichas ficha : jugador1.fichas) {
                 if (ficha.getPosX() == j && ficha.getPosY() == i) {
                     return ficha;
@@ -80,7 +82,7 @@ public class Tablero {
                     return ficha;
                 }
             }
-        }else if(turno==1){
+        } else if (turno == 1) {
             for (Fichas ficha : jugador2.fichas) {
                 if (ficha.getPosX() == j && ficha.getPosY() == i) {
                     return ficha;
@@ -92,7 +94,7 @@ public class Tablero {
 
     public Fichas moverFicha(Fichas fichaSeleccionada, int i, int j) {
         // Actualizar la posición de la ficha en el tablero
-    
+
         // Si la ficha se mueve a una posición ocupada por una ficha del otro jugador,
         // eliminar esa ficha del otro jugador
         Fichas fichaEnNuevaPosicion = hayFicha2(i, j, turno);
@@ -106,28 +108,30 @@ public class Tablero {
 
         fichaSeleccionada.setPosX(j);
         fichaSeleccionada.setPosY(i);
-    
+
         // Eliminar la ficha de su posición anterior
         if (turno == 0) {
             jugador2.fichas.remove(fichaSeleccionada);
         } else {
             jugador1.fichas.remove(fichaSeleccionada);
         }
-    
+
         // Agregar la ficha a su nueva posición
         if (turno == 0) {
             jugador2.fichas.add(fichaSeleccionada);
         } else {
             jugador1.fichas.add(fichaSeleccionada);
         }
-    
+
         // Cambiar el turno
         fichaSeleccionada.setMovio(true);
         turno = (turno + 1) % 2;
-    
+
+        vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
+
         return fichaEnNuevaPosicion;
     }
-    
+
     public int getTurno() {
         return turno;
     }

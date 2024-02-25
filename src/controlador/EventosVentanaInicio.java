@@ -36,7 +36,7 @@ public class EventosVentanaInicio implements ActionListener {
 
             VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
 
-            Tablero tablero = new Tablero(nombreJ1, nombreJ2);
+            Tablero tablero = new Tablero(nombreJ1, nombreJ2, vistaTablero);
             new EventosTablero(vistaTablero, tablero);
 
         }

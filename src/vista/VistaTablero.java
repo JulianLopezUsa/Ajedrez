@@ -1,18 +1,10 @@
 package vista;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
 import modelo.fichas.Fichas;
+import controlador.AccionRendir;
 
 public class VistaTablero extends JFrame {
 
@@ -20,13 +12,14 @@ public class VistaTablero extends JFrame {
     private String nombreJ1;
     private String nombreJ2;
     public JButton fin1, fin2;
+    private JTextArea texto = new JTextArea();
 
     public VistaTablero(String nombreJ1, String nombreJ2) {
         this.nombreJ1 = nombreJ1;
         this.nombreJ2 = nombreJ2;
         initComponents();
     }
-
+    
     public void initComponents() {
         setTitle("MyLocalChess");
         setSize(1300, 700);
@@ -91,7 +84,6 @@ public class VistaTablero extends JFrame {
 
         panelDerecho.add(Box.createRigidArea(new Dimension(100, 70)));
 
-        JTextArea texto = new JTextArea();
 
         // Deshabilitar edición
         texto.setEditable(false);
@@ -106,6 +98,10 @@ public class VistaTablero extends JFrame {
         texto.append("\nJugador 2: " + nombreJ2);
 
         add(contenido);
+
+        AccionRendir accionRendir = new AccionRendir(this);
+        fin1.addActionListener(accionRendir);
+        fin2.addActionListener(accionRendir);
     }
 
     public JButton getBoton(int x, int y) {
@@ -136,6 +132,11 @@ public class VistaTablero extends JFrame {
         cuadro[7][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
         cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
+    public void imprimirJugada(String nombreFicha, int posX, int posY) {
+        // Agrega la información de la jugada al área de texto
+        texto.append("Jugada: " + nombreFicha + " - Posición: (" + posX + ", " + posY + ")\n");
+    }
+    
 
     public ImageIcon escalarImagen(String ruta) {
         ImageIcon icono = new ImageIcon(ruta);
@@ -185,5 +186,4 @@ public class VistaTablero extends JFrame {
         String nombreIcono = "src/img/" + tipo + "_" + color + ".png"; // Nombre del archivo de la imagen de la ficha
         return escalarImagen(nombreIcono);
     }
-
 }
