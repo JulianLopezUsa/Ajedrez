@@ -21,7 +21,10 @@ public class VistaTablero extends JFrame {
     private String nombreJ1;
     private String nombreJ2;
     public JButton fin1, fin2;
+    public int jaqueX_negras, jaqueY_negras;
+    public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
+    public Boolean banderaJaque_negras = false, banderaJaque_blancaa = false;
     public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
 
@@ -172,6 +175,29 @@ public class VistaTablero extends JFrame {
                 }
             }
         }
+
+        resaltarJaque();
+    }
+
+    public void resaltarJaque() {
+        if (banderaJaque_blancaa) {
+            cuadro[jaqueX_blancas][jaqueY_blancas].setBackground(Color.RED);
+        } else if (banderaJaque_negras) {
+            cuadro[jaqueX_negras][jaqueY_negras].setBackground(Color.RED);
+        }
+    }
+
+    public void ponerJaque(boolean jaqueBlanco, boolean jaqueNegro, String color, int x, int y) {
+        if (jaqueNegro) {
+            jaqueX_negras = y;
+            jaqueY_negras = x;
+            banderaJaque_negras = true;
+        } else if (jaqueBlanco) {
+            jaqueX_blancas = y;
+            jaqueY_blancas = x;
+            banderaJaque_blancaa = true;
+        }
+        cuadro[y][x].setBackground(Color.RED);
     }
 
     public void actualizar(int posX, int posY, Fichas ficha) {
@@ -191,7 +217,7 @@ public class VistaTablero extends JFrame {
     }
 
     public String coronacionPieza(int turno, int x, int y) {
-        if (turno == 0) {
+        if (turno == 1) {
             // Crear un arreglo de objetos para mostrar las imágenes
             opciones[0] = new ImageIcon("src/img/torre_blanco.png");
             opciones[1] = new ImageIcon("src/img/alfil_blanco.png");

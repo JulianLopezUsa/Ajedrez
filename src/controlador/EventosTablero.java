@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
+import modelo.fichas.Rey;
 import vista.VistaTablero;
 
 public class EventosTablero implements ActionListener {
@@ -17,6 +18,7 @@ public class EventosTablero implements ActionListener {
     private VistaTablero tablero;
     private Tablero tablero2;
     private Fichas fichaSeleccionada;
+    Fichas fichaElegida;
     private int cacheX, cacheY;
     public ArrayList<Fichas> arrExtra = new ArrayList<>();
 
@@ -69,7 +71,30 @@ public class EventosTablero implements ActionListener {
                                 tablero2.crearFichaNueva(nn, fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
                             }
                         }
+
+                        if (tablero2.jaqueBlanco == false) {
+                            tablero.banderaJaque_blancaa = false;
+                        }  if (tablero2.jaqueNegro == false) {
+                            tablero.banderaJaque_negras = false;
+                        }
+
+                        tablero.resetearColores();
+                        // Verificar Jaque
+                        verificarJaque(0);
+                        if (tablero2.jaqueBlanco == false) {
+                            tablero.banderaJaque_blancaa = false;
+                        } if (tablero2.jaqueNegro == false) {
+                            tablero.banderaJaque_negras = false;
+                        }
+                        tablero.resetearColores();
+                        verificarJaque(1);
                         
+
+
+                        
+                        // Cambiar turno
+                        tablero2.turno = (tablero2.turno + 1) % 2;
+
                         // Limpiar la ficha seleccionada
                         fichaSeleccionada = null;
                     } else {
@@ -80,11 +105,7 @@ public class EventosTablero implements ActionListener {
                             cacheY = j;
                             // Obtener los posibles movimientos de la ficha en esa posición
                             f.movimientoFicha((char) (i + 97) + " " + j, tablero2);
-                             // Verificar si el rey está en jaque después del movimiento
-                            if (tablero2.estaEnJaque(tablero2.getTurno(), fichaSeleccionada)) {
-                                // Realizar acciones correspondientes, por ejemplo, mostrar un mensaje
-                                JOptionPane.showMessageDialog(null, "¡El rey está en jaque!");
-                            }
+
                             // Cambiar el color de los botones correspondientes a los movimientos válidos
                             this.tablero.resaltarMovimientos(f);
                         }
@@ -108,6 +129,30 @@ public class EventosTablero implements ActionListener {
             int posX = ficha.getPosX();
             int posY = ficha.getPosY();
             tablero.actualizar(posX, posY, ficha);
+        }
+    }
+
+    public void verificarJaque(int turnoo){
+        if (tablero2.estaEnJaque(turnoo)) {
+            if (turnoo == 1) {
+                JOptionPane.showMessageDialog(null, "¡El rey negro está en jaque!");
+                for (Fichas ficha : tablero2.jugador2.fichas) {
+                    if (ficha instanceof Rey) {
+                        fichaElegida = ficha; // Devolver la instancia del rey
+                    }
+                }
+                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "negro",
+                        fichaElegida.getPosX(), fichaElegida.getPosY());
+            } else {
+                JOptionPane.showMessageDialog(null, "¡El rey blanco está en jaque!");
+                for (Fichas ficha : tablero2.jugador1.fichas) {
+                    if (ficha instanceof Rey) {
+                        fichaElegida = ficha; // Devolver la instancia del rey
+                    }
+                }
+                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "blanco",
+                        fichaElegida.getPosX(), fichaElegida.getPosY());
+            }
         }
     }
 }

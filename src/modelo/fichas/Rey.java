@@ -10,6 +10,7 @@ import modelo.Tablero.Tablero;
  */
 public class Rey extends Fichas {
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
+    public boolean jaque= false;
 
     public Rey(int posX, int posY, String color) {
         super(posX, posY, color);
@@ -53,5 +54,9 @@ public class Rey extends Fichas {
     @Override
     public void setLista(ArrayList<String> listaDeMovimientos) {
         super.setLista(listaDeMovimientos);
+    }
+
+    public void estaJaque(){
+        this.jaque=true;
     }
 }
