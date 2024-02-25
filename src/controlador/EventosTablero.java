@@ -3,9 +3,11 @@ package controlador;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
+import modelo.fichas.Peon;
 import vista.VistaTablero;
 
 public class EventosTablero implements ActionListener {
@@ -14,6 +16,7 @@ public class EventosTablero implements ActionListener {
     private Tablero tablero2;
     private Fichas fichaSeleccionada;
     private int cacheX, cacheY;
+    public ArrayList<Fichas> arrExtra = new ArrayList<>();
 
     public EventosTablero(VistaTablero tablero, Tablero tablero2) {
         this.tablero = tablero;
@@ -40,17 +43,31 @@ public class EventosTablero implements ActionListener {
                     Fichas f = tablero2.hayFicha(i, j, tablero2.getTurno());
 
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
-                    if ( tablero.cuadro[i][j].getBackground() == Color.YELLOW) {
+                    if (tablero.cuadro[i][j].getBackground() == Color.YELLOW) {
+
                         // Mover la ficha seleccionada al cuadro amarillo
                         tablero.eliminarDeVista(cacheY, cacheX);
-                        Fichas fichaX =tablero2.moverFicha(fichaSeleccionada, i, j);
-                        
-                        if(fichaX!=null){
+                        arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+
+                        Fichas fichaX = arrExtra.get(0);
+                        if (fichaX != null) {
                             tablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
                         }
-                
+
                         // Actualizar la vista para reflejar el movimiento
                         actualizarVista();
+
+                        // Para coronación del peón
+                        if (fichaSeleccionada instanceof Peon) {
+                            if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i,j)) {
+                                tablero2.eliminarFicha(fichaSeleccionada);
+                                tablero.eliminarDeVista(fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
+
+                                String nn = tablero.coronacionPieza(tablero2.getTurno(), fichaSeleccionada.getPosY(),
+                                fichaSeleccionada.getPosX());
+                                tablero2.crearFichaNueva(nn, fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
+                            }
+                        }
                         // Limpiar la ficha seleccionada
                         fichaSeleccionada = null;
                     } else {

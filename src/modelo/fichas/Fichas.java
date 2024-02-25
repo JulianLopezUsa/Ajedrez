@@ -63,6 +63,10 @@ public abstract class Fichas {
         
     }
 
+    public void verificarCoronacion(Fichas fichaSeleccionada, int turno, int i){
+
+    }
+
     public ArrayList<String> getListaDeMovimientos() {
         return listaDeMovimientos;
     }
@@ -78,4 +82,6 @@ public abstract class Fichas {
     public void setMovio(boolean movio) {
         this.movio = movio;
     };
+
+
 }

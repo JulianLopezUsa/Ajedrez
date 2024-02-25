@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -20,6 +21,9 @@ public class VistaTablero extends JFrame {
     private String nombreJ1;
     private String nombreJ2;
     public JButton fin1, fin2;
+    public String nombreFichaCoronada;
+    public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
+            new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
 
     public VistaTablero(String nombreJ1, String nombreJ2) {
         this.nombreJ1 = nombreJ1;
@@ -186,4 +190,50 @@ public class VistaTablero extends JFrame {
         return escalarImagen(nombreIcono);
     }
 
+    public String coronacionPieza(int turno, int x, int y) {
+        if (turno == 0) {
+            // Crear un arreglo de objetos para mostrar las imágenes
+            opciones[0] = new ImageIcon("src/img/torre_blanco.png");
+            opciones[1] = new ImageIcon("src/img/alfil_blanco.png");
+            opciones[2] = new ImageIcon("src/img/dama_blanco.png");
+            opciones[3] = new ImageIcon("src/img/caballo_blanco.png");
+        } else {
+            opciones[0] = new ImageIcon("src/img/torre_negro.png");
+            opciones[1] = new ImageIcon("src/img/alfil_negro.png");
+            opciones[2] = new ImageIcon("src/img/dama_negro.png");
+            opciones[3] = new ImageIcon("src/img/caballo_negro.png");
+        }
+        // Mostrar el JOptionPane con las imágenes
+        int seleccion = JOptionPane.showOptionDialog(
+                null,
+                "¡Coronaste un peón!: Elige una ficha para cambiar",
+                "Selección de imagen",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+
+        // Verificar la selección del usuario
+        if (seleccion >= 0 && seleccion < opciones.length) {
+            if (seleccion == 0) {
+                JOptionPane.showMessageDialog(null, "Has seleccionado a la torre");
+                cuadro[x][y].setIcon(escalarImagen(opciones[0].toString()));
+                nombreFichaCoronada = "torre";
+            } else if (seleccion == 1) {
+                JOptionPane.showMessageDialog(null, "Has seleccionado al afil");
+                cuadro[x][y].setIcon(escalarImagen(opciones[1].toString()));
+                nombreFichaCoronada = "alfil";
+            } else if (seleccion == 2) {
+                JOptionPane.showMessageDialog(null, "Has seleccionado al dama");
+                cuadro[x][y].setIcon(escalarImagen(opciones[2].toString()));
+                nombreFichaCoronada = "dama";
+            } else {
+                JOptionPane.showMessageDialog(null, "Has seleccionado al caballo");
+                cuadro[x][y].setIcon(escalarImagen(opciones[3].toString()));
+                nombreFichaCoronada = "caballo";
+            }
+        }
+        return nombreFichaCoronada;
+    }
 }

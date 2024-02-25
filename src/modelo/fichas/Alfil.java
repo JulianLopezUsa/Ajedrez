@@ -64,4 +64,7 @@ public class Alfil extends Fichas {
     public void setLista(ArrayList<String> listaDeMovimientos) {
         super.setLista(listaDeMovimientos);
     }
+
+
+
 }
