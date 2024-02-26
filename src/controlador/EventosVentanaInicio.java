@@ -36,12 +36,11 @@ public class EventosVentanaInicio implements ActionListener {
                 System.exit(0);
             }
             String nombreJ2 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 2:");
-            if (nombreJ2 == null) {
-                System.exit(0);
-            }
-            Tablero tablero = new Tablero(nombreJ1, nombreJ2);
-            new EventosTablero(new VistaTablero(nombreJ1, nombreJ2), tablero);
-            
+
+            VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
+
+            Tablero tablero = new Tablero(nombreJ1, nombreJ2, vistaTablero);
+            new EventosTablero(vistaTablero, tablero);
 
         }
 
