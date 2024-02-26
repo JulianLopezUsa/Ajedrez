@@ -139,7 +139,7 @@ public class Tablero {
 
         // Cambiar el turno
         fichaSeleccionada.setMovio(true);
-        turno = (turno + 1) % 2;
+        
 
         vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
         arregloFichasMovimiento.add(fichaEnNuevaPosicion);

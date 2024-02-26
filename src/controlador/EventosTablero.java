@@ -134,22 +134,22 @@ public class EventosTablero implements ActionListener {
     public void verificarJaque(int turnoo) {
         if (tablero2.estaEnJaque(turnoo)) {
             if (turnoo == 1) {
-                JOptionPane.showMessageDialog(null, "¡El rey negro está en jaque!");
+                JOptionPane.showMessageDialog(null, "¡El rey Blanco está en jaque!");
                 for (Fichas ficha : tablero2.jugador2.fichas) {
                     if (ficha instanceof Rey) {
                         fichaElegida = ficha; // Devolver la instancia del rey
                     }
                 }
-                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "negro",
+                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "blanco",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
             } else {
-                JOptionPane.showMessageDialog(null, "¡El rey blanco está en jaque!");
+                JOptionPane.showMessageDialog(null, "¡El rey Negro está en jaque!");
                 for (Fichas ficha : tablero2.jugador1.fichas) {
                     if (ficha instanceof Rey) {
                         fichaElegida = ficha; // Devolver la instancia del rey
                     }
                 }
-                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "blanco",
+                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "negro",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
             }
         }
