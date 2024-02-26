@@ -10,6 +10,7 @@ import modelo.Tablero.Tablero;
  */
 public class Rey extends Fichas {
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
+    public boolean jaque= false;
 
     public Rey(int posX, int posY, String color) {
         super(posX, posY, color);
@@ -33,6 +34,7 @@ public class Rey extends Fichas {
                         && (i != 0 || j != 0)) {
                     // Verificar si hay una ficha en la casilla adyacente
                     Fichas ficha = tablero.hayFicha(nuevaLetra - 'a',nuevoNumero,tablero.getTurno());
+                    
                     if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                         listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                     }
@@ -52,5 +54,9 @@ public class Rey extends Fichas {
     @Override
     public void setLista(ArrayList<String> listaDeMovimientos) {
         super.setLista(listaDeMovimientos);
+    }
+
+    public void estaJaque(){
+        this.jaque=true;
     }
 }

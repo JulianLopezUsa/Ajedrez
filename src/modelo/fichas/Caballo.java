@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import modelo.Tablero.Tablero;
 
-/**
- *
- * @author Laura
- */
+
 public class Caballo extends Fichas {
 
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
