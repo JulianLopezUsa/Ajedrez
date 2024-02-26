@@ -109,9 +109,6 @@ public class VistaTablero extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        texto.append("Jugador 1: " + nombreJ1);
-        texto.append("\nJugador 2: " + nombreJ2);
-
         add(contenido);
 
         AccionRendir accionRendir = new AccionRendir(this,2);
@@ -151,7 +148,7 @@ public class VistaTablero extends JFrame {
     }
     public void imprimirJugada(String nombreFicha, int posX, int posY) {
         // Agrega la información de la jugada al área de texto
-        texto.append("Jugada: " + nombreFicha + " - Posición: (" + posX + ", " + posY + ")\n");
+        texto.append(nombreFicha +" "+ " (" + ((char)(posY+'a')) + ", " + posX + ")\n");
     }
     
 
@@ -274,3 +271,4 @@ public class VistaTablero extends JFrame {
         return nombreFichaCoronada;
     }
 }
+

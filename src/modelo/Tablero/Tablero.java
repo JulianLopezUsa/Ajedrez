@@ -140,8 +140,13 @@ public class Tablero {
         // Cambiar el turno
         fichaSeleccionada.setMovio(true);
         
+        if (fichaEnNuevaPosicion != null) {
 
-        vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
+            vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName()+" Ceno ", j, i);
+        }else{
+            vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
+        }
+
         arregloFichasMovimiento.add(fichaEnNuevaPosicion);
         arregloFichasMovimiento.add(fichaSeleccionada);
 
