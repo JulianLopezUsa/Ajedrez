@@ -34,8 +34,9 @@ public class VistaTablero extends JFrame {
         this.nombreJ2 = nombreJ2;
         initComponents();
     }
-    
+
     public void initComponents() {
+
         setTitle("MyLocalChess");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,12 +94,11 @@ public class VistaTablero extends JFrame {
         panelDerecho.add(panelJugador1);
         panelDerecho.add(panelJugador2);
 
-        JPanel contenido = new JPanel(new GridLayout(1, 3));
+        JPanel contenido = new JPanel(new GridLayout(1, 2));
         contenido.add(panelTablero);
         contenido.add(panelDerecho);
 
-        panelDerecho.add(Box.createRigidArea(new Dimension(100, 70)));
-
+        panelDerecho.add(Box.createRigidArea(new Dimension(50, 70)));
 
         // Deshabilitar edición
         texto.setEditable(false);
@@ -109,11 +109,9 @@ public class VistaTablero extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
+        AccionRendir accionRendir = new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
 
-        AccionRendir accionRendir = new AccionRendir(this,2);
-
-        
         fin1.addActionListener(accionRendir);
         fin2.addActionListener(accionRendir);
     }
@@ -127,7 +125,6 @@ public class VistaTablero extends JFrame {
             cuadro[1][i].setIcon(escalarImagen("src/img/peon_negro.png"));
             cuadro[6][i].setIcon(escalarImagen("src/img/peon_blanco.png"));
         }
-
         cuadro[0][0].setIcon(escalarImagen("src/img/torre_negro.png"));
         cuadro[0][7].setIcon(escalarImagen("src/img/torre_negro.png"));
         cuadro[0][1].setIcon(escalarImagen("src/img/caballo_negro.png"));
@@ -146,11 +143,11 @@ public class VistaTablero extends JFrame {
         cuadro[7][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
         cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
+
     public void imprimirJugada(String nombreFicha, int posX, int posY) {
         // Agrega la información de la jugada al área de texto
-        texto.append(nombreFicha +" "+ " (" + ((char)(posY+'a')) + ", " + posX + ")\n");
+        texto.append(nombreFicha + " " + " (" + ((char) (posY + 'a')) + ", " + posX + ")\n");
     }
-    
 
     public ImageIcon escalarImagen(String ruta) {
         ImageIcon icono = new ImageIcon(ruta);
@@ -271,4 +268,3 @@ public class VistaTablero extends JFrame {
         return nombreFichaCoronada;
     }
 }
-
