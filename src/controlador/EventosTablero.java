@@ -74,7 +74,8 @@ public class EventosTablero implements ActionListener {
 
                         if (tablero2.jaqueBlanco == false) {
                             tablero.banderaJaque_blancaa = false;
-                        }  if (tablero2.jaqueNegro == false) {
+                        }
+                        if (tablero2.jaqueNegro == false) {
                             tablero.banderaJaque_negras = false;
                         }
 
@@ -83,15 +84,13 @@ public class EventosTablero implements ActionListener {
                         verificarJaque(0);
                         if (tablero2.jaqueBlanco == false) {
                             tablero.banderaJaque_blancaa = false;
-                        } if (tablero2.jaqueNegro == false) {
+                        }
+                        if (tablero2.jaqueNegro == false) {
                             tablero.banderaJaque_negras = false;
                         }
                         tablero.resetearColores();
                         verificarJaque(1);
-                        
 
-
-                        
                         // Cambiar turno
                         tablero2.turno = (tablero2.turno + 1) % 2;
 
@@ -132,7 +131,7 @@ public class EventosTablero implements ActionListener {
         }
     }
 
-    public void verificarJaque(int turnoo){
+    public void verificarJaque(int turnoo) {
         if (tablero2.estaEnJaque(turnoo)) {
             if (turnoo == 1) {
                 JOptionPane.showMessageDialog(null, "¡El rey negro está en jaque!");
@@ -154,5 +153,47 @@ public class EventosTablero implements ActionListener {
                         fichaElegida.getPosX(), fichaElegida.getPosY());
             }
         }
+    }
+
+    // Método para verificar si un movimiento saca al rey del jaque
+    private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int newX, int newY) {
+        // Obtener el rey que está en jaque
+        Fichas rey = tablero2.obtenerRey(tablero2.getTurno() == 0 ? tablero2.jugador1.fichas : tablero2.jugador2.fichas);
+
+        // Verificar si los movimientos de la ficha quitan el jaque o no
+        ArrayList<String> movimientos = ficha.getLista();
+        for (String movimiento : movimientos) {
+            String[] pos = movimiento.split(" ");
+            int moveX = pos[0].charAt(0) - 'a';
+            int moveY = Integer.parseInt(pos[1]);
+
+            // Guardar la ficha en la posición a la que se moverá para verificar si pone al
+            // rey en jaque
+            Fichas fichaEnNuevaPosicion = tablero2.hayFicha(moveY, moveX, tablero2.getTurno());
+            // Mover la ficha temporalmente
+            int originalX = ficha.getPosX();
+            int originalY = ficha.getPosY();
+            tablero2.moverFicha(ficha, moveY, moveX);
+
+            // Verificar si el rey está en jaque después del movimiento
+            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque(tablero2.getTurno() == 0 ? 1 : 0);
+
+            // Deshacer el movimiento temporal
+            tablero2.moverFicha(ficha, originalY, originalX);
+            if (fichaEnNuevaPosicion != null) {
+                if (tablero2.getTurno() == 0) {
+                    tablero2.jugador1.fichas.add(fichaEnNuevaPosicion);
+                } else {
+                    tablero2.jugador2.fichas.add(fichaEnNuevaPosicion);
+                }
+            }
+
+            // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
+            // del jaque
+            if (!jaqueDespuesDeMovimiento) {
+                return true;
+            }
+        }
+        return false;
     }
 }
