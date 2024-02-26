@@ -43,7 +43,7 @@ public class Rey extends Fichas {
             }
         }
 
-
+        // ------------- LIMITANDO MOVMIENTO DEL REY---------------------------
         Jugadores oponente = (tablero.turno == 0) ? tablero.jugador1 : tablero.jugador2;
         ArrayList<String> listaMovimientosEquipoContrario = new ArrayList<>();
 
@@ -54,7 +54,40 @@ public class Rey extends Fichas {
             listaMovimientosEquipoContrario.addAll(movimientos); // Agregar los movimientos de la ficha a listaMovimientos
            
         }
+       
+
+        //-------------------------- CASO ESPECIFICO DEL PEON----------------------
         
+
+        for (Fichas ficha : oponente.fichas) {
+
+            if (ficha instanceof Peon) {
+                if (ficha.getColor().contains("negro")) {
+                                
+                    listaMovimientosEquipoContrario.add((char)((ficha.getPosY())+'a'+1) +" "+ (ficha.getPosX()+1));
+                    listaMovimientosEquipoContrario.add((char)((ficha.getPosY())+'a'+1) +" "+ (ficha.getPosX()-1));
+                }else{
+                    listaMovimientosEquipoContrario.add((char)((ficha.getPosY())+'a'-1) +" "+ (ficha.getPosX()+1));
+                    listaMovimientosEquipoContrario.add((char)((ficha.getPosY())+'a'-1) +" "+ (ficha.getPosX()-1));
+
+                }
+                // .add ( (char) letraff(x) +" "+ numero)
+            }
+            if (ficha instanceof Rey){
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+
+                        listaMovimientosEquipoContrario.add((char)((ficha.getPosY())+'a'+i) +" "+ (ficha.getPosX()+j));
+
+                        
+                    }
+                }
+            }
+
+        }
+     
+
+        //--------------------DEFINIR LO MOVIMIENTOS SEGUROS DEL REY
         ArrayList<String> movimientosSegurosRey = new ArrayList<>();
         // Iterar sobre los movimientos del rey
         for (String movimiento : listaDeMovimientos) {
@@ -63,7 +96,6 @@ public class Rey extends Fichas {
                 movimientosSegurosRey.add(movimiento); // Agregar el movimiento seguro a la lista
             }
         }
-
 
         setLista(movimientosSegurosRey);
 
