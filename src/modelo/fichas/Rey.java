@@ -3,6 +3,7 @@ package modelo.fichas;
 import java.util.ArrayList;
 
 import modelo.Tablero.Tablero;
+import modelo.jugadores.Jugadores;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Rey extends Fichas {
 
         char letraF = pos[0].charAt(0);
         int numeroF = Integer.parseInt(pos[1]);
-
+        
         // Calcular movimientos del rey
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -41,7 +42,30 @@ public class Rey extends Fichas {
                 }
             }
         }
-        setLista(listaDeMovimientos);
+
+
+        Jugadores oponente = (tablero.turno == 0) ? tablero.jugador1 : tablero.jugador2;
+        ArrayList<String> listaMovimientosEquipoContrario = new ArrayList<>();
+
+        for (Fichas ficha : oponente.fichas) {
+
+            ArrayList<String> movimientos = ficha.listaDeMovimientos;
+
+            listaMovimientosEquipoContrario.addAll(movimientos); // Agregar los movimientos de la ficha a listaMovimientos
+           
+        }
+        
+        ArrayList<String> movimientosSegurosRey = new ArrayList<>();
+        // Iterar sobre los movimientos del rey
+        for (String movimiento : listaDeMovimientos) {
+            // Verificar si el movimiento del rey está seguro
+            if (!listaMovimientosEquipoContrario.contains(movimiento)) {
+                movimientosSegurosRey.add(movimiento); // Agregar el movimiento seguro a la lista
+            }
+        }
+
+
+        setLista(movimientosSegurosRey);
 
     }
 
