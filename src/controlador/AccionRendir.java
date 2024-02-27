@@ -8,9 +8,9 @@ import javax.swing.JButton;
 
 public class AccionRendir implements ActionListener {
 
-    private VistaTablero vistaTablero;
-    private int jugador;
-    private Rendir rendirFrame;
+    public VistaTablero vistaTablero;
+    public int jugador;
+    public Rendir rendirFrame;
     private JButton fin1;
     private JButton fin2;
 

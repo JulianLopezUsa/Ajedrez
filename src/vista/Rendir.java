@@ -7,7 +7,7 @@ import controlador.*;
 public class Rendir extends JFrame {
 
   private JPanel contentPane;
-  private int jugador;
+  public int jugador;
 
   public Rendir(String mensaje, String rutaImagen, int jugador) {
 
