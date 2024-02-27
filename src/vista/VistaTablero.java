@@ -111,9 +111,6 @@ public class VistaTablero extends JFrame {
 
         AccionRendir accionRendir = new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
-
-        fin1.addActionListener(accionRendir);
-        fin2.addActionListener(accionRendir);
     }
 
     public JButton getBoton(int x, int y) {

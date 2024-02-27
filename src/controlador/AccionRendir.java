@@ -9,7 +9,7 @@ import javax.swing.JButton;
 public class AccionRendir implements ActionListener {
 
     private VistaTablero vistaTablero;
-    private int jugador;
+    private int jugador ;
     private Rendir rendirFrame;
     private JButton fin1;
     private JButton fin2;
@@ -45,7 +45,7 @@ public class AccionRendir implements ActionListener {
         if (e.getSource() == fin1) {
             System.out.println("Jugador 1 rendido!");
             mostrarMensajeRendicion(1);
-        } else if (e.getSource() == fin2) {
+        } if (e.getSource() == fin2) {
             System.out.println("Jugador 2 rendido!");
             mostrarMensajeRendicion(2);
         }
