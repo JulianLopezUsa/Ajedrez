@@ -24,7 +24,7 @@ public class Rendir extends JFrame {
     contentPane.add(lblMensaje, BorderLayout.NORTH);
 
     ImageIcon icono = new ImageIcon(rutaImagen);
-    Image imagen = icono.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+    Image imagen = icono.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
     JLabel lblImagen = new JLabel(new ImageIcon(imagen));
     lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
     contentPane.add(lblImagen, BorderLayout.CENTER);
@@ -36,6 +36,8 @@ public class Rendir extends JFrame {
     panelBotones.add(btnAceptar);
     panelBotones.add(btnRechazar);
     contentPane.add(panelBotones, BorderLayout.SOUTH);
+
+    
 
   }
 

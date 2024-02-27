@@ -39,8 +39,6 @@ public class AccionRendir implements ActionListener {
       rendirFrame.setVisible(true);
   }
 
-  
-  
 
     @Override
     public void actionPerformed(ActionEvent e) {
