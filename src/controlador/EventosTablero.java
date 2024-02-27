@@ -158,7 +158,8 @@ public class EventosTablero implements ActionListener {
     // Método para verificar si un movimiento saca al rey del jaque
     private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int newX, int newY) {
         // Obtener el rey que está en jaque
-        Fichas rey = tablero2.obtenerRey(tablero2.getTurno() == 0 ? tablero2.jugador1.fichas : tablero2.jugador2.fichas);
+        Fichas rey = tablero2
+                .obtenerRey(tablero2.getTurno() == 0 ? tablero2.jugador1.fichas : tablero2.jugador2.fichas);
 
         // Verificar si los movimientos de la ficha quitan el jaque o no
         ArrayList<String> movimientos = ficha.getLista();

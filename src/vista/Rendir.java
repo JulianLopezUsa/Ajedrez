@@ -2,6 +2,7 @@ package vista;
 
 import javax.swing.*;
 import java.awt.*;
+import controlador.*;
 
 public class Rendir extends JFrame {
 
@@ -24,7 +25,7 @@ public class Rendir extends JFrame {
     contentPane.add(lblMensaje, BorderLayout.NORTH);
 
     ImageIcon icono = new ImageIcon(rutaImagen);
-    Image imagen = icono.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
+    Image imagen = icono.getImage().getScaledInstance(120, 180, Image.SCALE_SMOOTH);
     JLabel lblImagen = new JLabel(new ImageIcon(imagen));
     lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
     contentPane.add(lblImagen, BorderLayout.CENTER);
@@ -37,8 +38,23 @@ public class Rendir extends JFrame {
     panelBotones.add(btnRechazar);
     contentPane.add(panelBotones, BorderLayout.SOUTH);
 
-    
-
+    // Asociar ActionListener a los botones
+    BotonRendir botonRendir = new BotonRendir(this);
+    btnAceptar.addActionListener(botonRendir);
+    btnRechazar.addActionListener(botonRendir);
   }
 
+  // Método para cerrar la ventana
+  public void cerrarVentana() {
+    setVisible(false);
+    dispose();
+    MenuA menu = new MenuA();
+    menu.setVisible(true);
+    new EventosVentanaInicio(menu);
+  }
+
+  // Método para ocultar la ventana
+  public void ocultarVentana() {
+    setVisible(false);
+  }
 }

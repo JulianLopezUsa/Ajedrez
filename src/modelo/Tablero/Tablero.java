@@ -142,7 +142,7 @@ public class Tablero {
         
         if (fichaEnNuevaPosicion != null) {
 
-            vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName()+" Ceno ", j, i);
+            vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName()+" X ", j, i);
         }else{
             vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
         }
