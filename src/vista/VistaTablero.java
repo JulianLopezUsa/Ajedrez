@@ -57,9 +57,10 @@ public class VistaTablero extends JFrame {
         add(panelTablero);
 
         JPanel panelDerecho = new JPanel();
+        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.LINE_AXIS));
+        panelDerecho.setMaximumSize(new Dimension(200, Integer.MAX_VALUE)); // Establecer el ancho máximo deseado
+        
 
-        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
-        panelDerecho.setPreferredSize(new Dimension(200, 700));
 
         JPanel panelJugador1 = new JPanel();
         panelJugador1.setLayout(new BoxLayout(panelJugador1, BoxLayout.X_AXIS));

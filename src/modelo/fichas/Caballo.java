@@ -14,8 +14,17 @@ public class Caballo extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
         listaDeMovimientos.clear();
+
+        int tt;
+        if (turno!=3){
+          tt = turno;
+          //letraff=letraff-1;
+        }else{
+          tt = tablero.getTurno();
+        }
+
         String[] pos = posicionActual.split(" ");
     
         char letraF = pos[0].charAt(0);
@@ -41,7 +50,7 @@ public class Caballo extends Fichas {
             // Verificar si el movimiento está dentro del tablero
             if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
                 // Verificar si hay una ficha del mismo equipo en la casilla final del movimiento
-                Fichas ficha = tablero.hayFicha( nuevaLetra - 'a', nuevoNumero,tablero.getTurno());
+                Fichas ficha = tablero.hayFicha( nuevaLetra - 'a', nuevoNumero,tt);
                 
                 if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                     // Si no hay una ficha del mismo equipo, agregar el movimiento a la lista de movimientos válidos
