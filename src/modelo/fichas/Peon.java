@@ -2,6 +2,7 @@ package modelo.fichas;
 
 import java.util.ArrayList;
 import modelo.Tablero.Tablero;
+import modelo.jugadores.Jugadores;
 
 /**
  *
@@ -124,6 +125,45 @@ public class Peon extends Fichas {
         }
       }
     }
+
+    // Peon al paso ---------- Blancas
+    if(tablero.turno == 0){
+      Jugadores turnoActual = (tablero.turno == 0) ? tablero.jugador1 : tablero.jugador2;
+      for (Fichas ficha : turnoActual.fichas) {
+        if (ficha instanceof Peon){
+          System.out.println("color turno actual: " +ficha.getColor());
+          //System.out.println("X = "+ficha.getPosX() );
+          //System.out.println("Y = "+ (char)(ficha.getPosY()+'a'));
+          if (ficha.getPosY() == 3){
+            //System.out.println("PEON AL PASO");
+            Jugadores oponente = (tablero.turno == 1) ? tablero.jugador1 : tablero.jugador2;
+            for ( Fichas fichaOponente : oponente.fichas){
+              if ( fichaOponente instanceof Peon){
+                System.out.println("contador peon Oponnente = " + fichaOponente.getContador());
+                System.out.println("color "+ fichaOponente.getColor());
+
+                if ( fichaOponente.getPosY() ==3 ){
+                  if ( fichaOponente.getPosX() - ficha.getPosX() ==-1 ){
+                    listaDeMovimientos.add(((char)(ficha.getPosY()+'a'-1))+" "+(fichaOponente.getPosX()+1));
+                  }
+                  if ( fichaOponente.getPosX() - ficha.getPosX() ==1){
+                    listaDeMovimientos.add(((char)(ficha.getPosY()+'a'-1))+" "+(fichaOponente.getPosX()-1));
+                  }
+
+
+                  
+                  //System.out.println("posible peon al paso derecha");
+                  //System.out.println(((char)(ficha.getPosY()+'a'-1))+" "+(fichaOponente.getPosX()));
+                }
+              }
+            }
+
+
+        }
+
+      }
+    }
+  }
     setLista(listaDeMovimientos);
   }
 
@@ -159,15 +199,13 @@ public class Peon extends Fichas {
     this.contadorMov = contadorMov;
   }
 
-  @Override
-  public void setMovio(boolean movio) {
-    this.movio = movio;
-  }
-
+ 
   // Getter y setter para coronacion
   public int getCoronacion() {
     return coronacion;
   }
+
+ 
 
   public void setCoronacion(int coronacion) {
     this.coronacion = coronacion;
