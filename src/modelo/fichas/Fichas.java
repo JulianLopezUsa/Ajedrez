@@ -15,6 +15,7 @@ public abstract class Fichas {
     private String color; 
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
     public boolean movio = false;
+    public int contadorMovs = 0;
     
     public Fichas(int posX, int posY, String color) {
         this.posX = posX;
@@ -79,8 +80,14 @@ public abstract class Fichas {
         return movio;
     }
 
+    public int getContador(){
+        return contadorMovs;
+    }
+
     public void setMovio(boolean movio) {
+        contadorMovs = contadorMovs+1;
         this.movio = movio;
+        System.out.println("contador: "+contadorMovs);
     };
 
 
