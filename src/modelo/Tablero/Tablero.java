@@ -216,7 +216,7 @@ public boolean jaqueNegro = false;
 
 
         //SI ENCUENTRA UNA FICHA EN LA PSOCIÓN A LA QUE SE MUEVE LA BORRA NE LA COPIA
-        Fichas fichaEnNuevaPosicion = hayFicha2(i, j, turno);
+        Fichas fichaEnNuevaPosicion = hayFicha2(i, j, 0);
         if (fichaEnNuevaPosicion != null) {
             System.out.println("entraaaaaa");
             if (turno == 0) {
