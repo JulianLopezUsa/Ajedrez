@@ -1,30 +1,86 @@
 package controlador.sockets;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
+import java.util.StringTokenizer;
 
-public class Cliente {
+/**
+ * Define un cliente que se conecta un servidor
+ * 
+ * @author Ornelas Munguía Axel Leonardo
+ * @version 23.04.2020
+ */
+public class Cliente extends Conexion {
+    
+    /**
+     * Constructor de la clase 
+     * 
+     * @throws IOException Indica si se conecta o no
+     */
+    public Cliente() throws IOException{
+        super("cliente");
+    } //Se usa el constructor para cliente de Conexion
 
-    public static void main(String[] args) {
-        Socket socket = null;
-
+    
+    /**
+     * Lee los datos que le envia el servidor
+     * 
+     * @return Devuelve los datos
+     */
+    public String leerDatosServidor(){
+        String dato = null;
+        try {         
+            //Flujo de datos del servidor hacia el cliente
+            entrada = new DataInputStream(cs.getInputStream());
+            dato = entrada.readUTF();              
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return dato;
+    }
+    /**
+     * Envia los datos al servidor
+     * 
+     * @param dato Los datos que se quieren enviar
+     */
+    public void enviarDatosServidor(String dato){
         try {
-            // Conectar al servidor
-            socket = new Socket("localhost", 12345); // IP y puerto del servidor
-
-            // Lógica del cliente aquí...
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (socket != null) {
-                    socket.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            salida = new DataOutputStream(cs.getOutputStream());
+            salida.writeUTF(dato);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
-}
 
+    /**
+     * Limpia el buffer de la salida del cliente.
+     */
+    public void limpiarSalida(){
+        try {
+            salida.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    /**
+     * Cierra el cliente.
+     */
+    public void cerrarCliente() {
+        try {
+            cs.close();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+       
+    }
+
+    
+    public static void main(String[] args) throws IOException {
+        Cliente cliente = new Cliente();
+        StringTokenizer separador = new StringTokenizer(cliente.leerDatosServidor());
+        System.out.println("x = " + separador.nextToken() + "  y = " + separador.nextToken());
+        cliente.cerrarCliente();
+    }
+}
