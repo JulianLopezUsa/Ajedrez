@@ -214,12 +214,12 @@ public boolean jaqueNegro = false;
     
     public Fichas SimulacionMoverFicha(Fichas fichaSeleccionada, Tablero tablero, int i, int j) {
 
-
         //SI ENCUENTRA UNA FICHA EN LA PSOCIÓN A LA QUE SE MUEVE LA BORRA NE LA COPIA
-        Fichas fichaEnNuevaPosicion = hayFicha2(i, j, 0);
+        // Fichas fichaEnNuevaPosicion = hayFicha2(i, j, 0);
+        Fichas fichaEnNuevaPosicion = hayFicha2(i, j, (tablero.getTurno() == 1) ? 0 : 1);
         if (fichaEnNuevaPosicion != null) {
             System.out.println("entraaaaaa");
-            if (turno == 0) {
+            if (((tablero.getTurno() == 1) ? 0 : 1 )== 1) {
                 jugador1.fichas.remove(fichaEnNuevaPosicion);
             } else {
                 jugador2.fichas.remove(fichaEnNuevaPosicion);
@@ -235,11 +235,12 @@ public boolean jaqueNegro = false;
 
     public Fichas SimulacionRetrocesoFicha(Fichas fichaEliminada, Fichas fichaSeleccionada, Tablero tablero, int i, int j) {
 
-        if (fichaSeleccionada != null) {
-            if (turno == 0) {
+        // VER BIEN EL TRUNO DE ESTA
+        if (fichaEliminada != null) {
+            if (((tablero.getTurno() == 1) ? 0 : 1 ) == 0) {
                 jugador1.fichas.add(fichaEliminada);
             } else {
-                jugador2.fichas.remove(fichaEliminada);
+                jugador2.fichas.add(fichaEliminada);
             }
         }
 
@@ -264,8 +265,9 @@ public boolean jaqueNegro = false;
             System.out.println(ficha.toString());
             int i=ficha.getPosX();
             int j= ficha.getPosY();
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
-           
+            // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
+            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno);
+            
             ArrayList<String> movimientos = ficha.getListaDeMovimientos();
             System.out.println(ficha.getListaDeMovimientos());
             for (String movimiento : movimientos) {
