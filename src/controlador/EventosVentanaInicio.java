@@ -10,11 +10,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import controlador.sockets.SalaDeEspera;
 import modelo.Tablero.Tablero;
 import vista.MenuA;
 import vista.VistaTablero;
 
 public class EventosVentanaInicio implements ActionListener {
+    private final Jugador[] jugadores;
 
     public MenuA menuA;
 
@@ -22,6 +24,7 @@ public class EventosVentanaInicio implements ActionListener {
         this.menuA = menuA;
 
         this.menuA.botonIniciar.addActionListener(this);
+        this.menuA.botonIniciarL.addActionListener(this);
         this.menuA.botonSalir.addActionListener(this);
 
         this.menuA.setVisible(true);
@@ -46,7 +49,14 @@ public class EventosVentanaInicio implements ActionListener {
             new EventosTablero(vistaTablero, tablero);
 
         }
+        if (e.getSource().equals(this.menuA.botonIniciarL)) {
+            String nombre = JOptionPane.showInputDialog(this, "Ingrese su nombre", "Nombre jugador",
+                    JOptionPane.QUESTION_MESSAGE);
 
+            Thread hilo = new Thread(new SalaDeEspera(this, false, nombre, jugadores));
+            hilo.start();
+
+        }
         if (e.getSource().equals(this.menuA.botonSalir)) {
             System.exit(0);
         }
