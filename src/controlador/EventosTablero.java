@@ -121,15 +121,13 @@ public class EventosTablero implements ActionListener {
                                     this.tablero.resaltarMovimientos(fichasValidasSalvarJaque);
                                 }
                             } else {
-                                System.out.println("BANDERAAAAAAA JAQUEEEEE" + banderaJaque);
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
                                     f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
                                     this.tablero.resaltarMovimientos(f.getLista());
                                 }
                             }
-                            // Cambiar el color de los botones correspondientes a los movimientos válidos
-                            // this.tablero.resaltarMovimientos(f);
+                    
                         }
                     }
                     return; // Salir del bucle cuando se encuentre el botón presionado
@@ -201,7 +199,6 @@ public class EventosTablero implements ActionListener {
         fichasValidasSalvarJaque.clear();
         ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
         // Verificar si los movimientos de la ficha quitan el jaque o no
-        System.out.println(ficha.getLista());
         ArrayList<String> movimientos = ficha.getLista();
         for (String movimiento : movimientos) {
             String[] pos = movimiento.split(" ");
@@ -221,13 +218,9 @@ public class EventosTablero implements ActionListener {
                     moveY,
                     moveX);
 
-            System.out.println("\n" + tablero2.jugador1.getFichas());
-            System.out.println("\n" + tablero2.jugador2.getFichas());
-
             // Verificar si el rey está en jaque después del movimiento
             boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque2((tablero2.getTurno() == 1) ? 0 : 1);
 
-            System.out.println("Jaque?" + jaqueDespuesDeMovimiento);
             // Deshacer el movimiento temporal
             tablero2.SimulacionRetrocesoFicha(
                     fichaEliminada,

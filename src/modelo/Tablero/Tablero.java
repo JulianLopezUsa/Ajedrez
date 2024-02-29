@@ -217,14 +217,8 @@ public class Tablero {
         // SI ENCUENTRA UNA FICHA EN LA PSOCIÓN A LA QUE SE MUEVE LA BORRA NE LA COPIA
         // Fichas fichaEnNuevaPosicion = hayFicha2(i, j, 0);
         Fichas fichaEnNuevaPosicion = hayFicha(j, i, (tablero.getTurno() == 1) ? 0 : 1);
-        if (fichaEnNuevaPosicion != null) {
-            System.out.println("---" + fichaEnNuevaPosicion.toString());
-        } else {
-            System.out.println("--- NULL");
-        }
-        if (fichaEnNuevaPosicion != null) {
-            System.out.println("entraaaaaa :" + fichaEnNuevaPosicion.toString());
 
+        if (fichaEnNuevaPosicion != null) {
             if (((tablero.getTurno() == 1) ? 0 : 1) == 1) {
                 jugador1.fichas.remove(fichaEnNuevaPosicion);
             } else {
@@ -242,17 +236,11 @@ public class Tablero {
     public Fichas SimulacionRetrocesoFicha(Fichas fichaEliminada, Fichas fichaSeleccionada, Tablero tablero, int i,
             int j) {
 
-        if (fichaEliminada != null) {
-            System.out.println("NUEVO ---" + fichaEliminada.toString());
-        } else {
-            System.out.println("NUEVO --- NULL");
-        }
         // VER BIEN EL TRUNO DE ESTA
         if (fichaEliminada != null) {
             if (((tablero.getTurno() == 1) ? 0 : 1) == 1) {
                 jugador1.fichas.add(fichaEliminada);
             } else {
-                System.out.println("ESTA ENTRANDOOOOOOOOOOOOOOOOOOO");
                 jugador2.fichas.add(fichaEliminada);
             }
         }
@@ -275,14 +263,14 @@ public class Tablero {
         Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
 
         for (Fichas ficha : oponente.fichas) {
-            System.out.println(ficha.toString());
+            
             int i = ficha.getPosX();
             int j = ficha.getPosY();
             // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
             ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno);
 
             ArrayList<String> movimientos = ficha.getListaDeMovimientos();
-            System.out.println(ficha.getListaDeMovimientos());
+            
             for (String movimiento : movimientos) {
                 String[] pos = movimiento.split(" ");
 
