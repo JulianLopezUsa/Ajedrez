@@ -78,24 +78,13 @@ public class EventosTablero implements ActionListener {
                             }
                         }
 
-                        if (tablero2.jaqueBlanco == false) {
-                            tablero.banderaJaque_blancaa = false;
-                        }
-                        if (tablero2.jaqueNegro == false) {
-                            tablero.banderaJaque_negras = false;
-                        }
 
                         tablero.resetearColores();
                         // Verificar Jaque
-                        boolean nn = verificarJaque(0);
-                        if (tablero2.jaqueBlanco == false) {
-                            tablero.banderaJaque_blancaa = false;
-                        }
-                        if (tablero2.jaqueNegro == false) {
-                            tablero.banderaJaque_negras = false;
-                        }
+                        boolean nn = verificarJaque(1);
+
                         tablero.resetearColores();
-                        boolean nn2 = verificarJaque(1);
+                        boolean nn2 = verificarJaque(0);
 
                         if (!nn && !nn2) {
                             banderaJaque = false;
