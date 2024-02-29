@@ -17,8 +17,15 @@ public class Alfil extends Fichas {
 
     
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
         listaDeMovimientos.clear();
+        int tt;
+        if (turno!=3){
+          tt = turno;
+          //letraff=letraff-1;
+        }else{
+          tt = tablero.getTurno();
+        }
         String[] pos = posicionActual.split(" ");
 
         char letraF = pos[0].charAt(0);
@@ -32,8 +39,8 @@ public class Alfil extends Fichas {
                 boolean puedeAvanzar = true; // Variable para verificar si puede avanzar en diagonal
                 while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7 && puedeAvanzar) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero, tablero.getTurno()); //verifica las del otro color
-                    Fichas ficha2 = tablero.hayFicha2( nuevaLetra - 'a',nuevoNumero, tablero.getTurno()); // verfica las del mismo color
+                    Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero, tt); //verifica las del otro color
+                    Fichas ficha2 = tablero.hayFicha2( nuevaLetra - 'a',nuevoNumero, tt); // verfica las del mismo color
                     if (ficha != null || ficha2 !=null) {
                         puedeAvanzar = false;
                         if(ficha2!=null){

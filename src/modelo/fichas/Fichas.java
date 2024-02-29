@@ -59,7 +59,7 @@ public abstract class Fichas {
         return "Fichas{" + "posX=" + posX + ", posY=" + posY + ", color=" + color + '}';
     }
     
-    public void movimientoFicha(String posicionActual, Tablero tablero){
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno){
         
     }
 

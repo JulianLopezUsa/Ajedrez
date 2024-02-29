@@ -18,8 +18,16 @@ public class Rey extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual,  Tablero tablero) {
+    public void movimientoFicha(String posicionActual,  Tablero tablero, int turno) {
         listaDeMovimientos.clear();
+        int tt;
+        if (turno!=3){
+          tt = turno;
+          //letraff=letraff-1;
+        }else{
+          tt = tablero.getTurno();
+        }
+
         String[] pos = posicionActual.split(" ");
 
         char letraF = pos[0].charAt(0);
@@ -34,7 +42,7 @@ public class Rey extends Fichas {
                 if (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7
                         && (i != 0 || j != 0)) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a',nuevoNumero,tablero.getTurno());
+                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a',nuevoNumero,tt);
                     
                     if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                         listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
@@ -43,8 +51,8 @@ public class Rey extends Fichas {
             }
         }
 
-        // ------------- LIMITANDO MOVMIENTO DEL REY---------------------------
-        Jugadores oponente = (tablero.turno == 0) ? tablero.jugador1 : tablero.jugador2;
+
+        Jugadores oponente = (tt == 0) ? tablero.jugador1 : tablero.jugador2;
         ArrayList<String> listaMovimientosEquipoContrario = new ArrayList<>();
 
         for (Fichas ficha : oponente.fichas) {
@@ -88,6 +96,7 @@ public class Rey extends Fichas {
      
 
         //--------------------DEFINIR LO MOVIMIENTOS SEGUROS DEL REY
+        
         ArrayList<String> movimientosSegurosRey = new ArrayList<>();
         // Iterar sobre los movimientos del rey
         for (String movimiento : listaDeMovimientos) {

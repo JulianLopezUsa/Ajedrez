@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
@@ -20,7 +18,9 @@ public class EventosTablero implements ActionListener {
     private Fichas fichaSeleccionada;
     Fichas fichaElegida;
     private int cacheX, cacheY;
+    public boolean jaqueNegro = false, jaqueBlanco = false, banderaJaque = false;
     public ArrayList<Fichas> arrExtra = new ArrayList<>();
+    public ArrayList<String> fichasValidasSalvarJaque = new ArrayList<>();
 
     public EventosTablero(VistaTablero tablero, Tablero tablero2) {
         this.tablero = tablero;
@@ -47,7 +47,6 @@ public class EventosTablero implements ActionListener {
 
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
                     if (tablero.cuadro[i][j].getBackground() == Color.YELLOW) {
-
                         // Mover la ficha seleccionada al cuadro amarillo
                         tablero.eliminarDeVista(cacheY, cacheX);
                         arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
@@ -64,11 +63,18 @@ public class EventosTablero implements ActionListener {
                         if (fichaSeleccionada instanceof Peon) {
                             if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
                                 tablero2.eliminarFicha(fichaSeleccionada);
-                                tablero.eliminarDeVista(fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
+                                tablero.eliminarDeVista(
+                                        fichaSeleccionada.getPosX(),
+                                        fichaSeleccionada.getPosY());
 
-                                String nn = tablero.coronacionPieza(tablero2.getTurno(), fichaSeleccionada.getPosY(),
+                                String nn = tablero.coronacionPieza(
+                                        tablero2.getTurno(),
+                                        fichaSeleccionada.getPosY(),
                                         fichaSeleccionada.getPosX());
-                                tablero2.crearFichaNueva(nn, fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
+                                tablero2.crearFichaNueva(
+                                        nn,
+                                        fichaSeleccionada.getPosX(),
+                                        fichaSeleccionada.getPosY());
                             }
                         }
 
@@ -81,7 +87,7 @@ public class EventosTablero implements ActionListener {
 
                         tablero.resetearColores();
                         // Verificar Jaque
-                        verificarJaque(0);
+                        boolean nn = verificarJaque(0);
                         if (tablero2.jaqueBlanco == false) {
                             tablero.banderaJaque_blancaa = false;
                         }
@@ -89,8 +95,11 @@ public class EventosTablero implements ActionListener {
                             tablero.banderaJaque_negras = false;
                         }
                         tablero.resetearColores();
-                        verificarJaque(1);
+                        boolean nn2 = verificarJaque(1);
 
+                        if (!nn && !nn2) {
+                            banderaJaque = false;
+                        }
                         // Cambiar turno
                         tablero2.turno = (tablero2.turno + 1) % 2;
 
@@ -99,14 +108,26 @@ public class EventosTablero implements ActionListener {
                     } else {
                         // Si no hay una ficha seleccionada, seleccionar la ficha presionada
                         if (f != null) {
+                            actualizarVista();
                             fichaSeleccionada = f;
                             cacheX = i;
                             cacheY = j;
-                            // Obtener los posibles movimientos de la ficha en esa posición
-                            f.movimientoFicha((char) (i + 97) + " " + j, tablero2);
 
-                            // Cambiar el color de los botones correspondientes a los movimientos válidos
-                            this.tablero.resaltarMovimientos(f);
+                            // Se tiene que verificar si no está en jaque la ficha entonces permitir
+                            // movimeinto
+                            // Si sí se encuentra en jaque entonces no permite movimiento
+                            if (banderaJaque) {
+                                if (esMovimientoValidoParaSalirDelJaque(f, i, j)) {
+                                    this.tablero.resaltarMovimientos(fichasValidasSalvarJaque);
+                                }
+                            } else {
+                                if (!banderaJaque) {
+                                    // Obtener los posibles movimientos de la ficha en esa posición
+                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
+                                    this.tablero.resaltarMovimientos(f.getLista());
+                                }
+                            }
+                    
                         }
                     }
                     return; // Salir del bucle cuando se encuentre el botón presionado
@@ -131,7 +152,7 @@ public class EventosTablero implements ActionListener {
         }
     }
 
-    public void verificarJaque(int turnoo) {
+    public boolean verificarJaque(int turnoo) {
         if (tablero2.estaEnJaque(turnoo)) {
             if (turnoo == 1) {
                 JOptionPane.showMessageDialog(null, "¡El rey Blanco está en jaque!");
@@ -142,6 +163,15 @@ public class EventosTablero implements ActionListener {
                 }
                 tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "blanco",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
+                tablero.ponerJaque(
+                        tablero2.jaqueBlanco,
+                        tablero2.jaqueNegro,
+                        "negro",
+                        fichaElegida.getPosX(),
+                        fichaElegida.getPosY());
+                jaqueNegro = true;
+                banderaJaque = true;
+                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "¡El rey Negro está en jaque!");
                 for (Fichas ficha : tablero2.jugador1.fichas) {
@@ -151,15 +181,27 @@ public class EventosTablero implements ActionListener {
                 }
                 tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "negro",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
+                tablero.ponerJaque(
+                        tablero2.jaqueBlanco,
+                        tablero2.jaqueNegro,
+                        "blanco",
+                        fichaElegida.getPosX(),
+                        fichaElegida.getPosY());
+                jaqueBlanco = true;
+                banderaJaque = true;
+                return true;
             }
         }
+        return false;
     }
 
     // Método para verificar si un movimiento saca al rey del jaque
-    private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int newX, int newY) {
-        // Obtener el rey que está en jaque
-        Fichas rey = tablero2.obtenerRey(tablero2.getTurno() == 0 ? tablero2.jugador1.fichas : tablero2.jugador2.fichas);
-
+    private boolean esMovimientoValidoParaSalirDelJaque(
+            Fichas ficha,
+            int i,
+            int j) {
+        fichasValidasSalvarJaque.clear();
+        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
         // Verificar si los movimientos de la ficha quitan el jaque o no
         ArrayList<String> movimientos = ficha.getLista();
         for (String movimiento : movimientos) {
@@ -169,31 +211,41 @@ public class EventosTablero implements ActionListener {
 
             // Guardar la ficha en la posición a la que se moverá para verificar si pone al
             // rey en jaque
-            Fichas fichaEnNuevaPosicion = tablero2.hayFicha(moveY, moveX, tablero2.getTurno());
+
             // Mover la ficha temporalmente
-            int originalX = ficha.getPosX();
-            int originalY = ficha.getPosY();
-            tablero2.moverFicha(ficha, moveY, moveX);
+            int originalX = i;
+            int originalY = j;
+
+            Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+                    ficha,
+                    tablero2,
+                    moveY,
+                    moveX);
 
             // Verificar si el rey está en jaque después del movimiento
-            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque(tablero2.getTurno() == 0 ? 1 : 0);
+            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque2((tablero2.getTurno() == 1) ? 0 : 1);
 
             // Deshacer el movimiento temporal
-            tablero2.moverFicha(ficha, originalY, originalX);
-            if (fichaEnNuevaPosicion != null) {
-                if (tablero2.getTurno() == 0) {
-                    tablero2.jugador1.fichas.add(fichaEnNuevaPosicion);
-                } else {
-                    tablero2.jugador2.fichas.add(fichaEnNuevaPosicion);
-                }
-            }
-
+            tablero2.SimulacionRetrocesoFicha(
+                    fichaEliminada,
+                    ficha,
+                    tablero2,
+                    originalY,
+                    originalX);
             // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
             // del jaque
             if (!jaqueDespuesDeMovimiento) {
+                this.jaqueBlanco = true;
+                this.jaqueNegro = true;
+                //aqui se agrega movimiento que quita  jaque
+                fichasValidasSalvarJaque.add(movimiento);
                 return true;
             }
         }
+
+        this.jaqueBlanco = false;
+        this.jaqueBlanco = false;
+        
         return false;
     }
 }

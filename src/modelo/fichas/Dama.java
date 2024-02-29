@@ -16,8 +16,15 @@ public class Dama extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
         listaDeMovimientos.clear();
+        int tt;
+        if (turno!=3){
+          tt = turno;
+          //letraff=letraff-1;
+        }else{
+          tt = tablero.getTurno();
+        }
         String[] pos = posicionActual.split(" ");
 
         char letraF = pos[0].charAt(0);
@@ -25,8 +32,8 @@ public class Dama extends Fichas {
 
         // Calcular movimientos hacia la derecha
         for (int i = letraF + 1; i <= 'h'; i++) {
-            Fichas ficha = tablero.hayFicha(i - 'a', numeroF, tablero.getTurno());
-            Fichas ficha2 = tablero.hayFicha2(i - 'a', numeroF, tablero.getTurno());
+            Fichas ficha = tablero.hayFicha(i - 'a', numeroF, tt);
+            Fichas ficha2 = tablero.hayFicha2(i - 'a', numeroF, tt);
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
@@ -39,8 +46,8 @@ public class Dama extends Fichas {
 
         // Calcular movimientos hacia la izquierda
         for (int i = letraF - 1; i >= 'a'; i--) {
-            Fichas ficha = tablero.hayFicha(i - 'a', numeroF, tablero.getTurno());
-            Fichas ficha2 = tablero.hayFicha2(i - 'a', numeroF, tablero.getTurno());
+            Fichas ficha = tablero.hayFicha(i - 'a', numeroF, tt);
+            Fichas ficha2 = tablero.hayFicha2(i - 'a', numeroF, tt);
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
@@ -53,8 +60,8 @@ public class Dama extends Fichas {
 
         // Calcular movimientos hacia arriba
         for (int i = numeroF + 1; i <= 7; i++) {
-            Fichas ficha = tablero.hayFicha(letraF - 'a', i, tablero.getTurno());
-            Fichas ficha2 = tablero.hayFicha2(letraF - 'a', i, tablero.getTurno());
+            Fichas ficha = tablero.hayFicha(letraF - 'a', i, tt);
+            Fichas ficha2 = tablero.hayFicha2(letraF - 'a', i, tt);
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
@@ -67,8 +74,8 @@ public class Dama extends Fichas {
 
         // Calcular movimientos hacia abajo
         for (int i = numeroF - 1; i >= 0; i--) {
-            Fichas ficha = tablero.hayFicha(letraF - 'a', i, tablero.getTurno());
-            Fichas ficha2 = tablero.hayFicha2(letraF - 'a', i, tablero.getTurno());
+            Fichas ficha = tablero.hayFicha(letraF - 'a', i, tt);
+            Fichas ficha2 = tablero.hayFicha2(letraF - 'a', i, tt);
             if (ficha != null && ficha.getColor().equals(this.getColor())) {
                 break; // Si hay una ficha del mismo color, detener la exploración en esta dirección
             }
@@ -87,8 +94,8 @@ public class Dama extends Fichas {
                 boolean puedeAvanzar = true; // Variable para verificar si puede avanzar en diagonal
                 while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7 && puedeAvanzar) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tablero.getTurno()); 
-                    Fichas ficha2 = tablero.hayFicha2(nuevaLetra - 'a', nuevoNumero, tablero.getTurno()); 
+                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt); 
+                    Fichas ficha2 = tablero.hayFicha2(nuevaLetra - 'a', nuevoNumero, tt); 
                     if (ficha != null || ficha2 != null) {
                         puedeAvanzar = false;
                         if (ficha2 != null) {
