@@ -16,7 +16,7 @@ import vista.MenuA;
 import vista.VistaTablero;
 
 public class EventosVentanaInicio implements ActionListener {
-    private final Jugador[] jugadores;
+    // private final Jugador[] jugadores;
 
     public MenuA menuA;
 
@@ -49,14 +49,14 @@ public class EventosVentanaInicio implements ActionListener {
             new EventosTablero(vistaTablero, tablero);
 
         }
-        if (e.getSource().equals(this.menuA.botonIniciarL)) {
-            String nombre = JOptionPane.showInputDialog(this, "Ingrese su nombre", "Nombre jugador",
-                    JOptionPane.QUESTION_MESSAGE);
+        // if (e.getSource().equals(this.menuA.botonIniciarL)) {
+        //     String nombre = JOptionPane.showInputDialog(this, "Ingrese su nombre", "Nombre jugador",
+        //             JOptionPane.QUESTION_MESSAGE);
 
-            Thread hilo = new Thread(new SalaDeEspera(this, false, nombre, jugadores));
-            hilo.start();
+        //     Thread hilo = new Thread(new SalaDeEspera(this, false, nombre, jugadores));
+        //     hilo.start();
 
-        }
+        // }
         if (e.getSource().equals(this.menuA.botonSalir)) {
             System.exit(0);
         }
