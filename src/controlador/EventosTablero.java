@@ -20,6 +20,7 @@ public class EventosTablero implements ActionListener {
     private int cacheX, cacheY;
     public boolean jaqueNegro = false, jaqueBlanco = false, banderaJaque = false;
     public ArrayList<Fichas> arrExtra = new ArrayList<>();
+    public ArrayList<String> fichasValidasSalvarJaque = new ArrayList<>();
 
     public EventosTablero(VistaTablero tablero, Tablero tablero2) {
         this.tablero = tablero;
@@ -117,14 +118,14 @@ public class EventosTablero implements ActionListener {
                             // Si sí se encuentra en jaque entonces no permite movimiento
                             if (banderaJaque) {
                                 if (esMovimientoValidoParaSalirDelJaque(f, i, j)) {
-                                    this.tablero.resaltarMovimientos(f);
+                                    this.tablero.resaltarMovimientos(fichasValidasSalvarJaque);
                                 }
                             } else {
                                 System.out.println("BANDERAAAAAAA JAQUEEEEE" + banderaJaque);
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
                                     f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
-                                    this.tablero.resaltarMovimientos(f);
+                                    this.tablero.resaltarMovimientos(f.getLista());
                                 }
                             }
                             // Cambiar el color de los botones correspondientes a los movimientos válidos
@@ -197,7 +198,7 @@ public class EventosTablero implements ActionListener {
             Fichas ficha,
             int i,
             int j) {
-
+        fichasValidasSalvarJaque.clear();
         ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
         // Verificar si los movimientos de la ficha quitan el jaque o no
         System.out.println(ficha.getLista());
@@ -239,12 +240,15 @@ public class EventosTablero implements ActionListener {
             if (!jaqueDespuesDeMovimiento) {
                 this.jaqueBlanco = true;
                 this.jaqueNegro = true;
+                //aqui se agrega movimiento que quita  jaque
+                fichasValidasSalvarJaque.add(movimiento);
                 return true;
             }
         }
 
         this.jaqueBlanco = false;
         this.jaqueBlanco = false;
+        
         return false;
     }
 }

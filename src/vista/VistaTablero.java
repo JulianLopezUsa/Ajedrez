@@ -152,12 +152,11 @@ public class VistaTablero extends JFrame {
         return new ImageIcon(imagenEscalada);
     }
 
-    public void resaltarMovimientos(Fichas f) {
+    public void resaltarMovimientos(ArrayList<String> arreglo) {
         resetearColores();
 
-        ArrayList<String> movimientos = f.getLista();
         // Resalta los botones correspondientes
-        for (String movimiento : movimientos) {
+        for (String movimiento : arreglo) {
             String[] pos = movimiento.split(" ");
             int newX = pos[0].charAt(0) - 'a';
             int newY = Integer.parseInt(pos[1]);
