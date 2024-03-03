@@ -5,36 +5,46 @@ import modelo.Tablero.Tablero;
 import modelo.jugadores.Jugadores;
 
 /**
- *
- * @author Laura
+ * Clase que representa un peón en el juego de ajedrez.
  */
 public class Peon extends Fichas {
 
+  // Lista de movimientos posibles para el peón
   public ArrayList<String> listaDeMovimientos = new ArrayList<>();
+  // Contador de movimientos
   public int contadorMov = 1;
+  // Lista de desplazamientos
   ArrayList<String> desplazamientos = new ArrayList<>();
+  // Variables de bandera para controlar ciertos movimientos
   public boolean bandera = false, bandera2 = false;
-  public int coronacion; // Variable para controlar la coronación del peón
+  // Variable para controlar la coronación del peón
+  public int coronacion;
 
+  /**
+   * Constructor de la clase Peon.
+   */
   public Peon(int posX, int posY, String color) {
     super(posX, posY, color);
     this.coronacion = 0;
   }
 
+  /**
+   * Método para calcular los movimientos posibles del peón.
+   */
   @Override
   public void movimientoFicha(String posicionActual, Tablero tablero) {
+    // Se limpian las listas de movimientos y desplazamientos
     desplazamientos.clear();
     listaDeMovimientos.clear();
+    // Se obtiene la posición actual del peón
     String[] pos = posicionActual.split(" ");
-
     char letraF = pos[0].charAt(0);
     int numeroF = Integer.parseInt(pos[1]);
-
-    // Se castea a número la letra para trabajar con ASCII
     int letraff = (int) letraF;
 
-    // Array con los posibles desplazamientos que en este caso son solo derecho
+    // Se determinan los movimientos posibles según el turno del jugador
     if (tablero.getTurno() == 0) {
+      // Movimientos para el jugador 1 (blancas)
       for (Fichas f : tablero.jugador1.fichas) {
         if (f.getPosX() == numeroF - 1 && f.getPosY() == (letraff - 1) - 97) {
           desplazamientos.add((letraff - 1) + " " + (numeroF - 1));
@@ -60,12 +70,11 @@ public class Peon extends Fichas {
         if (!movio && !bandera2) {
           desplazamientos.add((letraff - 2) + " " + numeroF);
         }
-
       }
       bandera2 = false;
       bandera = false;
     } else if (tablero.getTurno() == 1) {
-
+      // Movimientos para el jugador 2 (negras)
       for (Fichas f : tablero.jugador2.fichas) {
         if (f.getPosX() == numeroF - 1 && f.getPosY() == (letraff + 1) - 97) {
           desplazamientos.add((letraff + 1) + " " + (numeroF - 1));
@@ -95,83 +104,94 @@ public class Peon extends Fichas {
       bandera2 = false;
     }
 
-    // Validar cada posible movimiento
+    // Se verifican los movimientos posibles y se agregan a la lista
     for (String movimiento : desplazamientos) {
       String[] pos1 = movimiento.split(" ");
-
       int nuevaLetra = Integer.parseInt(pos1[0]);
       int nuevoNumero = Integer.parseInt(pos1[1]);
-
-      // int nuevaLetra = movimiento[0];
-      // int nuevoNumero = movimiento[1];
-
       if (letraff >= 97 && letraff <= 103 && tablero.getTurno() == 0) {
-        // Verificar si el movimiento está dentro del tablero
         if (nuevaLetra >= 97 &&
             nuevaLetra <= 104 &&
             nuevoNumero >= 0 &&
             nuevoNumero <= 7) {
           verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero);
-          // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
         }
       } else if (letraff >= 98 && letraff <= 104 && tablero.getTurno() == 1) {
-        // Verificar si el movimiento está dentro del tablero
         if (nuevaLetra >= 97 &&
             nuevaLetra <= 104 &&
             nuevoNumero >= 0 &&
             nuevoNumero <= 7) {
           verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero);
-          // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
         }
       }
     }
+    // Se establece la lista de movimientos del peón y se verifica si hay un peón al paso
+    setLista(listaDeMovimientos);
+    verificarPeonAlPaso(tablero);
+  }
 
-    // Peon al paso ---------- Blancas
+  /**
+   * Método para verificar la posibilidad de realizar el movimiento de peón al paso.
+   */
+  public void verificarPeonAlPaso(Tablero tablero) {
+
+    // Para fichas blancas
     if(tablero.turno == 0){
-      Jugadores turnoActual = (tablero.turno == 0) ? tablero.jugador1 : tablero.jugador2;
-      for (Fichas ficha : turnoActual.fichas) {
-        if (ficha instanceof Peon){
-          System.out.println("color turno actual: " +ficha.getColor());
-          //System.out.println("X = "+ficha.getPosX() );
-          //System.out.println("Y = "+ (char)(ficha.getPosY()+'a'));
-          if (ficha.getPosY() == 3){
-            //System.out.println("PEON AL PASO");
-            Jugadores oponente = (tablero.turno == 1) ? tablero.jugador1 : tablero.jugador2;
-            for ( Fichas fichaOponente : oponente.fichas){
-              if ( fichaOponente instanceof Peon){
-                System.out.println("contador peon Oponnente = " + fichaOponente.getContador());
-                System.out.println("color "+ fichaOponente.getColor());
+      Jugadores oponente = tablero.jugador1;
+   
 
-                if ( fichaOponente.getPosY() ==3 ){
-                  if ( fichaOponente.getPosX() - ficha.getPosX() ==-1 ){
-                    listaDeMovimientos.add(((char)(ficha.getPosY()+'a'-1))+" "+(fichaOponente.getPosX()+1));
-                  }
-                  if ( fichaOponente.getPosX() - ficha.getPosX() ==1){
-                    listaDeMovimientos.add(((char)(ficha.getPosY()+'a'-1))+" "+(fichaOponente.getPosX()-1));
-                  }
-
-
-                  
-                  //System.out.println("posible peon al paso derecha");
-                  //System.out.println(((char)(ficha.getPosY()+'a'-1))+" "+(fichaOponente.getPosX()));
-                }
-              }
+      for (Fichas fichaOp : oponente.fichas){
+        if (fichaOp instanceof Peon && fichaOp.getPosY()==3 && fichaOp.getContador()==1){
+          if (this.getPosY()==3){
+            System.out.println("Peon x: "+ fichaOp.getPosX()+" y:"+fichaOp.getPosY() +" cont:"+fichaOp.getContador());
+            System.out.println("Peon seleccionado x: "+ this.getPosX()+" y:"+this.getPosY() +" cont:"+this.getContador());
+  
+            if ( fichaOp.getPosX() - this.getPosX() ==-1 ){
+              listaDeMovimientos.add(((char)(this.getPosY()+'a'-1))+" "+(fichaOp.getPosX()));
+            }
+            if ( fichaOp.getPosX() - this.getPosX() ==1){
+              System.out.println("RESTA = 1");
+              System.out.println("LISTA MOV"+ listaDeMovimientos);
+              System.out.println(((char)(this.getPosY()+'a'-1))+" "+(fichaOp.getPosX()));
+              listaDeMovimientos.add(((char)(this.getPosY()+'a'-1))+" "+(fichaOp.getPosX()));
             }
 
-
+          }
         }
-
       }
+      
+    }
+
+    // Para fichas negras
+    if(tablero.turno == 1){
+      Jugadores oponente = tablero.jugador2;
+   
+
+      for (Fichas fichaOp : oponente.fichas){
+        if (fichaOp instanceof Peon && fichaOp.getPosY()==4 && fichaOp.getContador()==1){
+          if (this.getPosY()==4){
+  
+            if ( fichaOp.getPosX() - this.getPosX() ==-1 ){
+              listaDeMovimientos.add(((char)(this.getPosY()+'a'+1))+" "+(fichaOp.getPosX()));
+            }
+            if ( fichaOp.getPosX() - this.getPosX() ==1){
+              listaDeMovimientos.add(((char)(this.getPosY()+'a'+1))+" "+(fichaOp.getPosX()));
+            }
+
+          }
+        }
+      }
+      
     }
   }
-    setLista(listaDeMovimientos);
-  }
 
+  /**
+   * Método para verificar si hay otras fichas en la casilla adyacente.
+   */
   public void verificarOtrasFichas(
       Tablero tablero,
       int nuevaLetra,
       int nuevoNumero) {
-    // Verificar si hay una ficha en la casilla adyacente
     Fichas ficha = tablero.hayFicha(
         nuevaLetra - 'a',
         nuevoNumero,
@@ -181,6 +201,7 @@ public class Peon extends Fichas {
     }
   }
 
+  // Getter y setter para la lista de movimientos
   @Override
   public ArrayList<String> getLista() {
     return super.getLista();
@@ -191,28 +212,28 @@ public class Peon extends Fichas {
     super.setLista(listaDeMovimientos);
   }
 
+  // Getter y setter para la lista de desplazamientos
   public void setListaDeMovimientos(ArrayList<String> listaDeMovimientos) {
     this.listaDeMovimientos = listaDeMovimientos;
   }
 
+  // Getter y setter para el contador de movimientos
   public void setContadorMov(int contadorMov) {
     this.contadorMov = contadorMov;
   }
 
- 
-  // Getter y setter para coronacion
+  // Getter y setter para la coronación del peón
   public int getCoronacion() {
     return coronacion;
   }
-
- 
 
   public void setCoronacion(int coronacion) {
     this.coronacion = coronacion;
   }
   
+  // Método para verificar si el peón ha alcanzado el extremo del tablero
   public boolean alcanzoExtremoTablero(int i, int j) {
     return (i == 0 || i == 7);
-}
+  }
 
 }
