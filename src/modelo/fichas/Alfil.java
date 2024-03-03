@@ -17,7 +17,7 @@ public class Alfil extends Fichas {
 
     
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque) {
         listaDeMovimientos.clear();
         int tt;
         if (turno!=3){

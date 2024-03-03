@@ -196,7 +196,7 @@ public class Tablero {
             int i = ficha.getPosX();
             int j = ficha.getPosY();
 
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, 3);
+            ficha.movimientoFicha((char) (j + 97) + " " + i, this, 3, true);
 
             ArrayList<String> movimientos = ficha.listaDeMovimientos;
             for (String movimiento : movimientos) {
@@ -206,10 +206,6 @@ public class Tablero {
                 int newX = Integer.parseInt(pos[1]);
 
                 if (newX == rey.getPosX() && newY == rey.getPosY()) {
-                    System.out.println("FICHA QUE DICE QUE OCASIONA EL JAQUE:");
-                    System.out.println(ficha.toString());
-                    System.out.println(movimientos);
-                    System.out.println();
                     if (turno == 1) {
                         jaqueNegro = true;
                     } else {
@@ -280,7 +276,7 @@ public class Tablero {
             int i = ficha.getPosX();
             int j = ficha.getPosY();
             // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno);
+            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno, true);
 
             ArrayList<String> movimientos = ficha.getListaDeMovimientos();
             

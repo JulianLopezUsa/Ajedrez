@@ -21,7 +21,7 @@ public class Peon extends Fichas {
   }
 
   @Override
-  public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
+  public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque) {
     desplazamientos.clear();
     listaDeMovimientos.clear();
     String[] pos = posicionActual.split(" ");

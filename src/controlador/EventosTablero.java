@@ -9,6 +9,7 @@ import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
 import modelo.fichas.Rey;
+import modelo.fichas.Torre;
 import modelo.jugadores.Jugadores;
 import vista.VistaTablero;
 
@@ -50,9 +51,18 @@ public class EventosTablero implements ActionListener {
 
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
                     if (tablero.cuadro[i][j].getBackground() == Color.YELLOW) {
+
                         // Mover la ficha seleccionada al cuadro amarillo
                         tablero.eliminarDeVista(cacheY, cacheX);
-                        arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+                        // CAMBIO DE VISTA ENROQUE
+                        if (fichaSeleccionada instanceof Rey) {
+                            if (!cambioVistaEnroque(fichaSeleccionada, i, j, tablero)) {
+                                arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+                            }
+                        } else {
+                            arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+                        }
+                        fichaSeleccionada.movio = true;
 
                         Fichas fichaX = arrExtra.get(0);
                         if (fichaX != null) {
@@ -116,13 +126,15 @@ public class EventosTablero implements ActionListener {
                         // Cambiar turno
                         tablero2.turno = (tablero2.turno + 1) % 2;
 
-                        //SE VERIFICA JAQUE MATE
+                        // SE VERIFICA JAQUE MATE
                         if (banderaJaque) {
                             if (detectarJaqueMate().isEmpty()) {
-                                if(tablero2.getTurno()==0){
-                                    JOptionPane.showMessageDialog(null, "Jaque mate al equipo blanco. Gana el equipo negro");
-                                }else{
-                                    JOptionPane.showMessageDialog(null, "Jaque mate al equipo negro. Gana el equipo blanco");
+                                if (tablero2.getTurno() == 0) {
+                                    JOptionPane.showMessageDialog(null,
+                                            "Jaque mate al equipo blanco. Gana el equipo negro");
+                                } else {
+                                    JOptionPane.showMessageDialog(null,
+                                            "Jaque mate al equipo negro. Gana el equipo blanco");
                                 }
                                 System.exit(0);
                             }
@@ -141,7 +153,6 @@ public class EventosTablero implements ActionListener {
                             // movimeinto
                             // Si sí se encuentra en jaque entonces no permite movimiento
                             if (banderaJaque) {
-
                                 if (esMovimientoValidoParaSalirDelJaque(f, i, j)) {
                                     this.tablero.resaltarMovimientos(fichasValidasSalvarJaque);
                                 }
@@ -149,7 +160,7 @@ public class EventosTablero implements ActionListener {
                             } else {
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
-                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
+                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, banderaJaque);
                                     this.tablero.resaltarMovimientos(f.getLista());
                                 }
                             }
@@ -224,7 +235,7 @@ public class EventosTablero implements ActionListener {
     // Método para verificar si un movimiento saca al rey del jaque
     private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int i, int j) {
         fichasValidasSalvarJaque.clear();
-        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
+        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true);
         // Verificar si los movimientos de la ficha quitan el jaque o no
 
         ArrayList<String> movimientos = ficha.getLista();
@@ -280,7 +291,7 @@ public class EventosTablero implements ActionListener {
         for (Fichas ficha : fichasEquipo.fichas) {
             int i = ficha.getPosY();
             int j = ficha.getPosX();
-            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3);
+            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true);
             // Verificar si los movimientos de la ficha quitan el jaque o no
 
             ArrayList<String> movimientos = ficha.getLista();
@@ -318,5 +329,44 @@ public class EventosTablero implements ActionListener {
             }
         }
         return fichasValidasJaqueMate;
+    }
+
+    public boolean cambioVistaEnroque(Fichas fichaSeleccionada, int i, int j, VistaTablero tablero) {
+        Jugadores equipo = (tablero2.getTurno() == 1) ? tablero2.jugador1 : tablero2.jugador2;
+        if (fichaSeleccionada instanceof Rey) {
+            Rey rey = (Rey) fichaSeleccionada;
+            
+            // Eroque largo
+            if (i < rey.getPosX() - 1) {
+                tablero2.moverFicha(fichaSeleccionada, j, i-1);
+                for (Fichas fichas : equipo.getFichas()) {
+                    if (fichas instanceof Torre) {
+                        Torre tor = ((Torre) fichas);
+                        if ((tor.getPosX() == 0)) {
+                            tablero.eliminarDeVista(j, i);
+                            tablero2.moverFicha(tor, j, tor.getPosX() + 3);
+                            return true;
+                        }
+                    }
+                }
+            }
+            // Eroque largo
+            else if (i > rey.getPosX() + 1) {
+                System.out.println("entra"+(i+1)+" "+j);
+                tablero2.moverFicha(fichaSeleccionada, i + 1,j);
+                for (Fichas fichas : equipo.getFichas()) {
+                    if (fichas instanceof Torre) {
+                        Torre tor = ((Torre) fichas);
+                        if ((tor.getPosX() == 7)) {
+                            tablero.eliminarDeVista(j, i);
+                            tablero2.moverFicha(tor, tor.getPosX() - 2,j);
+                            return true;
+                        }
+                    }
+                }
+            }
+            actualizarVista();
+        }
+        return false;
     }
 }

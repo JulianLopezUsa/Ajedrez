@@ -12,13 +12,16 @@ import modelo.jugadores.Jugadores;
 public class Rey extends Fichas {
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
     public boolean jaque = false;
+    ArrayList<String> listaMovimientosEquipoContrario = new ArrayList<>();
+    ArrayList<String> movimientosSegurosRey = new ArrayList<>();
 
     public Rey(int posX, int posY, String color) {
         super(posX, posY, color);
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque) {
+        movimientosSegurosRey.clear();
         listaDeMovimientos.clear();
         int tt;
         if (turno != 3) {
@@ -52,50 +55,10 @@ public class Rey extends Fichas {
             }
         }
 
-        Jugadores oponente = (tt == 0) ? tablero.jugador1 : tablero.jugador2;
-        ArrayList<String> listaMovimientosEquipoContrario = new ArrayList<>();
-        for (Fichas ficha : oponente.fichas) {
-            if (!(ficha instanceof Peon)) {
-                ArrayList<String> movimientos = ficha.listaDeMovimientos;
-                listaMovimientosEquipoContrario.addAll(movimientos); // Agregar los movimientos de la ficha a
-                                                                    // listaMovimientos
-            }
-        }
-
-        // -------------------------- CASO ESPECIFICO DEL PEON----------------------
-        for (Fichas ficha : oponente.fichas) {
-            if (ficha instanceof Peon) {
-                if (ficha.getColor().contains("negro")) {
-
-                    listaMovimientosEquipoContrario
-                            .add((char) ((ficha.getPosY()) + 'a' + 1) + " " + (ficha.getPosX() + 1));
-                    listaMovimientosEquipoContrario
-                            .add((char) ((ficha.getPosY()) + 'a' + 1) + " " + (ficha.getPosX() - 1));
-                } else {
-                    listaMovimientosEquipoContrario
-                            .add((char) ((ficha.getPosY()) + 'a' - 1) + " " + (ficha.getPosX() + 1));
-                    listaMovimientosEquipoContrario
-                            .add((char) ((ficha.getPosY()) + 'a' - 1) + " " + (ficha.getPosX() - 1));
-
-                }
-                // .add ( (char) letraff(x) +" "+ numero)
-            }
-
-            if (ficha instanceof Rey) {
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
-                        listaMovimientosEquipoContrario
-                                .add((char) ((ficha.getPosY()) + 'a' + i) + " " + (ficha.getPosX() + j));
-
-                    }
-                }
-            }
-
-        }
+        movimeintoFichas(tt, tablero);
 
         // --------------------DEFINIR LO MOVIMIENTOS SEGUROS DEL REY
 
-        ArrayList<String> movimientosSegurosRey = new ArrayList<>();
         // Iterar sobre los movimientos del rey
         for (String movimiento : listaDeMovimientos) {
             // Verificar si el movimiento del rey está seguro
@@ -104,6 +67,9 @@ public class Rey extends Fichas {
             }
         }
         setLista(movimientosSegurosRey);
+
+        verificarEnroque(this, tablero, banderaJaque);
+
     }
 
     @Override
@@ -118,5 +84,103 @@ public class Rey extends Fichas {
 
     public void estaJaque() {
         this.jaque = true;
+    }
+
+    public void verificarEnroque(Fichas f, Tablero tablero, boolean banderaJaque) {
+        // VERIFICACIÓN ENROQUE CORTO
+        Jugadores equipo = (tablero.getTurno() == 1) ? tablero.jugador1 : tablero.jugador2;
+        for (Fichas fichas : equipo.getFichas()) {
+            // VERIFICAR QUE NO ESTE EN JAQUE
+            if (!banderaJaque) {
+                if (fichas instanceof Torre) {
+                    Torre tor = ((Torre) fichas);
+                    // VERIFICAR QUE SEA SU PRIMER MOVIMIENTO DE LA TOORRE Y DEL REY Y QUE SEA LA DE
+                    // LA DERECHA
+                    if (!tor.movio && (tor.getPosX() == 7) && !f.movio) {
+                        // 1. QUE NO HAYAN FICHAS INTERPONIENDOSE ENTRE EL REY Y LA TORRE
+                        if ((tablero.hayFicha(f.getPosY(), (f.getPosX() + 1), tablero.getTurno()) == null)
+                                && (tablero.hayFicha(f.getPosY(), (f.getPosX() + 2), tablero.getTurno()) == null)) {
+                            if ((tablero.hayFicha2(f.getPosY(), (f.getPosX() + 1), tablero.getTurno()) == null)
+                                    && (tablero.hayFicha2(f.getPosY(), (f.getPosX() + 2),
+                                            tablero.getTurno()) == null)) {
+                                // 2. VERIFICAR QUE NO ESTE CONTROLADA POR NINGUNA FICHA DEL OTRO EQUIPO Y QUE
+                                // NO ME VA A OCASIONAR JAQUE
+                                if (!listaMovimientosEquipoContrario
+                                        .contains((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() + 1))
+                                        && !listaMovimientosEquipoContrario
+                                                .contains((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() + 2))) {
+                                    movimientosSegurosRey.add(((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() + 2)));
+                                }
+                            }
+                        }
+                    // VERIFICACIÓN ENROQUE LARGO
+                    // VERIFICAR QUE SEA SU PRIMER MOVIMIENTO DE LA TORRE Y DEL REY Y QUE SEA LA DE
+                    // LA IZQUIERDA
+                    }else if (!tor.movio && (tor.getPosX() == 0) && !f.movio) {
+                        // 1. QUE NO HAYAN FICHAS INTERPONIENDOSE ENTRE EL REY Y LA TORRE
+                        if ((tablero.hayFicha(f.getPosY(), (f.getPosX() - 1), tablero.getTurno()) == null)
+                                && (tablero.hayFicha(f.getPosY(), (f.getPosX() - 2), tablero.getTurno()) == null)
+                                && (tablero.hayFicha(f.getPosY(), (f.getPosX() - 3), tablero.getTurno()) == null)) {
+                            if ((tablero.hayFicha2(f.getPosY(), (f.getPosX() - 1), tablero.getTurno()) == null)
+                                    && (tablero.hayFicha2(f.getPosY(), (f.getPosX() - 2),tablero.getTurno()) == null)
+                                    && (tablero.hayFicha2(f.getPosY(), (f.getPosX() - 3),tablero.getTurno()) == null)) {
+                                // 2. VERIFICAR QUE NO ESTE CONTROLADA POR NINGUNA FICHA DEL OTRO EQUIPO Y QUE
+                                // NO ME VA A OCASIONAR JAQUE
+                                if (!listaMovimientosEquipoContrario
+                                        .contains((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() - 1))
+                                        && !listaMovimientosEquipoContrario
+                                                .contains((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() - 2))) {
+                                    movimientosSegurosRey.add(((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() - 2)));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void movimeintoFichas(int tt, Tablero tablero) {
+        Jugadores oponente = (tt == 0) ? tablero.jugador1 : tablero.jugador2;
+        for (Fichas ficha : oponente.fichas) {
+            if (!(ficha instanceof Peon)) {
+                ArrayList<String> movimientos = ficha.listaDeMovimientos;
+                listaMovimientosEquipoContrario.addAll(movimientos); // Agregar los movimientos de la ficha a
+                                                                     // listaMovimientos
+            } else {
+                if (ficha.getColor().contains("negro")) {
+
+                    listaMovimientosEquipoContrario
+                            .add((char) ((ficha.getPosY()) + 'a' + 1) + " " + (ficha.getPosX() + 1));
+                    listaMovimientosEquipoContrario
+                            .add((char) ((ficha.getPosY()) + 'a' + 1) + " " + (ficha.getPosX() - 1));
+                } else {
+                    listaMovimientosEquipoContrario
+                            .add((char) ((ficha.getPosY()) + 'a' - 1) + " " + (ficha.getPosX() + 1));
+                    listaMovimientosEquipoContrario
+                            .add((char) ((ficha.getPosY()) + 'a' - 1) + " " + (ficha.getPosX() - 1));
+
+                }
+            }
+
+            if (ficha instanceof Rey) {
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        listaMovimientosEquipoContrario
+                                .add((char) ((ficha.getPosY()) + 'a' + i) + " " + (ficha.getPosX() + j));
+
+                    }
+                }
+            }
+
+            if (ficha instanceof Rey) {
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        listaMovimientosEquipoContrario
+                                .add((char) ((ficha.getPosY()) + 'a' + i) + " " + (ficha.getPosX() + j));
+                    }
+                }
+            }
+        }
     }
 }
