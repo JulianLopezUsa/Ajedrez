@@ -41,7 +41,7 @@ public class EventosTablero implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Verificar cuál botón se ha presionado
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (e.getSource() == this.tablero.cuadro[i][j]) {
@@ -116,6 +116,17 @@ public class EventosTablero implements ActionListener {
                         // Cambiar turno
                         tablero2.turno = (tablero2.turno + 1) % 2;
 
+                        //SE VERIFICA JAQUE MATE
+                        if (banderaJaque) {
+                            if (detectarJaqueMate().isEmpty()) {
+                                if(tablero2.getTurno()==0){
+                                    JOptionPane.showMessageDialog(null, "Jaque mate al equipo blanco. Gana el equipo negro");
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "Jaque mate al equipo negro. Gana el equipo blanco");
+                                }
+                                System.exit(0);
+                            }
+                        }
                         // Limpiar la ficha seleccionada
                         fichaSeleccionada = null;
                     } else {
@@ -130,9 +141,11 @@ public class EventosTablero implements ActionListener {
                             // movimeinto
                             // Si sí se encuentra en jaque entonces no permite movimiento
                             if (banderaJaque) {
+
                                 if (esMovimientoValidoParaSalirDelJaque(f, i, j)) {
                                     this.tablero.resaltarMovimientos(fichasValidasSalvarJaque);
                                 }
+
                             } else {
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
@@ -204,7 +217,6 @@ public class EventosTablero implements ActionListener {
                 banderaJaque = true;
                 return true;
             }
-            
         }
         return false;
     }
