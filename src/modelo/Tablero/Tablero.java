@@ -24,6 +24,8 @@ public class Tablero {
     public Jugadores jugador1;
     public Jugadores jugador2;
     private VistaTablero vistaTablero;
+    public ArrayList<Fichas> historialFichas = new ArrayList<>();
+    public ArrayList<Boolean> historialJugadas = new ArrayList<>();
     public ArrayList<Fichas> arregloFichasMovimiento;
     public Jugadores oponente;
     public boolean jaqueBlanco = false;
@@ -122,15 +124,18 @@ public class Tablero {
         fichaSeleccionada.setPosX(j);
         fichaSeleccionada.setPosY(i);
 
+        historialFichas.add(fichaSeleccionada);
+        historialJugadas.add(fichaSeleccionada.movio);
         // Cambiar el turno
         fichaSeleccionada.setMovio(true);
         
         if (fichaEnNuevaPosicion != null) {
-
             vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName()+" Ceno ", j, i);
         }else{
             vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
         }
+
+        
 
         arregloFichasMovimiento.add(fichaEnNuevaPosicion);
         arregloFichasMovimiento.add(fichaSeleccionada);
@@ -138,6 +143,7 @@ public class Tablero {
 
         return arregloFichasMovimiento;
     }
+
     public void eliminarFicha(Fichas fichaSeleccionada) {
         // Eliminar la ficha de su posición anterior
         if (turno == 1) {
@@ -146,6 +152,7 @@ public class Tablero {
             jugador2.fichas.remove(fichaSeleccionada);
         }
     }
+
     public void crearFichaNueva(String nn, int x, int y) {
         if (turno == 0) {
             if (nn.equals("torre")) {
@@ -172,14 +179,6 @@ public class Tablero {
 
     public int getTurno() {
         return turno;
-    }
-
-    public Jugadores getJugador1() {
-        return jugador1;
-    }
-
-    public Jugadores getJugador2() {
-        return jugador2;
     }
 
     public boolean estaEnJaque(int turno) {
@@ -237,7 +236,7 @@ public class Tablero {
         // SE ALTERAN LOS VALORES DE LA COPIA DE LA FICHA POR LOS NUEVOS
         fichaSeleccionada.setPosX(i);
         fichaSeleccionada.setPosY(j);
-        
+
         return fichaEnNuevaPosicion;
     }
 
@@ -342,4 +341,7 @@ public class Tablero {
         return null; // Si no se encuentra el rey
     }
 
+    public void guardarJugadaAnterior(){
+
+    }
 }

@@ -12,7 +12,8 @@ public class Peon extends Fichas {
   public ArrayList<String> listaDeMovimientos = new ArrayList<>();
   public int contadorMov = 1;
   ArrayList<String> desplazamientos = new ArrayList<>();
-  public boolean bandera = false, bandera2 = false;
+  public ArrayList<String> movimeintoPeonAlPaso = new ArrayList<>();
+  public boolean bandera = false, bandera2 = false, banderaPeonAlPaso= false;
   public int coronacion; // Variable para controlar la coronación del peón
 
   public Peon(int posX, int posY, String color) {
@@ -24,6 +25,8 @@ public class Peon extends Fichas {
   public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque, int primeraVez) {
     desplazamientos.clear();
     listaDeMovimientos.clear();
+    movimeintoPeonAlPaso.clear();
+    banderaPeonAlPaso=false;
     String[] pos = posicionActual.split(" ");
     char letraF = pos[0].charAt(0);
     int numeroF = Integer.parseInt(pos[1]);
@@ -140,6 +143,11 @@ public class Peon extends Fichas {
         }
       }
     }
+
+    // PEÓN AL PASO
+    peonAlPaso(tablero);
+
+    // PARA NEGAR MOVIMEINTOS QUE PRODUZCAN JAQUE AL MISMO EQUIPO
     ArrayList<String> Arr = new ArrayList<>();
     if (primeraVez == 0) {
       Arr = movimeintosNoProducenJaque(tablero);
@@ -148,6 +156,53 @@ public class Peon extends Fichas {
       listaDeMovimientos.remove(mov);
     }
     setLista(listaDeMovimientos);
+  }
+
+  public void peonAlPaso(Tablero tablero) {
+    // Si es turno del equipo blanco y la ficha está 3 casillas arriba
+    if (this.getColor() == "blanco" && this.getPosY() == 3) {
+      // Si el último movimiento fue del peon del otro equipo
+      if (tablero.historialFichas.get(tablero.historialFichas.size() - 1) instanceof Peon) {
+        Peon peon = (Peon) tablero.historialFichas.get(tablero.historialFichas.size() - 1);
+        /// Si está en la mima fila que está la ficha y no se habia movido hasta el
+        /// movimiento anterior
+        if (peon.getPosY() == this.getPosY() && !tablero.historialJugadas.get(tablero.historialJugadas.size()-1)) {
+          // Verificar si está a la derecha o a la izquierda
+          if (peon.getPosX() < this.getPosX()) {
+            // Izquierda
+            listaDeMovimientos.add((char)((this.getPosY() - 1)+'a') + " " + (this.getPosX() - 1));
+            movimeintoPeonAlPaso.add((this.getPosY() - 1)+" "+ (this.getPosX() - 1));
+          } else {
+            // Derecha
+            listaDeMovimientos.add((char)((this.getPosY() - 1)+'a') + " " + (this.getPosX() + 1));
+            movimeintoPeonAlPaso.add((this.getPosY() - 1)+" "+ (this.getPosX() + 1));
+          }
+          banderaPeonAlPaso=true;
+          
+        }
+      }
+      // Si es turno del equipo negro y la ficha está 4 casillas abajo
+    } else if (this.getColor() == "negro" && this.getPosY() == 4) {
+      // Si el último movimiento fue del peon del otro equipo
+      if (tablero.historialFichas.get(tablero.historialFichas.size() - 1) instanceof Peon) {
+        Peon peon = (Peon) tablero.historialFichas.get(tablero.historialFichas.size() - 1);
+        /// Si está en la mima fila que está la ficha y no se habia movido hasta el
+        /// movimiento anterior
+        if (peon.getPosY() == this.getPosY() && !tablero.historialJugadas.get(tablero.historialJugadas.size()-1)) {
+          // Verificar si está a la derecha o a la izquierda
+          if (peon.getPosX() < this.getPosX()) {
+            // Izquierda
+            listaDeMovimientos.add((char)((this.getPosY() + 1)+'a') + " " + (this.getPosX() - 1));
+            movimeintoPeonAlPaso.add((this.getPosY() + 1)+" "+ (this.getPosX() - 1));
+          } else {
+            // Derecha
+            listaDeMovimientos.add((char)((this.getPosY() + 1)+'a') + " " + (this.getPosX() + 1));
+            movimeintoPeonAlPaso.add((this.getPosY() + 1)+" "+ (this.getPosX() + 1));
+          }
+          banderaPeonAlPaso=true;
+        }
+      }
+    }
   }
 
   public ArrayList<String> movimeintosNoProducenJaque(Tablero tablero2) {

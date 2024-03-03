@@ -59,6 +59,25 @@ public class EventosTablero implements ActionListener {
                             if (!cambioVistaEnroque(fichaSeleccionada, i, j, tablero)) {
                                 arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
                             }
+                        } else if (fichaSeleccionada instanceof Peon) {
+                            Peon peon = (Peon) fichaSeleccionada;
+                            if (peon.banderaPeonAlPaso) {
+                                String[] pos = peon.movimeintoPeonAlPaso.get(0).split(" ");
+                                int x = Integer.parseInt(pos[0]);
+                                int y = Integer.parseInt(pos[1]);
+                                if (x == i && y == j) {
+                                    Peon peonsito = (Peon) tablero2.historialFichas
+                                            .get(tablero2.historialFichas.size() - 1);
+                                    if (tablero2.getTurno() == 0) {
+                                        tablero2.jugador1.fichas.remove(peonsito);
+                                    } else {
+                                        tablero2.jugador2.fichas.remove(peonsito);
+                                    }
+                                    tablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
+                                }
+                            }
+                            arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+
                         } else {
                             arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
                         }
@@ -160,7 +179,7 @@ public class EventosTablero implements ActionListener {
                             } else {
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
-                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, banderaJaque,0);
+                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, banderaJaque, 0);
                                     this.tablero.resaltarMovimientos(f.getLista());
                                 }
                             }
@@ -235,7 +254,7 @@ public class EventosTablero implements ActionListener {
     // Método para verificar si un movimiento saca al rey del jaque
     private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int i, int j) {
         fichasValidasSalvarJaque.clear();
-        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true,0);
+        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true, 0);
         // Verificar si los movimientos de la ficha quitan el jaque o no
 
         ArrayList<String> movimientos = ficha.getLista();
@@ -291,7 +310,7 @@ public class EventosTablero implements ActionListener {
         for (Fichas ficha : fichasEquipo.fichas) {
             int i = ficha.getPosY();
             int j = ficha.getPosX();
-            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true,1);
+            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true, 1);
             // Verificar si los movimientos de la ficha quitan el jaque o no
 
             ArrayList<String> movimientos = ficha.getLista();
@@ -351,7 +370,7 @@ public class EventosTablero implements ActionListener {
                                 cachexx = tor.getPosX();
                                 cacheyy = tor.getPosY();
                                 tablero.eliminarDeVista(cachexx, cacheyy);
-                                tablero2.moverFicha(tor, i, tor.getPosX() +3);
+                                tablero2.moverFicha(tor, i, tor.getPosX() + 3);
                                 return true;
                             }
                         }
