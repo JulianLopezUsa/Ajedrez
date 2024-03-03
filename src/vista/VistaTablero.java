@@ -232,15 +232,15 @@ public class VistaTablero extends JFrame {
     public String coronacionPieza(int turno, int x, int y) {
         if (turno == 1) {
             // Crear un arreglo de objetos para mostrar las imágenes
-            opciones[0] = new ImageIcon("src/img/torre_blanco.png");
-            opciones[1] = new ImageIcon("src/img/alfil_blanco.png");
-            opciones[2] = new ImageIcon("src/img/dama_blanco.png");
-            opciones[3] = new ImageIcon("src/img/caballo_blanco.png");
-        } else {
             opciones[0] = new ImageIcon("src/img/torre_negro.png");
             opciones[1] = new ImageIcon("src/img/alfil_negro.png");
             opciones[2] = new ImageIcon("src/img/dama_negro.png");
             opciones[3] = new ImageIcon("src/img/caballo_negro.png");
+        } else {
+            opciones[0] = new ImageIcon("src/img/torre_blanco.png");
+            opciones[1] = new ImageIcon("src/img/alfil_blanco.png");
+            opciones[2] = new ImageIcon("src/img/dama_blanco.png");
+            opciones[3] = new ImageIcon("src/img/caballo_blanco.png");
         }
         // Mostrar el JOptionPane con las imágenes
         int seleccion = JOptionPane.showOptionDialog(

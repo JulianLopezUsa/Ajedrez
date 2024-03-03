@@ -149,23 +149,23 @@ public class Tablero {
     public void crearFichaNueva(String nn, int x, int y) {
         if (turno == 0) {
             if (nn.equals("torre")) {
-                jugador2.fichas.add(new Torre(x, y, "negro"));
+                jugador2.fichas.add(new Torre(x, y, "blanco"));
             } else if (nn.equals("dama")) {
-                jugador2.fichas.add(new Dama(x, y, "negro"));
+                jugador2.fichas.add(new Dama(x, y, "blanco"));
             } else if (nn.equals("alfil")) {
-                jugador2.fichas.add(new Alfil(x, y, "negro"));
+                jugador2.fichas.add(new Alfil(x, y, "blanco"));
             } else if (nn.equals("caballo")) {
-                jugador2.fichas.add(new Caballo(x, y, "negro"));
+                jugador2.fichas.add(new Caballo(x, y, "blanco"));
             }
         } else {
             if (nn.equals("torre")) {
-                jugador1.fichas.add(new Torre(x, y, "blanco"));
+                jugador1.fichas.add(new Torre(x, y, "negro"));
             } else if (nn.equals("dama")) {
-                jugador1.fichas.add(new Dama(x, y, "blanco"));
+                jugador1.fichas.add(new Dama(x, y, "negro"));
             } else if (nn.equals("alfil")) {
-                jugador1.fichas.add(new Alfil(x, y, "blanco"));
+                jugador1.fichas.add(new Alfil(x, y, "negro"));
             } else if (nn.equals("caballo")) {
-                jugador1.fichas.add(new Caballo(x, y, "blanco"));
+                jugador1.fichas.add(new Caballo(x, y, "negro"));
             }
         }
     }
