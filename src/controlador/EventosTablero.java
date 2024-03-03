@@ -160,7 +160,7 @@ public class EventosTablero implements ActionListener {
                             } else {
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
-                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, banderaJaque);
+                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, banderaJaque,0);
                                     this.tablero.resaltarMovimientos(f.getLista());
                                 }
                             }
@@ -235,7 +235,7 @@ public class EventosTablero implements ActionListener {
     // Método para verificar si un movimiento saca al rey del jaque
     private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int i, int j) {
         fichasValidasSalvarJaque.clear();
-        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true);
+        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true,0);
         // Verificar si los movimientos de la ficha quitan el jaque o no
 
         ArrayList<String> movimientos = ficha.getLista();
@@ -291,7 +291,7 @@ public class EventosTablero implements ActionListener {
         for (Fichas ficha : fichasEquipo.fichas) {
             int i = ficha.getPosY();
             int j = ficha.getPosX();
-            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true);
+            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true,1);
             // Verificar si los movimientos de la ficha quitan el jaque o no
 
             ArrayList<String> movimientos = ficha.getLista();
@@ -338,9 +338,7 @@ public class EventosTablero implements ActionListener {
             Rey rey = (Rey) fichaSeleccionada;
             if (rey.enroque == true) {
                 // Eroque largo
-                System.err.println("i"+i);
                 if (j < rey.getPosX()) {
-                    System.out.println("entra");
                     int cachexx = rey.getPosX();
                     int cacheyy = rey.getPosY();
                     tablero.eliminarDeVista(cacheyy, cachexx);
@@ -349,7 +347,6 @@ public class EventosTablero implements ActionListener {
                     for (Fichas fichas : equipo.getFichas()) {
                         if (fichas instanceof Torre) {
                             Torre tor = ((Torre) fichas);
-                            System.out.println("Y"+tor.getPosY());
                             if ((tor.getPosX() == 0)) {
                                 cachexx = tor.getPosX();
                                 cacheyy = tor.getPosY();

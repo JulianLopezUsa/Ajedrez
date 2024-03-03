@@ -15,16 +15,16 @@ public class Alfil extends Fichas {
         super(posX, posY, color);
     }
 
-    
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque,
+            int primeraVez) {
         listaDeMovimientos.clear();
         int tt;
-        if (turno!=3){
-          tt = turno;
-          //letraff=letraff-1;
-        }else{
-          tt = tablero.getTurno();
+        if (turno != 3) {
+            tt = turno;
+            // letraff=letraff-1;
+        } else {
+            tt = tablero.getTurno();
         }
         String[] pos = posicionActual.split(" ");
 
@@ -39,14 +39,14 @@ public class Alfil extends Fichas {
                 boolean puedeAvanzar = true; // Variable para verificar si puede avanzar en diagonal
                 while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7 && puedeAvanzar) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha( nuevaLetra - 'a',nuevoNumero, tt); //verifica las del otro color
-                    Fichas ficha2 = tablero.hayFicha2( nuevaLetra - 'a',nuevoNumero, tt); // verfica las del mismo color
-                    if (ficha != null || ficha2 !=null) {
+                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt); // verifica las del otro color
+                    Fichas ficha2 = tablero.hayFicha2(nuevaLetra - 'a', nuevoNumero, tt); // verfica las del mismo color
+                    if (ficha != null || ficha2 != null) {
                         puedeAvanzar = false;
-                        if(ficha2!=null){
+                        if (ficha2 != null) {
                             listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                         }
-                    } else  {
+                    } else {
                         // Si la casilla adyacente está vacía, puede moverse
                         listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
                     }
@@ -56,22 +56,63 @@ public class Alfil extends Fichas {
                 }
             }
         }
+
+        ArrayList<String> Arr = new ArrayList<>();
+        if (primeraVez == 0) {
+            Arr = movimeintosNoProducenJaque(tablero);
+        }
+        for (String mov : Arr) {
+            listaDeMovimientos.remove(mov);
+        }
         setLista(listaDeMovimientos);
 
     }
 
+    public ArrayList<String> movimeintosNoProducenJaque(Tablero tablero2) {
+        ArrayList<String> movimientosSegurosAlfil = new ArrayList<>();
+        for (String movimiento : listaDeMovimientos) {
+            String[] pos = movimiento.split(" ");
+            int moveX = pos[0].charAt(0) - 'a';
+            int moveY = Integer.parseInt(pos[1]);
+
+            // Mover la ficha temporalmente
+            int originalX = this.getPosX();
+            int originalY = this.getPosY();
+
+            Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+                    this,
+                    tablero2,
+                    moveY,
+                    moveX);
+
+            // Verificar si el rey está en jaque después del movimiento
+            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1);
+            // Deshacer el movimiento temporal
+            tablero2.SimulacionRetrocesoFicha(
+                    fichaEliminada,
+                    this,
+                    tablero2,
+                    originalX,
+                    originalY);
+
+            // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
+            // del jaque
+            if (jaqueDespuesDeMovimiento) {
+                // aqui se agrega movimiento que quita jaque
+                movimientosSegurosAlfil.add(movimiento);
+            }
+        }
+        return movimientosSegurosAlfil;
+    }
 
     @Override
     public ArrayList<String> getLista() {
         return super.getLista();
     }
 
-
     @Override
     public void setLista(ArrayList<String> listaDeMovimientos) {
         super.setLista(listaDeMovimientos);
     }
-
-
 
 }

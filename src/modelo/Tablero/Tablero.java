@@ -190,13 +190,12 @@ public class Tablero {
         } else {
             rey = obtenerRey(jugador1.getFichas());
         }
-
         Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
         for (Fichas ficha : oponente.fichas) {
             int i = ficha.getPosX();
             int j = ficha.getPosY();
 
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, 3, true);
+            ficha.movimientoFicha((char) (j + 97) + " " + i, this, 3, true,1);
 
             ArrayList<String> movimientos = ficha.listaDeMovimientos;
             for (String movimiento : movimientos) {
@@ -238,7 +237,7 @@ public class Tablero {
         // SE ALTERAN LOS VALORES DE LA COPIA DE LA FICHA POR LOS NUEVOS
         fichaSeleccionada.setPosX(i);
         fichaSeleccionada.setPosY(j);
-
+        
         return fichaEnNuevaPosicion;
     }
 
@@ -268,15 +267,14 @@ public class Tablero {
         } else {
             rey = obtenerRey(jugador1.getFichas());
         }
-
         Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
-
+        
         for (Fichas ficha : oponente.fichas) {
             
             int i = ficha.getPosX();
             int j = ficha.getPosY();
             // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno, true);
+            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno, true,1);
 
             ArrayList<String> movimientos = ficha.getListaDeMovimientos();
             
@@ -299,6 +297,39 @@ public class Tablero {
 
         jaqueBlanco = false;
         jaqueNegro = false;
+        return false; // El rey no está en jaque
+    }
+
+    public boolean estaEnJaque3(int turno) {
+        // Obtener la posición del rey del oponente
+        Fichas rey;
+        if (turno == 1) {
+            rey = obtenerRey(jugador2.getFichas());
+        } else {
+            rey = obtenerRey(jugador1.getFichas());
+        }
+        Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
+        
+        for (Fichas ficha : oponente.fichas) {
+            
+            int i = ficha.getPosX();
+            int j = ficha.getPosY();
+            // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
+            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno, true,1);
+
+            ArrayList<String> movimientos = ficha.getListaDeMovimientos();
+            
+            for (String movimiento : movimientos) {
+                String[] pos = movimiento.split(" ");
+
+                int newY = pos[0].charAt(0) - 'a';
+                int newX = Integer.parseInt(pos[1]);
+
+                if (newY == rey.getPosY() && newX == rey.getPosX()) {
+                    return true; // El rey está en jaque
+                }
+            }
+        }
         return false; // El rey no está en jaque
     }
 

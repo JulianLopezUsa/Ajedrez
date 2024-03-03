@@ -16,7 +16,8 @@ public class Dama extends Fichas {
     }
 
     @Override
-    public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque) {
+    public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque,
+            int primeraVez) {
         listaDeMovimientos.clear();
         int tt;
         if (turno != 3) {
@@ -110,8 +111,52 @@ public class Dama extends Fichas {
                 }
             }
         }
+        ArrayList<String> Arr = new ArrayList<>();
+        if (primeraVez == 0) {
+            Arr = movimeintosNoProducenJaque(tablero);
+        }
+        for (String mov : Arr) {
+            listaDeMovimientos.remove(mov);
+        }
         setLista(listaDeMovimientos);
 
+    }
+
+    public ArrayList<String> movimeintosNoProducenJaque(Tablero tablero2) {
+        ArrayList<String> movimientosSegurosDama = new ArrayList<>();
+        for (String movimiento : listaDeMovimientos) {
+            String[] pos = movimiento.split(" ");
+            int moveX = pos[0].charAt(0) - 'a';
+            int moveY = Integer.parseInt(pos[1]);
+
+            // Mover la ficha temporalmente
+            int originalX = this.getPosX();
+            int originalY = this.getPosY();
+
+            Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+                    this,
+                    tablero2,
+                    moveY,
+                    moveX);
+
+            // Verificar si el rey está en jaque después del movimiento
+            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1);
+            // Deshacer el movimiento temporal
+            tablero2.SimulacionRetrocesoFicha(
+                    fichaEliminada,
+                    this,
+                    tablero2,
+                    originalX,
+                    originalY);
+
+            // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
+            // del jaque
+            if (jaqueDespuesDeMovimiento) {
+                // aqui se agrega movimiento que quita jaque
+                movimientosSegurosDama.add(movimiento);
+            }
+        }
+        return movimientosSegurosDama;
     }
 
     @Override

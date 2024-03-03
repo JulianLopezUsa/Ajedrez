@@ -21,7 +21,7 @@ public class Peon extends Fichas {
   }
 
   @Override
-  public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque) {
+  public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque, int primeraVez) {
     desplazamientos.clear();
     listaDeMovimientos.clear();
     String[] pos = posicionActual.split(" ");
@@ -32,17 +32,18 @@ public class Peon extends Fichas {
     int letraff = (int) letraF;
 
     int tt;
-    if (turno!=3){
+    if (turno != 3) {
       tt = turno;
-      //letraff=letraff-1;
-    }else{
+      // letraff=letraff-1;
+    } else {
       tt = tablero.getTurno();
     }
     // Array con los posibles desplazamientos que en este caso son solo derecho
-    //movimeinto de las de abajo
+    // movimeinto de las de abajo
     if (tt == 0) {
       for (Fichas f : tablero.jugador1.fichas) {
-        // SI hay alguien del otro equipo en mi esquina agregeuelo a posibles movimientos
+        // SI hay alguien del otro equipo en mi esquina agregeuelo a posibles
+        // movimientos
         if (f.getPosX() == numeroF - 1 && f.getPosY() == (letraff - 1) - 97) {
           desplazamientos.add((letraff - 1) + " " + (numeroF - 1));
         } else if (f.getPosX() == numeroF + 1 && f.getPosY() == (letraff - 1) - 97) {
@@ -50,26 +51,26 @@ public class Peon extends Fichas {
         }
         // verficiar si hay fichas del otro equipo al frente en una y dos casillas
         if (f.getPosX() == numeroF && f.getPosY() == (letraff - 1) - 97) {
-          
+
           bandera = true;
         } else if (f.getPosX() == numeroF && f.getPosY() == (letraff - 2) - 97) {
           bandera2 = true;
         }
       }
-      //Verificar si hay fichas de mismo equipo
+      // Verificar si hay fichas de mismo equipo
       for (Fichas f : tablero.jugador2.fichas) {
         if (f.getPosX() == numeroF && f.getPosY() == (letraff - 1) - 97) {
           bandera = true;
-          
+
         } else if (f.getPosX() == numeroF && f.getPosY() == (letraff - 2) - 97) {
           bandera2 = true;
         }
       }
-      
-      //SI no hay alguien al frente me meuvo
+
+      // SI no hay alguien al frente me meuvo
       if (!bandera) {
         desplazamientos.add((letraff - 1) + " " + numeroF);
-        //Si no se ha movido y no hay nada en dos casillas, se mueve
+        // Si no se ha movido y no hay nada en dos casillas, se mueve
         if (!movio && !bandera2) {
           desplazamientos.add((letraff - 2) + " " + numeroF);
         }
@@ -100,7 +101,7 @@ public class Peon extends Fichas {
       if (!bandera) {
         desplazamientos.add((letraff + 1) + " " + numeroF);
         if (!movio && !bandera2) {
-          
+
           desplazamientos.add((letraff + 2) + " " + numeroF);
         }
       }
@@ -111,21 +112,21 @@ public class Peon extends Fichas {
     // Validar cada posible movimiento
     for (String movimiento : desplazamientos) {
       String[] pos1 = movimiento.split(" ");
-      
+
       int nuevaLetra = Integer.parseInt(pos1[0]);
-      
+
       int nuevoNumero = Integer.parseInt(pos1[1]);
       // int nuevaLetra = movimiento[0];
       // int nuevoNumero = movimiento[1];
 
-      //VERIFICAR SI LA POSICION ACTUAL ESTÁ DENTRO DE LOS RANGOS
+      // VERIFICAR SI LA POSICION ACTUAL ESTÁ DENTRO DE LOS RANGOS
       if (letraff >= 97 && letraff <= 103 && tt == 0) {
         // Verificar si el movimiento está dentro del tablero
         if (nuevaLetra >= 97 &&
             nuevaLetra <= 104 &&
             nuevoNumero >= 0 &&
             nuevoNumero <= 7) {
-          verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero,tt);
+          verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero, tt);
           // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
         }
       } else if (letraff >= 98 && letraff <= 104 && tt == 1) {
@@ -134,19 +135,61 @@ public class Peon extends Fichas {
             nuevaLetra <= 104 &&
             nuevoNumero >= 0 &&
             nuevoNumero <= 7) {
-          verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero,tt);
+          verificarOtrasFichas(tablero, nuevaLetra, nuevoNumero, tt);
           // listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
         }
       }
     }
+    ArrayList<String> Arr = new ArrayList<>();
+    if (primeraVez == 0) {
+      Arr = movimeintosNoProducenJaque(tablero);
+    }
+    for (String mov : Arr) {
+      listaDeMovimientos.remove(mov);
+    }
     setLista(listaDeMovimientos);
   }
 
-  public void verificarOtrasFichas(Tablero tablero,int nuevaLetra,int nuevoNumero, int tt) {
+  public ArrayList<String> movimeintosNoProducenJaque(Tablero tablero2) {
+    ArrayList<String> movimientosSegurosPeon = new ArrayList<>();
+    for (String movimiento : listaDeMovimientos) {
+      String[] pos = movimiento.split(" ");
+      int moveX = pos[0].charAt(0) - 'a';
+      int moveY = Integer.parseInt(pos[1]);
+
+      // Mover la ficha temporalmente
+      int originalX = this.getPosX();
+      int originalY = this.getPosY();
+
+      Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+          this,
+          tablero2,
+          moveY,
+          moveX);
+
+      // Verificar si el rey está en jaque después del movimiento
+      boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1);
+      // Deshacer el movimiento temporal
+      tablero2.SimulacionRetrocesoFicha(
+          fichaEliminada,
+          this,
+          tablero2,
+          originalX,
+          originalY);
+
+      // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
+      // del jaque
+      if (jaqueDespuesDeMovimiento) {
+        // aqui se agrega movimiento que quita jaque
+        movimientosSegurosPeon.add(movimiento);
+      }
+    }
+    return movimientosSegurosPeon;
+  }
+
+  public void verificarOtrasFichas(Tablero tablero, int nuevaLetra, int nuevoNumero, int tt) {
     // Verificar si hay una ficha en la casilla adyacente
-    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a',nuevoNumero,tt);
-    
- 
+    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt);
     if (ficha == null || !ficha.getColor().equals(this.getColor())) {
       listaDeMovimientos.add((char) (nuevaLetra) + " " + nuevoNumero);
     }
@@ -183,9 +226,9 @@ public class Peon extends Fichas {
   public void setCoronacion(int coronacion) {
     this.coronacion = coronacion;
   }
-  
+
   public boolean alcanzoExtremoTablero(int i, int j) {
     return (i == 0 || i == 7);
-}
+  }
 
 }
