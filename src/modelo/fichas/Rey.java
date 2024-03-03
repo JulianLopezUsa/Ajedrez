@@ -11,7 +11,7 @@ import modelo.jugadores.Jugadores;
  */
 public class Rey extends Fichas {
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
-    public boolean jaque = false;
+    public boolean jaque = false, enroque = false;
     ArrayList<String> listaMovimientosEquipoContrario = new ArrayList<>();
     ArrayList<String> movimientosSegurosRey = new ArrayList<>();
 
@@ -87,6 +87,7 @@ public class Rey extends Fichas {
     }
 
     public void verificarEnroque(Fichas f, Tablero tablero, boolean banderaJaque) {
+        enroque = false;
         // VERIFICACIÓN ENROQUE CORTO
         Jugadores equipo = (tablero.getTurno() == 1) ? tablero.jugador1 : tablero.jugador2;
         for (Fichas fichas : equipo.getFichas()) {
@@ -110,6 +111,7 @@ public class Rey extends Fichas {
                                         && !listaMovimientosEquipoContrario
                                                 .contains((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() + 2))) {
                                     movimientosSegurosRey.add(((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() + 2)));
+                                    enroque = true;
                                 }
                             }
                         }
@@ -131,6 +133,7 @@ public class Rey extends Fichas {
                                         && !listaMovimientosEquipoContrario
                                                 .contains((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() - 2))) {
                                     movimientosSegurosRey.add(((char) ((f.getPosY() + 'a')) + " " + (f.getPosX() - 2)));
+                                    enroque = true;
                                 }
                             }
                         }

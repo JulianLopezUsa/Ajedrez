@@ -332,40 +332,57 @@ public class EventosTablero implements ActionListener {
     }
 
     public boolean cambioVistaEnroque(Fichas fichaSeleccionada, int i, int j, VistaTablero tablero) {
+
         Jugadores equipo = (tablero2.getTurno() == 1) ? tablero2.jugador1 : tablero2.jugador2;
         if (fichaSeleccionada instanceof Rey) {
             Rey rey = (Rey) fichaSeleccionada;
-            
-            // Eroque largo
-            if (i < rey.getPosX() - 1) {
-                tablero2.moverFicha(fichaSeleccionada, j, i-1);
-                for (Fichas fichas : equipo.getFichas()) {
-                    if (fichas instanceof Torre) {
-                        Torre tor = ((Torre) fichas);
-                        if ((tor.getPosX() == 0)) {
-                            tablero.eliminarDeVista(j, i);
-                            tablero2.moverFicha(tor, j, tor.getPosX() + 3);
-                            return true;
+            if (rey.enroque == true) {
+                // Eroque largo
+                System.err.println("i"+i);
+                if (j < rey.getPosX()) {
+                    System.out.println("entra");
+                    int cachexx = rey.getPosX();
+                    int cacheyy = rey.getPosY();
+                    tablero.eliminarDeVista(cacheyy, cachexx);
+                    tablero2.moverFicha(fichaSeleccionada, i, j);
+                    actualizarVista();
+                    for (Fichas fichas : equipo.getFichas()) {
+                        if (fichas instanceof Torre) {
+                            Torre tor = ((Torre) fichas);
+                            System.out.println("Y"+tor.getPosY());
+                            if ((tor.getPosX() == 0)) {
+                                cachexx = tor.getPosX();
+                                cacheyy = tor.getPosY();
+                                tablero.eliminarDeVista(cachexx, cacheyy);
+                                tablero2.moverFicha(tor, i, tor.getPosX() +3);
+                                return true;
+                            }
                         }
                     }
                 }
-            }
-            // Eroque largo
-            else if (i > rey.getPosX() + 1) {
-                System.out.println("entra"+(i+1)+" "+j);
-                tablero2.moverFicha(fichaSeleccionada, i + 1,j);
-                for (Fichas fichas : equipo.getFichas()) {
-                    if (fichas instanceof Torre) {
-                        Torre tor = ((Torre) fichas);
-                        if ((tor.getPosX() == 7)) {
-                            tablero.eliminarDeVista(j, i);
-                            tablero2.moverFicha(tor, tor.getPosX() - 2,j);
-                            return true;
+
+                // Eroque corto
+                else if (j > rey.getPosX()) {
+                    int cachexx = rey.getPosX();
+                    int cacheyy = rey.getPosY();
+                    tablero.eliminarDeVista(cacheyy, cachexx);
+                    tablero2.moverFicha(fichaSeleccionada, i, j);
+                    actualizarVista();
+                    for (Fichas fichas : equipo.getFichas()) {
+                        if (fichas instanceof Torre) {
+                            Torre tor = ((Torre) fichas);
+                            if ((tor.getPosX() == 7)) {
+                                cachexx = tor.getPosX();
+                                cacheyy = tor.getPosY();
+                                tablero.eliminarDeVista(cachexx, cacheyy);
+                                tablero2.moverFicha(tor, i, tor.getPosX() - 2);
+                                return true;
+                            }
                         }
                     }
                 }
+                actualizarVista();
             }
-            actualizarVista();
         }
         return false;
     }
