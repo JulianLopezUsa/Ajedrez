@@ -19,14 +19,13 @@ public class Dama extends Fichas {
     public void movimientoFicha(String posicionActual, Tablero tablero, int turno) {
         listaDeMovimientos.clear();
         int tt;
-        if (turno!=3){
-          tt = turno;
-          //letraff=letraff-1;
-        }else{
-          tt = tablero.getTurno();
+        if (turno != 3) {
+            tt = turno;
+            // letraff=letraff-1;
+        } else {
+            tt = tablero.getTurno();
         }
         String[] pos = posicionActual.split(" ");
-
         char letraF = pos[0].charAt(0);
         int numeroF = Integer.parseInt(pos[1]);
 
@@ -94,8 +93,8 @@ public class Dama extends Fichas {
                 boolean puedeAvanzar = true; // Variable para verificar si puede avanzar en diagonal
                 while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7 && puedeAvanzar) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt); 
-                    Fichas ficha2 = tablero.hayFicha2(nuevaLetra - 'a', nuevoNumero, tt); 
+                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt);
+                    Fichas ficha2 = tablero.hayFicha2(nuevaLetra - 'a', nuevoNumero, tt);
                     if (ficha != null || ficha2 != null) {
                         puedeAvanzar = false;
                         if (ficha2 != null) {

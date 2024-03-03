@@ -73,7 +73,6 @@ public class Tablero {
         if (turno == 0) {
             for (Fichas ficha : jugador2.fichas) {
                 if (ficha.getPosX() == j && ficha.getPosY() == i) {
-
                     return ficha;
                 }
             }
@@ -95,7 +94,6 @@ public class Tablero {
                 }
             }
         } else if (turno == 1) {
-
             for (Fichas ficha : jugador2.fichas) {
                 if (ficha.getPosX() == j && ficha.getPosY() == i) {
                     return ficha;
@@ -208,6 +206,10 @@ public class Tablero {
                 int newX = Integer.parseInt(pos[1]);
 
                 if (newX == rey.getPosX() && newY == rey.getPosY()) {
+                    System.out.println("FICHA QUE DICE QUE OCASIONA EL JAQUE:");
+                    System.out.println(ficha.toString());
+                    System.out.println(movimientos);
+                    System.out.println();
                     if (turno == 1) {
                         jaqueNegro = true;
                     } else {

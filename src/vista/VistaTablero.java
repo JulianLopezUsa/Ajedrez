@@ -61,8 +61,6 @@ public class VistaTablero extends JFrame {
         JPanel panelDerecho = new JPanel();
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
         panelDerecho.setMaximumSize(new Dimension(200, Integer.MAX_VALUE)); // Establecer el ancho máximo deseado
-        
-
 
         JPanel panelJugador1 = new JPanel();
         panelJugador1.setLayout(new BoxLayout(panelJugador1, BoxLayout.X_AXIS));
@@ -179,6 +177,19 @@ public class VistaTablero extends JFrame {
         }
 
         resaltarJaque();
+    }
+
+    public void quitarJaque(){
+        // Resetear el color de todos los botones del tablero
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((i + j) % 2 == 0) {
+                    cuadro[i][j].setBackground(new Color(222, 184, 135));
+                } else {
+                    cuadro[i][j].setBackground(new Color(139, 69, 19));
+                }
+            }
+        }
     }
 
     public void resaltarJaque() {
