@@ -312,4 +312,8 @@ public class VistaTablero extends JFrame {
         }
         return nombreFichaCoronada;
     }
+
+    public void closeGame(){
+        this.dispose();
+    }
 }

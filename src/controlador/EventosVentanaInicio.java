@@ -5,17 +5,20 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import controlador.sockets.SalaDeEspera;
 import modelo.Tablero.Tablero;
 import vista.MenuA;
 import vista.VistaTablero;
 
 public class EventosVentanaInicio implements ActionListener {
+    // private final Jugador[] jugadores;
 
     private final MenuA menuA;
 
     public EventosVentanaInicio(MenuA menuA) {
         this.menuA = menuA;
         this.menuA.botonIniciar.addActionListener(this);
+        this.menuA.botonIniciarL.addActionListener(this);
         this.menuA.botonSalir.addActionListener(this);
         this.menuA.setVisible(true);
     }

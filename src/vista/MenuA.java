@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.io.File;
 import java.awt.Image;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -21,7 +20,7 @@ public class MenuA extends JFrame {
 
     private Image backgroundImage;
 
-    public JButton botonIniciar, botonSalir;
+    public JButton botonIniciar, botonSalir,botonIniciarL;
 
     public MenuA() {
         try {
@@ -53,16 +52,25 @@ public class MenuA extends JFrame {
         panel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centra el panel
 
         // Botón para iniciar el juego
-        botonIniciar = new JButton("Iniciar Juego");
+        botonIniciar = new JButton("Iniciar Juego Local");
         botonIniciar.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonIniciar.setPreferredSize(new Dimension(200, 50));
         botonIniciar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         botonIniciar.setBackground(new Color(220, 220, 220)); // Color de fondo
         botonIniciar.setForeground(Color.BLACK); // Color del texto
         botonIniciar.setFocusPainted(false); // Quitar el borde de enfoque
-        botonIniciar.setFont(new Font("Arial", Font.BOLD, 40)); // Fuente y tamaño del texto
+        botonIniciar.setFont(new Font("Arial", Font.BOLD, 40));
+           
+        botonIniciarL = new JButton("Iniciar Juego Lan");
+        botonIniciarL.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botonIniciarL.setPreferredSize(new Dimension(200, 50));
+        botonIniciarL.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        botonIniciarL.setBackground(new Color(220, 220, 220)); // Color de fondo
+        botonIniciarL.setForeground(Color.BLACK); // Color del texto
+        botonIniciarL.setFocusPainted(false); // Quitar el borde de enfoque
+        botonIniciarL.setFont(new Font("Arial", Font.BOLD, 40)); // Fuente y tamaño del texto
+        
         // Botón para salir
-
         botonSalir = new JButton("Salir");
         botonSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonSalir.setPreferredSize(new Dimension(200, 50));
@@ -70,11 +78,13 @@ public class MenuA extends JFrame {
         botonSalir.setForeground(Color.BLACK);
         botonSalir.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         botonSalir.setFocusPainted(false);
-        botonSalir.setFont(new Font("Arial", Font.BOLD, 50));
+        botonSalir.setFont(new Font("Arial", Font.BOLD, 40));
 
-        panel.add(Box.createVerticalStrut(400));
+        panel.add(Box.createVerticalStrut(380));
         panel.add(botonIniciar);
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(botonIniciarL);
+        panel.add(Box.createVerticalStrut(15));
         panel.add(botonSalir);
 
         add(panel);
