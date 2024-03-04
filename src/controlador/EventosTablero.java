@@ -15,27 +15,29 @@ import vista.VistaTablero;
 
 public class EventosTablero implements ActionListener {
 
-    private VistaTablero tablero;
-    private Tablero tablero2;
+    private VistaTablero vistaTablero;
+    private Tablero tablero;
     private Fichas fichaSeleccionada;
     Fichas fichaElegida;
     private int cacheX, cacheY;
+    
     public boolean nn = false, nn2 = false;
     public boolean jaqueNegro = false, jaqueBlanco = false, banderaJaque = false;
+
     public ArrayList<Fichas> arrExtra = new ArrayList<>();
     public ArrayList<String> fichasValidasSalvarJaque = new ArrayList<>();
     public ArrayList<String> fichasValidasJaqueMate = new ArrayList<>();
 
-    public EventosTablero(VistaTablero tablero, Tablero tablero2) {
+    public EventosTablero(VistaTablero vistaTablero, Tablero tablero) {
+        this.vistaTablero = vistaTablero;
         this.tablero = tablero;
-        this.tablero2 = tablero2;
-        this.tablero.setVisible(true);
-        this.tablero.agregarFichas();
+        this.vistaTablero.setVisible(true);
+        this.vistaTablero.agregarFichas();
 
         // Agregar ActionListener a cada botón en el tablero
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                tablero.cuadro[i][j].addActionListener(this);
+                vistaTablero.cuadro[i][j].addActionListener(this);
             }
         }
     }
@@ -45,19 +47,20 @@ public class EventosTablero implements ActionListener {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (e.getSource() == this.tablero.cuadro[i][j]) {
+
+                if (e.getSource() == this.vistaTablero.cuadro[i][j]) {
                     // Verificar si hay una ficha en el botón presionado
-                    Fichas f = tablero2.hayFicha(i, j, tablero2.getTurno());
+                    Fichas f = tablero.hayFicha(i, j, tablero.getTurno());
 
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
-                    if (tablero.cuadro[i][j].getBackground() == Color.YELLOW) {
+                    if (vistaTablero.cuadro[i][j].getBackground() == Color.YELLOW) {
 
                         // Mover la ficha seleccionada al cuadro amarillo
-                        tablero.eliminarDeVista(cacheY, cacheX);
+                        vistaTablero.eliminarDeVista(cacheY, cacheX);
                         // CAMBIO DE VISTA ENROQUE
                         if (fichaSeleccionada instanceof Rey) {
-                            if (!cambioVistaEnroque(fichaSeleccionada, i, j, tablero)) {
-                                arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+                            if (!cambioVistaEnroque(fichaSeleccionada, i, j, vistaTablero)) {
+                                arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
                             }
                         } else if (fichaSeleccionada instanceof Peon) {
                             Peon peon = (Peon) fichaSeleccionada;
@@ -66,32 +69,32 @@ public class EventosTablero implements ActionListener {
                                 int x = Integer.parseInt(pos[0]);
                                 int y = Integer.parseInt(pos[1]);
                                 if (x == i && y == j) {
-                                    Peon peonsito = (Peon) tablero2.historialFichas
-                                            .get(tablero2.historialFichas.size() - 1);
-                                    if (tablero2.getTurno() == 0) {
-                                        tablero2.jugador1.fichas.remove(peonsito);
+                                    Peon peonsito = (Peon) tablero.historialFichas
+                                            .get(tablero.historialFichas.size() - 1);
+                                    if (tablero.getTurno() == 0) {
+                                        tablero.jugador1.fichas.remove(peonsito);
                                     } else {
-                                        tablero2.jugador2.fichas.remove(peonsito);
+                                        tablero.jugador2.fichas.remove(peonsito);
                                     }
-                                    tablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
+                                    vistaTablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
                                 }
                             }
-                            arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+                            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
 
                         } else {
-                            arrExtra = tablero2.moverFicha(fichaSeleccionada, i, j);
+                            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
                         }
                         fichaSeleccionada.movio = true;
 
                         Fichas fichaX = arrExtra.get(0);
                         if (fichaX != null) {
-                            tablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
+                            vistaTablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
 
                         }
 
-                        tablero.banderaJaque_blancaa = false;
-                        tablero.banderaJaque_negras = false;
-                        tablero.quitarJaque();
+                        vistaTablero.banderaJaque_blancaa = false;
+                        vistaTablero.banderaJaque_negras = false;
+                        vistaTablero.quitarJaque();
 
                         // Actualizar la vista para reflejar el movimiento
                         actualizarVista();
@@ -99,56 +102,57 @@ public class EventosTablero implements ActionListener {
                         // Para coronación del peón
                         if (fichaSeleccionada instanceof Peon) {
                             if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
-                                tablero2.eliminarFicha(fichaSeleccionada);
-                                tablero.eliminarDeVista(
+                                tablero.eliminarFicha(fichaSeleccionada);
+                                vistaTablero.eliminarDeVista(
                                         fichaSeleccionada.getPosX(),
                                         fichaSeleccionada.getPosY());
 
-                                String nn = tablero.coronacionPieza(
-                                        tablero2.getTurno(),
+                                String nn = vistaTablero.coronacionPieza(
+                                        tablero.getTurno(),
                                         fichaSeleccionada.getPosY(),
                                         fichaSeleccionada.getPosX());
-                                tablero2.crearFichaNueva(
+                                tablero.crearFichaNueva(
                                         nn,
                                         fichaSeleccionada.getPosX(),
                                         fichaSeleccionada.getPosY());
                             }
                         }
 
-                        if (tablero2.getTurno() == 1) {
-                            if (tablero2.jaqueBlanco == false) {
-                                tablero.banderaJaque_blancaa = false;
+                        if (tablero.getTurno() == 1) {
+                            if (tablero.jaqueBlanco == false) {
+                                vistaTablero.banderaJaque_blancaa = false;
                             }
-                            if (tablero2.jaqueNegro == false) {
-                                tablero.banderaJaque_negras = false;
+                            if (tablero.jaqueNegro == false) {
+                                vistaTablero.banderaJaque_negras = false;
                             }
 
-                            tablero.resetearColores();
+                            vistaTablero.resetearColores();
                             // Verificar Jaque
                             nn = verificarJaque(1);
 
                         } else {
-                            if (tablero2.jaqueBlanco == false) {
-                                tablero.banderaJaque_blancaa = false;
+                            if (tablero.jaqueBlanco == false) {
+                                vistaTablero.banderaJaque_blancaa = false;
                             }
-                            if (tablero2.jaqueNegro == false) {
-                                tablero.banderaJaque_negras = false;
+                            if (tablero.jaqueNegro == false) {
+                                vistaTablero.banderaJaque_negras = false;
                             }
 
-                            tablero.resetearColores();
+                            vistaTablero.resetearColores();
                             nn2 = verificarJaque(0);
                         }
                         if (!nn && !nn2) {
                             banderaJaque = false;
-                            tablero.resetearColores();
+                            vistaTablero.resetearColores();
                         }
-                        // Cambiar turno
-                        tablero2.turno = (tablero2.turno + 1) % 2;
+                        // Actualizar historial y  Cambiar turno
+                        vistaTablero.mostrarHistorialPartida(tablero.historialPartida);
+                        tablero.turno = (tablero.turno + 1) % 2;
 
                         // SE VERIFICA JAQUE MATE
                         if (banderaJaque) {
                             if (detectarJaqueMate().isEmpty()) {
-                                if (tablero2.getTurno() == 0) {
+                                if (tablero.getTurno() == 0) {
                                     JOptionPane.showMessageDialog(null,
                                             "Jaque mate al equipo blanco. Gana el equipo negro");
                                 } else {
@@ -173,14 +177,15 @@ public class EventosTablero implements ActionListener {
                             // Si sí se encuentra en jaque entonces no permite movimiento
                             if (banderaJaque) {
                                 if (esMovimientoValidoParaSalirDelJaque(f, i, j)) {
-                                    this.tablero.resaltarMovimientos(fichasValidasSalvarJaque);
+                                    this.vistaTablero.resaltarMovimientos(fichasValidasSalvarJaque);
                                 }
 
                             } else {
                                 if (!banderaJaque) {
                                     // Obtener los posibles movimientos de la ficha en esa posición
-                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, banderaJaque, 0);
-                                    this.tablero.resaltarMovimientos(f.getLista());
+                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
+                                    this.vistaTablero.resaltarMovimientos(f.getLista());
+                                    System.out.println(f.getLista());
                                 }
                             }
 
@@ -190,38 +195,41 @@ public class EventosTablero implements ActionListener {
                 }
             }
         }
+
     }
+
+   
 
     public void actualizarVista() {
         // Actualizar la vista de acuerdo a la configuración actual del tablero
-        tablero.resetearColores(); // Resetear los colores de los botones del tablero
+        vistaTablero.resetearColores(); // Resetear los colores de los botones del tablero
 
-        for (Fichas ficha : tablero2.jugador1.fichas) {
+        for (Fichas ficha : tablero.jugador1.fichas) {
             int posX = ficha.getPosX();
             int posY = ficha.getPosY();
-            tablero.actualizar(posX, posY, ficha);
+            vistaTablero.actualizar(posX, posY, ficha);
         }
-        for (Fichas ficha : tablero2.jugador2.fichas) {
+        for (Fichas ficha : tablero.jugador2.fichas) {
             int posX = ficha.getPosX();
             int posY = ficha.getPosY();
-            tablero.actualizar(posX, posY, ficha);
+            vistaTablero.actualizar(posX, posY, ficha);
         }
     }
 
     public boolean verificarJaque(int turnoo) {
-        if (tablero2.estaEnJaque(turnoo)) {
+        if (tablero.estaEnJaque(turnoo)) {
             if (turnoo == 1) {
                 JOptionPane.showMessageDialog(null, "¡El rey Blanco está en jaque!");
-                for (Fichas ficha : tablero2.jugador2.fichas) {
+                for (Fichas ficha : tablero.jugador2.fichas) {
                     if (ficha instanceof Rey) {
                         fichaElegida = ficha; // Devolver la instancia del rey
                     }
                 }
-                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "blanco",
+                vistaTablero.ponerJaque(tablero.jaqueBlanco, tablero.jaqueNegro, "blanco",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
-                tablero.ponerJaque(
-                        tablero2.jaqueBlanco,
-                        tablero2.jaqueNegro,
+                vistaTablero.ponerJaque(
+                        tablero.jaqueBlanco,
+                        tablero.jaqueNegro,
                         "negro",
                         fichaElegida.getPosX(),
                         fichaElegida.getPosY());
@@ -230,16 +238,16 @@ public class EventosTablero implements ActionListener {
                 return true;
             } else {
                 JOptionPane.showMessageDialog(null, "¡El rey Negro está en jaque!");
-                for (Fichas ficha : tablero2.jugador1.fichas) {
+                for (Fichas ficha : tablero.jugador1.fichas) {
                     if (ficha instanceof Rey) {
                         fichaElegida = ficha; // Devolver la instancia del rey
                     }
                 }
-                tablero.ponerJaque(tablero2.jaqueBlanco, tablero2.jaqueNegro, "negro",
+                vistaTablero.ponerJaque(tablero.jaqueBlanco, tablero.jaqueNegro, "negro",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
-                tablero.ponerJaque(
-                        tablero2.jaqueBlanco,
-                        tablero2.jaqueNegro,
+                vistaTablero.ponerJaque(
+                        tablero.jaqueBlanco,
+                        tablero.jaqueNegro,
                         "blanco",
                         fichaElegida.getPosX(),
                         fichaElegida.getPosY());
@@ -254,7 +262,7 @@ public class EventosTablero implements ActionListener {
     // Método para verificar si un movimiento saca al rey del jaque
     private boolean esMovimientoValidoParaSalirDelJaque(Fichas ficha, int i, int j) {
         fichasValidasSalvarJaque.clear();
-        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true, 0);
+        ficha.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, true, 0);
         // Verificar si los movimientos de la ficha quitan el jaque o no
 
         ArrayList<String> movimientos = ficha.getLista();
@@ -268,19 +276,19 @@ public class EventosTablero implements ActionListener {
             int originalX = i;
             int originalY = j;
 
-            Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+            Fichas fichaEliminada = tablero.SimulacionMoverFicha(
                     ficha,
-                    tablero2,
+                    tablero,
                     moveY,
                     moveX);
 
             // Verificar si el rey está en jaque después del movimiento
-            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque2((tablero2.getTurno() == 1) ? 0 : 1);
+            boolean jaqueDespuesDeMovimiento = tablero.estaEnJaque2((tablero.getTurno() == 1) ? 0 : 1);
             // Deshacer el movimiento temporal
-            tablero2.SimulacionRetrocesoFicha(
+            tablero.SimulacionRetrocesoFicha(
                     fichaEliminada,
                     ficha,
-                    tablero2,
+                    tablero,
                     originalY,
                     originalX);
             // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
@@ -306,11 +314,11 @@ public class EventosTablero implements ActionListener {
 
     public ArrayList<String> detectarJaqueMate() {
         fichasValidasJaqueMate.clear();
-        Jugadores fichasEquipo = (tablero2.getTurno() == 0) ? tablero2.jugador2 : tablero2.jugador1;
+        Jugadores fichasEquipo = (tablero.getTurno() == 0) ? tablero.jugador2 : tablero.jugador1;
         for (Fichas ficha : fichasEquipo.fichas) {
             int i = ficha.getPosY();
             int j = ficha.getPosX();
-            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero2, 3, true, 1);
+            ficha.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, true, 1);
             // Verificar si los movimientos de la ficha quitan el jaque o no
 
             ArrayList<String> movimientos = ficha.getLista();
@@ -324,19 +332,19 @@ public class EventosTablero implements ActionListener {
                 int originalX = i;
                 int originalY = j;
 
-                Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+                Fichas fichaEliminada = tablero.SimulacionMoverFicha(
                         ficha,
-                        tablero2,
+                        tablero,
                         moveY,
                         moveX);
 
                 // Verificar si el rey está en jaque después del movimiento
-                boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque2((tablero2.getTurno() == 1) ? 0 : 1);
+                boolean jaqueDespuesDeMovimiento = tablero.estaEnJaque2((tablero.getTurno() == 1) ? 0 : 1);
                 // Deshacer el movimiento temporal
-                tablero2.SimulacionRetrocesoFicha(
+                tablero.SimulacionRetrocesoFicha(
                         fichaEliminada,
                         ficha,
-                        tablero2,
+                        tablero,
                         originalY,
                         originalX);
                 // Si el movimiento no pone al rey en jaque, es un movimiento válido para salir
@@ -350,9 +358,9 @@ public class EventosTablero implements ActionListener {
         return fichasValidasJaqueMate;
     }
 
-    public boolean cambioVistaEnroque(Fichas fichaSeleccionada, int i, int j, VistaTablero tablero) {
+    public boolean cambioVistaEnroque(Fichas fichaSeleccionada, int i, int j, VistaTablero vistaTablero) {
 
-        Jugadores equipo = (tablero2.getTurno() == 1) ? tablero2.jugador1 : tablero2.jugador2;
+        Jugadores equipo = (tablero.getTurno() == 1) ? tablero.jugador1 : tablero.jugador2;
         if (fichaSeleccionada instanceof Rey) {
             Rey rey = (Rey) fichaSeleccionada;
             if (rey.enroque == true) {
@@ -360,8 +368,8 @@ public class EventosTablero implements ActionListener {
                 if (j < rey.getPosX()) {
                     int cachexx = rey.getPosX();
                     int cacheyy = rey.getPosY();
-                    tablero.eliminarDeVista(cacheyy, cachexx);
-                    tablero2.moverFicha(fichaSeleccionada, i, j);
+                    vistaTablero.eliminarDeVista(cacheyy, cachexx);
+                    tablero.moverFicha(fichaSeleccionada, i, j);
                     actualizarVista();
                     for (Fichas fichas : equipo.getFichas()) {
                         if (fichas instanceof Torre) {
@@ -369,8 +377,8 @@ public class EventosTablero implements ActionListener {
                             if ((tor.getPosX() == 0)) {
                                 cachexx = tor.getPosX();
                                 cacheyy = tor.getPosY();
-                                tablero.eliminarDeVista(cachexx, cacheyy);
-                                tablero2.moverFicha(tor, i, tor.getPosX() + 3);
+                                vistaTablero.eliminarDeVista(cachexx, cacheyy);
+                                tablero.moverFicha(tor, i, tor.getPosX() + 3);
                                 return true;
                             }
                         }
@@ -381,8 +389,8 @@ public class EventosTablero implements ActionListener {
                 else if (j > rey.getPosX()) {
                     int cachexx = rey.getPosX();
                     int cacheyy = rey.getPosY();
-                    tablero.eliminarDeVista(cacheyy, cachexx);
-                    tablero2.moverFicha(fichaSeleccionada, i, j);
+                    vistaTablero.eliminarDeVista(cacheyy, cachexx);
+                    tablero.moverFicha(fichaSeleccionada, i, j);
                     actualizarVista();
                     for (Fichas fichas : equipo.getFichas()) {
                         if (fichas instanceof Torre) {
@@ -390,8 +398,8 @@ public class EventosTablero implements ActionListener {
                             if ((tor.getPosX() == 7)) {
                                 cachexx = tor.getPosX();
                                 cacheyy = tor.getPosY();
-                                tablero.eliminarDeVista(cachexx, cacheyy);
-                                tablero2.moverFicha(tor, i, tor.getPosX() - 2);
+                                vistaTablero.eliminarDeVista(cachexx, cacheyy);
+                                tablero.moverFicha(tor, i, tor.getPosX() - 2);
                                 return true;
                             }
                         }

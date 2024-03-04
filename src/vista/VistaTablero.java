@@ -8,15 +8,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import java.awt.*;
 import java.util.ArrayList;
 import modelo.fichas.Fichas;
 import controlador.AccionRendir;
+import controlador.GestionVentanas;
 
 public class VistaTablero extends JFrame {
-
+    
     public JButton[][] cuadro;
     private String nombreJ1;
     private String nombreJ2;
@@ -30,6 +32,7 @@ public class VistaTablero extends JFrame {
     private JTextArea texto = new JTextArea();
 
     public VistaTablero(String nombreJ1, String nombreJ2) {
+        GestionVentanas.agregarVentana(this);
         this.nombreJ1 = nombreJ1;
         this.nombreJ2 = nombreJ2;
         initComponents();
@@ -59,16 +62,28 @@ public class VistaTablero extends JFrame {
         add(panelTablero);
 
         JPanel panelDerecho = new JPanel();
+        panelDerecho.setBackground(Color.WHITE);
+        panelDerecho.setForeground(Color.BLACK);
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
         panelDerecho.setMaximumSize(new Dimension(200, Integer.MAX_VALUE)); // Establecer el ancho máximo deseado
 
         JPanel panelJugador1 = new JPanel();
+        panelJugador1.setBackground(Color.WHITE);
+        panelJugador1.setForeground(Color.BLACK);
         panelJugador1.setLayout(new BoxLayout(panelJugador1, BoxLayout.X_AXIS));
 
-        JLabel label = new JLabel("INFORMACIÓN");
-        JLabel label1 = new JLabel("Jugador 1:");
+        JLabel label = new JLabel("Información");
+        label.setForeground(Color.BLACK);
+        // Crear un objeto Font con el tamaño deseado (por ejemplo, 20)
+        Font font = new Font(label.getFont().getName(), Font.PLAIN, 20);
+        label.setFont(font);
+
+        JLabel label1 = new JLabel(" - Jugador 1:");
+        label1.setForeground(Color.BLACK);
         JLabel nombre1 = new JLabel(nombreJ1);
         fin1 = new JButton("Rendirse");
+        fin1.setBackground(Color.black);
+        fin1.setForeground(Color.white);
 
         panelJugador1.add(label1);
         panelJugador1.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -77,11 +92,16 @@ public class VistaTablero extends JFrame {
         panelJugador1.add(fin1);
 
         JPanel panelJugador2 = new JPanel();
+        panelJugador2.setBackground(Color.WHITE);
+        panelJugador2.setForeground(Color.BLACK);
         panelJugador2.setLayout(new BoxLayout(panelJugador2, BoxLayout.X_AXIS));
 
-        JLabel label2 = new JLabel("Jugador 2:");
+        JLabel label2 = new JLabel(" - Jugador 2:");
+        label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
         fin2 = new JButton("Rendirse");
+        fin2.setBackground(Color.black);
+        fin2.setForeground(Color.white);
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -104,6 +124,9 @@ public class VistaTablero extends JFrame {
 
         // Agregar al panel
         panelDerecho.add(texto);
+        // Agregar al panel dentro de un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(texto);
+        panelDerecho.add(scrollPane);
 
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
@@ -111,6 +134,25 @@ public class VistaTablero extends JFrame {
         AccionRendir accionRendir = new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
     }
+
+    public void mostrarHistorialPartida(ArrayList<String> historialPartida) {
+        texto.setText("---------------------------------------------------------\n"); // Limpiar el contenido actual del JTextArea
+        int numeroMovimiento = 1;
+    
+        // Recorremos el historial de movimientos
+        for (int i = 0; i < historialPartida.size(); i += 2) {
+            String numeroFormateado = numeroMovimiento + ". ";
+            String mov1 = historialPartida.get(i);
+            String mov2 = (i + 1 < historialPartida.size()) ? historialPartida.get(i + 1) : ""; // Evitar índice fuera de rango
+            String cadenaMovimientos = numeroFormateado + mov1 + "       " + mov2;
+            String textoSinSaltos = cadenaMovimientos.replaceAll("\\n", "");
+            texto.append("  "+textoSinSaltos + "\n");
+            numeroMovimiento++;
+            texto.append("---------------------------------------------------------\n");
+        }
+       
+    }
+    
 
     public JButton getBoton(int x, int y) {
         return cuadro[x][y];
@@ -140,10 +182,7 @@ public class VistaTablero extends JFrame {
         cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
 
-    public void imprimirJugada(String nombreFicha, int posX, int posY) {
-        // Agrega la información de la jugada al área de texto
-        texto.append(nombreFicha + " " + " (" + ((char) (posY + 'a')) + ", " + posX + ")\n");
-    }
+    
 
     public ImageIcon escalarImagen(String ruta) {
         ImageIcon icono = new ImageIcon(ruta);

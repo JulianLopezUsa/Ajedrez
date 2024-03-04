@@ -1,6 +1,9 @@
 package vista;
 
 import javax.swing.*;
+
+import controlador.GestionVentanas;
+
 import java.awt.*;
 
 public class Rendir extends JFrame {
@@ -9,7 +12,7 @@ public class Rendir extends JFrame {
   private int jugador;
 
   public Rendir(String mensaje, String rutaImagen, int jugador) {
-
+    GestionVentanas.agregarVentana(this);
     this.jugador = jugador;
     setTitle("Panel de Rendición");
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -12,7 +12,6 @@ import modelo.fichas.Rey;
 import modelo.fichas.Torre;
 
 import modelo.jugadores.Jugadores;
-import vista.VistaTablero;
 
 /**
  *
@@ -23,17 +22,19 @@ public class Tablero {
     public int turno;
     public Jugadores jugador1;
     public Jugadores jugador2;
-    private VistaTablero vistaTablero;
+
+    public ArrayList<String> historialPartida = new ArrayList<>();
+
     public ArrayList<Fichas> historialFichas = new ArrayList<>();
     public ArrayList<Boolean> historialJugadas = new ArrayList<>();
     public ArrayList<Fichas> arregloFichasMovimiento;
+
     public Jugadores oponente;
     public boolean jaqueBlanco = false;
     public boolean jaqueNegro = false;
 
 
-    public Tablero(String nombreJugador1, String nombreJugador2, VistaTablero vistaTablero) {
-        this.vistaTablero = vistaTablero;
+    public Tablero(String nombreJugador1, String nombreJugador2) {
         this.jugador1 = new Jugadores(nombreJugador1);
         this.jugador2 = new Jugadores(nombreJugador2);
         inicializarFichasEquipo1();
@@ -130,9 +131,9 @@ public class Tablero {
         fichaSeleccionada.setMovio(true);
         
         if (fichaEnNuevaPosicion != null) {
-            vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName()+" Ceno ", j, i);
+            guardarJugada(fichaSeleccionada.getClass().getSimpleName()+"X", j, i);
         }else{
-            vistaTablero.imprimirJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
+            guardarJugada(fichaSeleccionada.getClass().getSimpleName(), j, i);
         }
 
         
@@ -140,8 +141,21 @@ public class Tablero {
         arregloFichasMovimiento.add(fichaEnNuevaPosicion);
         arregloFichasMovimiento.add(fichaSeleccionada);
 
-
         return arregloFichasMovimiento;
+    }
+
+    public void guardarJugada(String nombreFicha, int posX, int posY) {
+        // Verifica si nombreFicha contiene la letra "X"
+        if (nombreFicha.contains("X")) {
+            // Elimina todos los espacios de la cadena
+            nombreFicha = nombreFicha.replaceAll("\\s", "");
+            historialPartida.add(nombreFicha + "(" + ((char) (posY + 'a')) + ", " + posX + ")\n");
+        }else{
+            // Agrega la información de la jugada al área de texto
+            historialPartida.add(nombreFicha + " " + " (" + ((char) (posY + 'a')) + ", " + posX + ")\n");
+        }
+        
+
     }
 
     public void eliminarFicha(Fichas fichaSeleccionada) {

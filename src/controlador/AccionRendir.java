@@ -3,8 +3,10 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import vista.VistaTablero;
+import vista.MenuA;
 import vista.Rendir;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 public class AccionRendir implements ActionListener {
 
@@ -46,8 +48,11 @@ public class AccionRendir implements ActionListener {
             mostrarMensajeRendicion(1);
         }
         if (e.getSource() == fin2) {
+
             System.out.println("Jugador 2 rendido!");
             mostrarMensajeRendicion(2);
         }
     }
+
+     
 }

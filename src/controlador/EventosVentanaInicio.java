@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
 import java.awt.event.ActionEvent;
@@ -16,41 +11,45 @@ import vista.VistaTablero;
 
 public class EventosVentanaInicio implements ActionListener {
 
-    public MenuA menuA;
+    private final MenuA menuA;
 
     public EventosVentanaInicio(MenuA menuA) {
         this.menuA = menuA;
-
         this.menuA.botonIniciar.addActionListener(this);
         this.menuA.botonSalir.addActionListener(this);
-
         this.menuA.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.menuA.botonIniciar)) {
-            this.menuA.setVisible(false);
-            String nombreJ1 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 1:");
-            if (nombreJ1 == null) {
-                System.exit(0);
-            }
-            String nombreJ2 = JOptionPane.showInputDialog(null, "Por favor, ingresa el nombre del jugador 2:");
-            if (nombreJ2 == null) {
-                System.exit(0);
-            }
-
-            VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
-
-            Tablero tablero = new Tablero(nombreJ1, nombreJ2, vistaTablero);
-            new EventosTablero(vistaTablero, tablero);
-
+            iniciarJuego();
+        } else if (e.getSource().equals(this.menuA.botonSalir)) {
+            salirDelJuego();
         }
+    }
 
-        if (e.getSource().equals(this.menuA.botonSalir)) {
+    private void iniciarJuego() {
+        this.menuA.setVisible(false);
+        String nombreJ1 = pedirNombreJugador("Por favor, ingresa el nombre del jugador 1:");
+        if (nombreJ1 == null) {
+            System.exit(0);
+        }
+        String nombreJ2 = pedirNombreJugador("Por favor, ingresa el nombre del jugador 2:");
+        if (nombreJ2 == null) {
             System.exit(0);
         }
 
+        VistaTablero vistaTablero = new VistaTablero(nombreJ1, nombreJ2);
+        Tablero tablero = new Tablero(nombreJ1, nombreJ2);
+        new EventosTablero(vistaTablero, tablero);
     }
 
+    private String pedirNombreJugador(String mensaje) {
+        return JOptionPane.showInputDialog(null, mensaje);
+    }
+
+    private void salirDelJuego() {
+        System.exit(0);
+    }
 }
