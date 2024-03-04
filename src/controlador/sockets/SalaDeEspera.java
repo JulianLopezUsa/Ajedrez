@@ -1,6 +1,5 @@
 package controlador.sockets;
 
-import DamasEnLinea.JugarServidor;
 import modelo.jugadores.*;
 import modelo.jugadores.Jugadores;
 
@@ -132,8 +131,8 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
         // Hace invisible la sala de espera.
         setVisible(false);
         // Abre el tablero de juego
-        JugarServidor juego = new JugarServidor(nombre, servidor, jugadores);
-        juego.setVisible(true);
+        // JugarServidor juego = new JugarServidor(nombre, servidor, jugadores);
+        // juego.setVisible(true);
 
     }
 
