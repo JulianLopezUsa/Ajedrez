@@ -39,11 +39,7 @@ public class Cliente extends Conexion {
         }
         return dato;
     }
-    /**
-     * Envia los datos al servidor
-     * 
-     * @param dato Los datos que se quieren enviar
-     */
+ 
     public void enviarDatosServidor(String dato){
         try {
             salida = new DataOutputStream(cs.getOutputStream());

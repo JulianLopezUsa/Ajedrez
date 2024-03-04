@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import vista.VistaTablero;
 import vista.Rendir;
 import javax.swing.JButton;
+import vista.TableroCliente;
+import vista.TableroServidor;
 
 public class AccionRendir implements ActionListener {
 
@@ -13,6 +15,8 @@ public class AccionRendir implements ActionListener {
     private Rendir rendirFrame;
     private JButton fin1;
     private JButton fin2;
+    private TableroServidor TableroServidor;
+    private TableroCliente TableroCliente;
 
     public AccionRendir(VistaTablero vistaTablero, int jugador, JButton fin1, JButton fin2) {
         this.vistaTablero = vistaTablero;
@@ -21,6 +25,18 @@ public class AccionRendir implements ActionListener {
         this.fin2 = fin2;
         this.fin1.addActionListener(this);
         this.fin2.addActionListener(this);
+    }
+    
+    public AccionRendir(vista.TableroCliente tableroCliente2, int i, JButton fin12, JButton fin22) {
+        this.TableroCliente = TableroCliente;
+        this.fin2.addActionListener(this);
+        
+    }
+    
+    public AccionRendir(vista.TableroServidor tableroServidor2, int i, JButton fin12, JButton fin22) {
+        this.TableroServidor = TableroServidor;
+        this.fin1.addActionListener(this);
+        
     }
 
     public void mostrarMensajeRendicion(int jugador) {
