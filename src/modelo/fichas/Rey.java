@@ -46,7 +46,7 @@ public class Rey extends Fichas {
                 if (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7
                         && (i != 0 || j != 0)) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt);
+                    Fichas ficha = tablero.verificaciones.hayFicha(nuevaLetra - 'a', nuevoNumero, tt,tablero);
 
                     if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                         listaDeMovimientos.add((char) nuevaLetra + " " + nuevoNumero);
@@ -99,11 +99,11 @@ public class Rey extends Fichas {
                     // LA DERECHA
                     if (!tor.movio && (tor.getPosX() == 7) && !f.movio) {
                         // 1. QUE NO HAYAN FICHAS INTERPONIENDOSE ENTRE EL REY Y LA TORRE
-                        if ((tablero.hayFicha(f.getPosY(), (f.getPosX() + 1), tablero.getTurno()) == null)
-                                && (tablero.hayFicha(f.getPosY(), (f.getPosX() + 2), tablero.getTurno()) == null)) {
-                            if ((tablero.hayFicha2(f.getPosY(), (f.getPosX() + 1), tablero.getTurno()) == null)
-                                    && (tablero.hayFicha2(f.getPosY(), (f.getPosX() + 2),
-                                            tablero.getTurno()) == null)) {
+                        if ((tablero.verificaciones.hayFicha(f.getPosY(), (f.getPosX() + 1), tablero.getTurno(),tablero) == null)
+                                && (tablero.verificaciones.hayFicha(f.getPosY(), (f.getPosX() + 2), tablero.getTurno(),tablero) == null)) {
+                            if ((tablero.verificaciones.hayFicha2(f.getPosY(), (f.getPosX() + 1), tablero.getTurno(),tablero) == null)
+                                    && (tablero.verificaciones.hayFicha2(f.getPosY(), (f.getPosX() + 2),
+                                            tablero.getTurno(),tablero) == null)) {
                                 // 2. VERIFICAR QUE NO ESTE CONTROLADA POR NINGUNA FICHA DEL OTRO EQUIPO Y QUE
                                 // NO ME VA A OCASIONAR JAQUE
                                 if (!listaMovimientosEquipoContrario
@@ -120,12 +120,12 @@ public class Rey extends Fichas {
                     // LA IZQUIERDA
                     }else if (!tor.movio && (tor.getPosX() == 0) && !f.movio) {
                         // 1. QUE NO HAYAN FICHAS INTERPONIENDOSE ENTRE EL REY Y LA TORRE
-                        if ((tablero.hayFicha(f.getPosY(), (f.getPosX() - 1), tablero.getTurno()) == null)
-                                && (tablero.hayFicha(f.getPosY(), (f.getPosX() - 2), tablero.getTurno()) == null)
-                                && (tablero.hayFicha(f.getPosY(), (f.getPosX() - 3), tablero.getTurno()) == null)) {
-                            if ((tablero.hayFicha2(f.getPosY(), (f.getPosX() - 1), tablero.getTurno()) == null)
-                                    && (tablero.hayFicha2(f.getPosY(), (f.getPosX() - 2),tablero.getTurno()) == null)
-                                    && (tablero.hayFicha2(f.getPosY(), (f.getPosX() - 3),tablero.getTurno()) == null)) {
+                        if ((tablero.verificaciones.hayFicha(f.getPosY(), (f.getPosX() - 1), tablero.getTurno(),tablero) == null)
+                                && (tablero.verificaciones.hayFicha(f.getPosY(), (f.getPosX() - 2), tablero.getTurno(),tablero) == null)
+                                && (tablero.verificaciones.hayFicha(f.getPosY(), (f.getPosX() - 3), tablero.getTurno(),tablero) == null)) {
+                            if ((tablero.verificaciones.hayFicha2(f.getPosY(), (f.getPosX() - 1), tablero.getTurno(),tablero) == null)
+                                    && (tablero.verificaciones.hayFicha2(f.getPosY(), (f.getPosX() - 2),tablero.getTurno(),tablero) == null)
+                                    && (tablero.verificaciones.hayFicha2(f.getPosY(), (f.getPosX() - 3),tablero.getTurno(),tablero) == null)) {
                                 // 2. VERIFICAR QUE NO ESTE CONTROLADA POR NINGUNA FICHA DEL OTRO EQUIPO Y QUE
                                 // NO ME VA A OCASIONAR JAQUE
                                 if (!listaMovimientosEquipoContrario

@@ -15,7 +15,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import modelo.fichas.Fichas;
 import controlador.AccionRendir;
-import controlador.GestionVentanas;
 
 public class VistaTablero extends JFrame {
     
@@ -32,7 +31,6 @@ public class VistaTablero extends JFrame {
     private JTextArea texto = new JTextArea();
 
     public VistaTablero(String nombreJ1, String nombreJ2) {
-        GestionVentanas.agregarVentana(this);
         this.nombreJ1 = nombreJ1;
         this.nombreJ2 = nombreJ2;
         initComponents();

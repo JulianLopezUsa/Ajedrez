@@ -19,6 +19,7 @@ import modelo.jugadores.Jugadores;
  */
 public class Tablero {
 
+    public Verificaciones verificaciones;
     public int turno;
     public Jugadores jugador1;
     public Jugadores jugador2;
@@ -29,6 +30,10 @@ public class Tablero {
     public ArrayList<Boolean> historialJugadas = new ArrayList<>();
     public ArrayList<Fichas> arregloFichasMovimiento;
 
+    public ArrayList<String> fichasValidasSalvarJaque = new ArrayList<>();
+    public ArrayList<String> fichasValidasJaqueMate = new ArrayList<>();
+
+
     public Jugadores oponente;
     public boolean jaqueBlanco = false;
     public boolean jaqueNegro = false;
@@ -37,6 +42,7 @@ public class Tablero {
     public Tablero(String nombreJugador1, String nombreJugador2) {
         this.jugador1 = new Jugadores(nombreJugador1);
         this.jugador2 = new Jugadores(nombreJugador2);
+        verificaciones = new Verificaciones();
         inicializarFichasEquipo1();
         inicializarFichasEquipo2();
         turno = 0;
@@ -72,40 +78,6 @@ public class Tablero {
         jugador2.fichas.add(new Rey(4, 7, "blanco"));
     }
 
-    public Fichas hayFicha(int i, int j, int turno) {
-        if (turno == 0) {
-            for (Fichas ficha : jugador2.fichas) {
-                if (ficha.getPosX() == j && ficha.getPosY() == i) {
-                    return ficha;
-                }
-            }
-        } else if (turno == 1) {
-            for (Fichas ficha : jugador1.fichas) {
-                if (ficha.getPosX() == j && ficha.getPosY() == i) {
-                    return ficha;
-                }
-            }
-        }
-        return null;
-    }
-
-    public Fichas hayFicha2(int i, int j, int turno) {
-        if (turno == 0) {
-            for (Fichas ficha : jugador1.fichas) {
-                if (ficha.getPosX() == j && ficha.getPosY() == i) {
-                    return ficha;
-                }
-            }
-        } else if (turno == 1) {
-            for (Fichas ficha : jugador2.fichas) {
-                if (ficha.getPosX() == j && ficha.getPosY() == i) {
-                    return ficha;
-                }
-            }
-        }
-        return null;
-    }
-
     public ArrayList<Fichas> moverFicha(Fichas fichaSeleccionada, int i, int j) {
 
         // Actualizar la posición de la ficha en el tablero
@@ -113,7 +85,7 @@ public class Tablero {
         // Si la ficha se mueve a una posición ocupada por una ficha del otro jugador,
         // eliminar esa ficha del otro jugador
 
-        Fichas fichaEnNuevaPosicion = hayFicha2(i, j, turno);
+        Fichas fichaEnNuevaPosicion = verificaciones.hayFicha2(i, j, turno, this);
         if (fichaEnNuevaPosicion != null) {
             if (turno == 0) {
                 jugador1.fichas.remove(fichaEnNuevaPosicion);
@@ -195,157 +167,6 @@ public class Tablero {
         return turno;
     }
 
-    public boolean estaEnJaque(int turno) {
-        // Obtener la posición del rey del oponente
-        Fichas rey;
-        if (turno == 1) {
-            rey = obtenerRey(jugador2.getFichas());
-        } else {
-            rey = obtenerRey(jugador1.getFichas());
-        }
-        Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
-        for (Fichas ficha : oponente.fichas) {
-            int i = ficha.getPosX();
-            int j = ficha.getPosY();
-
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, 3, true,1);
-
-            ArrayList<String> movimientos = ficha.listaDeMovimientos;
-            for (String movimiento : movimientos) {
-                String[] pos = movimiento.split(" ");
-
-                int newY = pos[0].charAt(0) - 'a';
-                int newX = Integer.parseInt(pos[1]);
-
-                if (newX == rey.getPosX() && newY == rey.getPosY()) {
-                    if (turno == 1) {
-                        jaqueNegro = true;
-                    } else {
-                        jaqueBlanco = true;
-                    }
-                    return true; // El rey está en jaque
-                }
-            }
-        }
-
-        jaqueBlanco = false;
-        jaqueNegro = false;
-        return false; // El rey no está en jaque
-    }
-
-    public Fichas SimulacionMoverFicha(Fichas fichaSeleccionada, Tablero tablero, int i, int j) {
-
-        // SI ENCUENTRA UNA FICHA EN LA PSOCIÓN A LA QUE SE MUEVE LA BORRA NE LA COPIA
-        // Fichas fichaEnNuevaPosicion = hayFicha2(i, j, 0);
-        Fichas fichaEnNuevaPosicion = hayFicha(j, i, (tablero.getTurno() == 1) ? 0 : 1);
-
-        if (fichaEnNuevaPosicion != null) {
-            if (((tablero.getTurno() == 1) ? 0 : 1) == 1) {
-                jugador1.fichas.remove(fichaEnNuevaPosicion);
-            } else {
-                jugador2.fichas.remove(fichaEnNuevaPosicion);
-            }
-        }
-
-        // SE ALTERAN LOS VALORES DE LA COPIA DE LA FICHA POR LOS NUEVOS
-        fichaSeleccionada.setPosX(i);
-        fichaSeleccionada.setPosY(j);
-
-        return fichaEnNuevaPosicion;
-    }
-
-    public Fichas SimulacionRetrocesoFicha(Fichas fichaEliminada, Fichas fichaSeleccionada, Tablero tablero, int i,
-            int j) {
-
-        // VER BIEN EL TRUNO DE ESTA
-        if (fichaEliminada != null) {
-            if (((tablero.getTurno() == 1) ? 0 : 1) == 1) {
-                jugador1.fichas.add(fichaEliminada);
-            } else {
-                jugador2.fichas.add(fichaEliminada);
-            }
-        }
-
-        fichaSeleccionada.setPosX(i);
-        fichaSeleccionada.setPosY(j);
-
-        return fichaSeleccionada;
-    }
-
-    public boolean estaEnJaque2(int turno) {
-        // Obtener la posición del rey del oponente
-        Fichas rey;
-        if (turno == 1) {
-            rey = obtenerRey(jugador2.getFichas());
-        } else {
-            rey = obtenerRey(jugador1.getFichas());
-        }
-        Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
-        
-        for (Fichas ficha : oponente.fichas) {
-            
-            int i = ficha.getPosX();
-            int j = ficha.getPosY();
-            // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno, true,1);
-
-            ArrayList<String> movimientos = ficha.getListaDeMovimientos();
-            
-            for (String movimiento : movimientos) {
-                String[] pos = movimiento.split(" ");
-
-                int newY = pos[0].charAt(0) - 'a';
-                int newX = Integer.parseInt(pos[1]);
-
-                if (newY == rey.getPosY() && newX == rey.getPosX()) {
-                    if (turno == 1) {
-                        jaqueNegro = true;
-                    } else {
-                        jaqueBlanco = true;
-                    }
-                    return true; // El rey está en jaque
-                }
-            }
-        }
-
-        jaqueBlanco = false;
-        jaqueNegro = false;
-        return false; // El rey no está en jaque
-    }
-
-    public boolean estaEnJaque3(int turno) {
-        // Obtener la posición del rey del oponente
-        Fichas rey;
-        if (turno == 1) {
-            rey = obtenerRey(jugador2.getFichas());
-        } else {
-            rey = obtenerRey(jugador1.getFichas());
-        }
-        Jugadores oponente = (turno == 0) ? jugador2 : jugador1;
-        
-        for (Fichas ficha : oponente.fichas) {
-            
-            int i = ficha.getPosX();
-            int j = ficha.getPosY();
-            // ficha.movimientoFicha((char) (j + 97) + " " + i, this, 0);
-            ficha.movimientoFicha((char) (j + 97) + " " + i, this, turno, true,1);
-
-            ArrayList<String> movimientos = ficha.getListaDeMovimientos();
-            
-            for (String movimiento : movimientos) {
-                String[] pos = movimiento.split(" ");
-
-                int newY = pos[0].charAt(0) - 'a';
-                int newX = Integer.parseInt(pos[1]);
-
-                if (newY == rey.getPosY() && newX == rey.getPosX()) {
-                    return true; // El rey está en jaque
-                }
-            }
-        }
-        return false; // El rey no está en jaque
-    }
-
     public Fichas obtenerRey(ArrayList<Fichas> fichas) {
         for (Fichas ficha : fichas) {
             if (ficha instanceof Rey) {
@@ -353,9 +174,5 @@ public class Tablero {
             }
         }
         return null; // Si no se encuentra el rey
-    }
-
-    public void guardarJugadaAnterior(){
-
     }
 }

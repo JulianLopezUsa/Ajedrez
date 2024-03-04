@@ -3,10 +3,8 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import vista.VistaTablero;
-import vista.MenuA;
 import vista.Rendir;
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 
 public class AccionRendir implements ActionListener {
 
@@ -37,8 +35,7 @@ public class AccionRendir implements ActionListener {
             mensaje = "Jugador 2";
             rutaImagen = "src/img/rey_negro.png";
         }
-        Rendir rendirFrame = new Rendir(mensaje, rutaImagen, jugador);
-        rendirFrame.setVisible(true);
+        new EventosVentanita(new Rendir(mensaje, rutaImagen, jugador), vistaTablero);
     }
 
     @Override
@@ -54,5 +51,4 @@ public class AccionRendir implements ActionListener {
         }
     }
 
-     
 }

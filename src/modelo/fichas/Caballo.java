@@ -51,7 +51,7 @@ public class Caballo extends Fichas {
             if (nuevaLetra >= 97 && nuevaLetra <= 104 && nuevoNumero >= 0 && nuevoNumero <= 7) {
                 // Verificar si hay una ficha del mismo equipo en la casilla final del
                 // movimiento
-                Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt);
+                Fichas ficha = tablero.verificaciones.hayFicha(nuevaLetra - 'a', nuevoNumero, tt, tablero);
 
                 if (ficha == null || !ficha.getColor().equals(this.getColor())) {
                     // Si no hay una ficha del mismo equipo, agregar el movimiento a la lista de
@@ -82,16 +82,16 @@ public class Caballo extends Fichas {
             int originalX = this.getPosX();
             int originalY = this.getPosY();
 
-            Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+            Fichas fichaEliminada = tablero2.verificaciones.SimulacionMoverFicha(
                     this,
                     tablero2,
                     moveY,
                     moveX);
 
             // Verificar si el rey está en jaque después del movimiento
-            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1);
+            boolean jaqueDespuesDeMovimiento = tablero2.verificaciones.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1,tablero2);
             // Deshacer el movimiento temporal
-            tablero2.SimulacionRetrocesoFicha(
+            tablero2.verificaciones.SimulacionRetrocesoFicha(
                     fichaEliminada,
                     this,
                     tablero2,

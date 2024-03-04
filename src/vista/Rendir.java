@@ -2,7 +2,6 @@ package vista;
 
 import javax.swing.*;
 
-import controlador.GestionVentanas;
 
 import java.awt.*;
 
@@ -10,9 +9,10 @@ public class Rendir extends JFrame {
 
   private JPanel contentPane;
   private int jugador;
+  public JButton btnAceptar;
+  public JButton btnRechazar;
 
   public Rendir(String mensaje, String rutaImagen, int jugador) {
-    GestionVentanas.agregarVentana(this);
     this.jugador = jugador;
     setTitle("Panel de Rendición");
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,8 +32,12 @@ public class Rendir extends JFrame {
     lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
     contentPane.add(lblImagen, BorderLayout.CENTER);
 
-    JButton btnAceptar = new JButton("Aceptar");
-    JButton btnRechazar = new JButton("Rechazar");
+    btnAceptar = new JButton("Aceptar");
+    btnAceptar.setBackground(Color.gray);
+    btnAceptar.setForeground(Color.white);
+    btnRechazar = new JButton("Rechazar");
+    btnRechazar.setBackground(Color.gray);
+    btnRechazar.setForeground(Color.white);
 
     JPanel panelBotones = new JPanel();
     panelBotones.add(btnAceptar);

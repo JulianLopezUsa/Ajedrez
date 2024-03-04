@@ -39,8 +39,8 @@ public class Alfil extends Fichas {
                 boolean puedeAvanzar = true; // Variable para verificar si puede avanzar en diagonal
                 while (nuevaLetra >= 'a' && nuevaLetra <= 'h' && nuevoNumero >= 0 && nuevoNumero <= 7 && puedeAvanzar) {
                     // Verificar si hay una ficha en la casilla adyacente
-                    Fichas ficha = tablero.hayFicha(nuevaLetra - 'a', nuevoNumero, tt); // verifica las del otro color
-                    Fichas ficha2 = tablero.hayFicha2(nuevaLetra - 'a', nuevoNumero, tt); // verfica las del mismo color
+                    Fichas ficha = tablero.verificaciones.hayFicha(nuevaLetra - 'a', nuevoNumero, tt, tablero); // verifica las del otro color
+                    Fichas ficha2 = tablero.verificaciones.hayFicha2(nuevaLetra - 'a', nuevoNumero, tt,tablero); // verfica las del mismo color
                     if (ficha != null || ficha2 != null) {
                         puedeAvanzar = false;
                         if (ficha2 != null) {
@@ -79,16 +79,16 @@ public class Alfil extends Fichas {
             int originalX = this.getPosX();
             int originalY = this.getPosY();
 
-            Fichas fichaEliminada = tablero2.SimulacionMoverFicha(
+            Fichas fichaEliminada = tablero2.verificaciones.SimulacionMoverFicha(
                     this,
                     tablero2,
                     moveY,
                     moveX);
 
             // Verificar si el rey está en jaque después del movimiento
-            boolean jaqueDespuesDeMovimiento = tablero2.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1);
+            boolean jaqueDespuesDeMovimiento = tablero2.verificaciones.estaEnJaque3((tablero2.getTurno() == 1) ? 0 : 1, tablero2);
             // Deshacer el movimiento temporal
-            tablero2.SimulacionRetrocesoFicha(
+            tablero2.verificaciones.SimulacionRetrocesoFicha(
                     fichaEliminada,
                     this,
                     tablero2,
