@@ -5,29 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-/**
- * Define un cliente que se conecta un servidor
- * 
- * @author Ornelas Munguía Axel Leonardo
- * @version 23.04.2020
- */
 public class Cliente extends Conexion {
-    
-    /**
-     * Constructor de la clase 
-     * 
-     * @throws IOException Indica si se conecta o no
-     */
+
     public Cliente() throws IOException{
         super("cliente");
     } //Se usa el constructor para cliente de Conexion
 
-    
-    /**
-     * Lee los datos que le envia el servidor
-     * 
-     * @return Devuelve los datos
-     */
+
     public String leerDatosServidor(){
         String dato = null;
         try {         

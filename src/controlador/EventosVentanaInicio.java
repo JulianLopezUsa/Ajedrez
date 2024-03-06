@@ -2,11 +2,9 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
-
-import controlador.sockets.SalaDeEspera;
 import modelo.Tablero.Tablero;
+import vista.Conexion;
 import vista.MenuA;
 import vista.VistaTablero;
 
@@ -27,7 +25,9 @@ public class EventosVentanaInicio implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.menuA.botonIniciar)) {
             iniciarJuego();
-        } else if (e.getSource().equals(this.menuA.botonSalir)) {
+        }else if (e.getSource().equals(this.menuA.botonIniciarL)) {
+            iniciarLinea();
+        }else if (e.getSource().equals(this.menuA.botonSalir)) {
             salirDelJuego();
         }
     }
@@ -50,6 +50,10 @@ public class EventosVentanaInicio implements ActionListener {
 
     private String pedirNombreJugador(String mensaje) {
         return JOptionPane.showInputDialog(null, mensaje);
+    }
+
+    private void iniciarLinea(){
+        Conexion  Conexion = new Conexion();
     }
 
     private void salirDelJuego() {

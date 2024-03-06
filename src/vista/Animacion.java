@@ -3,12 +3,7 @@ package vista;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- * Animación de la sala de espera
- * 
- * @author Ornelas Munguía Axel Leonardo
- * @version 23.04.2020
- */
+
 public class Animacion extends javax.swing.JPanel implements Runnable{
 
     private int i;
