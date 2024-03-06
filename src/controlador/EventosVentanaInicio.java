@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import modelo.Tablero.Tablero;
-import vista.Conexion;
 import vista.MenuA;
 import vista.VistaTablero;
+import vistaConexion.Conexion;
 
 public class EventosVentanaInicio implements ActionListener {
     // private final Jugador[] jugadores;
@@ -53,7 +53,7 @@ public class EventosVentanaInicio implements ActionListener {
     }
 
     private void iniciarLinea(){
-        Conexion  Conexion = new Conexion();
+        Conexion Conexion = new Conexion();
     }
 
     private void salirDelJuego() {

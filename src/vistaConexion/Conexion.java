@@ -1,4 +1,4 @@
-package vista;
+package vistaConexion;
 
 import java.awt.Component;
 import java.awt.Dimension;
