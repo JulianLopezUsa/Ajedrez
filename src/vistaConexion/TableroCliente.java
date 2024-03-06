@@ -12,14 +12,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import modelo.fichas.Fichas;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.jugadores.Jugadores;
 import controlador.AccionRendir;
+import controlador.sockets.Cliente;
 
 public class TableroCliente extends JFrame {
-    
+
     public JButton[][] cuadro;
-    private String nombreJ1;
+    private Cliente cliente;
+    private String nombre;
     private String nombreJ2;
     public JButton fin1, fin2;
     public int jaqueX_negras, jaqueY_negras;
@@ -29,9 +35,18 @@ public class TableroCliente extends JFrame {
     public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
+    private Jugadores jugadores;
 
-    public TableroCliente(String nombreJ1, String nombreJ2) {
-        this.nombreJ1 = nombreJ1;
+    public TableroCliente(String nombre, Jugadores jugadores) {
+        this.jugadores = jugadores;
+        try {
+            cliente = new Cliente();
+        } catch (IOException ex) {
+            Logger.getLogger(TableroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cliente.enviarDatosServidor(nombre);
+
+        this.nombre = nombre;
         this.nombreJ2 = nombreJ2;
         initComponents();
     }
@@ -78,14 +93,12 @@ public class TableroCliente extends JFrame {
 
         JLabel label1 = new JLabel(" - Jugador 1:");
         label1.setForeground(Color.BLACK);
-        JLabel nombre1 = new JLabel(nombreJ1);
-      
+        JLabel nombre1 = new JLabel(nombre);
 
         panelJugador1.add(label1);
         panelJugador1.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador1.add(nombre1);
         panelJugador1.add(Box.createHorizontalGlue());
-       
 
         JPanel panelJugador2 = new JPanel();
         panelJugador2.setBackground(Color.WHITE);
@@ -95,7 +108,6 @@ public class TableroCliente extends JFrame {
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
-       
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -130,23 +142,24 @@ public class TableroCliente extends JFrame {
     }
 
     public void mostrarHistorialPartida(ArrayList<String> historialPartida) {
-        texto.setText("---------------------------------------------------------\n"); // Limpiar el contenido actual del JTextArea
+        texto.setText("---------------------------------------------------------\n"); // Limpiar el contenido actual del
+                                                                                      // JTextArea
         int numeroMovimiento = 1;
-    
+
         // Recorremos el historial de movimientos
         for (int i = 0; i < historialPartida.size(); i += 2) {
             String numeroFormateado = numeroMovimiento + ". ";
             String mov1 = historialPartida.get(i);
-            String mov2 = (i + 1 < historialPartida.size()) ? historialPartida.get(i + 1) : ""; // Evitar índice fuera de rango
+            String mov2 = (i + 1 < historialPartida.size()) ? historialPartida.get(i + 1) : ""; // Evitar índice fuera
+                                                                                                // de rango
             String cadenaMovimientos = numeroFormateado + mov1 + "       " + mov2;
             String textoSinSaltos = cadenaMovimientos.replaceAll("\\n", "");
-            texto.append("  "+textoSinSaltos + "\n");
+            texto.append("  " + textoSinSaltos + "\n");
             numeroMovimiento++;
             texto.append("---------------------------------------------------------\n");
         }
-       
+
     }
-    
 
     public JButton getBoton(int x, int y) {
         return cuadro[x][y];
@@ -175,8 +188,6 @@ public class TableroCliente extends JFrame {
         cuadro[7][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
         cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
-
-    
 
     public ImageIcon escalarImagen(String ruta) {
         ImageIcon icono = new ImageIcon(ruta);
@@ -212,7 +223,7 @@ public class TableroCliente extends JFrame {
         resaltarJaque();
     }
 
-    public void quitarJaque(){
+    public void quitarJaque() {
         // Resetear el color de todos los botones del tablero
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -309,10 +320,7 @@ public class TableroCliente extends JFrame {
         return nombreFichaCoronada;
     }
 
-    public void closeGame(){
+    public void closeGame() {
         this.dispose();
     }
 }
-
-    
-

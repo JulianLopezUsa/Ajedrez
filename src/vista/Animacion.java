@@ -52,7 +52,7 @@ public class Animacion extends javax.swing.JPanel implements Runnable{
     public void paint(Graphics grphcs) {
         super.paint(grphcs);
         //Dibuja una linea que rebota de un lado a otro
-        grphcs.setColor(Color.BLUE);
+        grphcs.setColor(Color.GREEN);
         grphcs.fillRect(i, getHeight()/2, 60, 8);
         
         if(i == 0 || i > getWidth()-45)

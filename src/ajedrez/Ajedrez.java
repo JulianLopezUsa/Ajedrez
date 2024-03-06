@@ -11,7 +11,7 @@ public class Ajedrez {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 MenuA menu = new MenuA();
-                new EventosVentanaInicio(menu);
+                new EventosVentanaInicio(menu,null);
             }
         });
     }

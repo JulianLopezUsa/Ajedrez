@@ -1,19 +1,21 @@
 package controlador.sockets;
 
-import modelo.jugadores.*;
 import modelo.jugadores.Jugadores;
+import vistaConexion.TableroServidor;
 
 import java.io.IOException;
+
+import controlador.VentanaLan;
 
 public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
 
     // Atributos de clase
     private Servidor servidor;
     private final String nombre;
-    private final Jugadores[] jugadores;
+    private final Jugadores jugadores;
 
-    public SalaDeEspera(java.awt.Frame parent, boolean modal, String nombre, Jugadores[] jugadores) {
-        super(parent, modal);
+    public SalaDeEspera(VentanaLan ventanaLan, boolean modal, String nombre, Jugadores jugadores) {
+        super();
         this.jugadores = jugadores;
         initComponents();
         try {
@@ -103,21 +105,21 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void salirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_salirActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {
         servidor.cerrarConexiónCliente();
         servidor.finalizarConexión();
         dispose();
-    }// GEN-LAST:event_salirActionPerformed
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+  
     private vista.Animacion animacion1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton salir;
     private javax.swing.JLabel texto;
-    // End of variables declaration//GEN-END:variables
+   
 
     @Override
     public void run() {
@@ -131,8 +133,8 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
         // Hace invisible la sala de espera.
         setVisible(false);
         // Abre el tablero de juego
-        // JugarServidor juego = new JugarServidor(nombre, servidor, jugadores);
-        // juego.setVisible(true);
+        TableroServidor tablero = new TableroServidor(nombre,servidor);
+        tablero.setVisible(true);
 
     }
 

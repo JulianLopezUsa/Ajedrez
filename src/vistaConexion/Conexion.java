@@ -42,16 +42,9 @@ public class Conexion extends JFrame {
         add(panel);
         setVisible(true);
     }
-
-    // public static void main(String[] args) {
-    //     SwingUtilities.invokeLater(new Runnable() {
-    //         @Override
-    //         public void run() {
-    //             new Conexion();
-    //         }
-    //     });
-    // }
 }
+
+ 
 
 
 

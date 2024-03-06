@@ -6,10 +6,6 @@ import modelo.fichas.Fichas;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Laura
- */
 public class Jugadores {
 
     public String nombre;

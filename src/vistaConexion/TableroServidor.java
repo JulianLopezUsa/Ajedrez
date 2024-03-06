@@ -15,9 +15,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import modelo.fichas.Fichas;
 import controlador.AccionRendir;
+import controlador.sockets.Servidor;
 
 public class TableroServidor extends JFrame {
-    
+
+    private final Servidor servidor;
     public JButton[][] cuadro;
     private String nombreJ1;
     private String nombreJ2;
@@ -30,7 +32,11 @@ public class TableroServidor extends JFrame {
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
 
-    public TableroServidor(String nombreJ1, String nombreJ2) {
+    
+
+    public TableroServidor(String nombreJ1, Servidor servidor) {
+        this.servidor = servidor;
+        servidor.enviarDatoCliente(nombreJ1);
         this.nombreJ1 = nombreJ1;
         this.nombreJ2 = nombreJ2;
         initComponents();
@@ -97,7 +103,6 @@ public class TableroServidor extends JFrame {
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
-       
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -132,23 +137,24 @@ public class TableroServidor extends JFrame {
     }
 
     public void mostrarHistorialPartida(ArrayList<String> historialPartida) {
-        texto.setText("---------------------------------------------------------\n"); // Limpiar el contenido actual del JTextArea
+        texto.setText("---------------------------------------------------------\n"); // Limpiar el contenido actual del
+                                                                                      // JTextArea
         int numeroMovimiento = 1;
-    
+
         // Recorremos el historial de movimientos
         for (int i = 0; i < historialPartida.size(); i += 2) {
             String numeroFormateado = numeroMovimiento + ". ";
             String mov1 = historialPartida.get(i);
-            String mov2 = (i + 1 < historialPartida.size()) ? historialPartida.get(i + 1) : ""; // Evitar índice fuera de rango
+            String mov2 = (i + 1 < historialPartida.size()) ? historialPartida.get(i + 1) : ""; // Evitar índice fuera
+                                                                                                // de rango
             String cadenaMovimientos = numeroFormateado + mov1 + "       " + mov2;
             String textoSinSaltos = cadenaMovimientos.replaceAll("\\n", "");
-            texto.append("  "+textoSinSaltos + "\n");
+            texto.append("  " + textoSinSaltos + "\n");
             numeroMovimiento++;
             texto.append("---------------------------------------------------------\n");
         }
-       
+
     }
-    
 
     public JButton getBoton(int x, int y) {
         return cuadro[x][y];
@@ -177,8 +183,6 @@ public class TableroServidor extends JFrame {
         cuadro[7][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
         cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
-
-    
 
     public ImageIcon escalarImagen(String ruta) {
         ImageIcon icono = new ImageIcon(ruta);
@@ -214,7 +218,7 @@ public class TableroServidor extends JFrame {
         resaltarJaque();
     }
 
-    public void quitarJaque(){
+    public void quitarJaque() {
         // Resetear el color de todos los botones del tablero
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -311,10 +315,7 @@ public class TableroServidor extends JFrame {
         return nombreFichaCoronada;
     }
 
-    public void closeGame(){
+    public void closeGame() {
         this.dispose();
     }
 }
-
-    
-
