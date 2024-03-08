@@ -13,7 +13,7 @@ public class TableroServidor extends JFrame {
     public JButton[][] cuadro;
     private String nombreJ1;
     private String nombreJ2;
-    public JButton fin1, fin2;
+    public JButton fin1;
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
@@ -22,7 +22,6 @@ public class TableroServidor extends JFrame {
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
 
-    
     public TableroServidor(String nombreJ1, String nombreJ2, Servidor servidor) {
         this.servidor = servidor;
         servidor.enviarDatoCliente(nombreJ1);
@@ -92,16 +91,12 @@ public class TableroServidor extends JFrame {
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
-        fin2 = new JButton("Rendirse"); // inicializamos fin2 aquí
-        fin2.setBackground(Color.black);
-        fin2.setForeground(Color.white);
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador2.add(nombre2);
         panelJugador2.add(Box.createHorizontalGlue());
-        panelJugador2.add(fin2); // agregamos fin2 al panel
-
+       
         panelDerecho.add(label);
         panelDerecho.add(panelJugador1);
         panelDerecho.add(panelJugador2);
@@ -124,7 +119,7 @@ public class TableroServidor extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        AccionRendir accionRendir = new AccionRendir(this, 2, fin1, fin2);
+        AccionRendir accionRendir = new AccionRendir(this, 2, fin1, null);
         add(contenido);
     }
 
@@ -310,4 +305,5 @@ public class TableroServidor extends JFrame {
     public void closeGame() {
         this.dispose();
     }
+
 }

@@ -18,7 +18,7 @@ import modelo.jugadores.Jugadores;
  */
 public class juegoLan {
 
-    public Verificaciones verificaciones;
+    public VerificacionesLan verificacionesLan;
     public int turno;
     public Jugadores jugador1;
     public Jugadores jugador2;
@@ -41,7 +41,7 @@ public class juegoLan {
     public juegoLan(String nombreJugador1, String nombreJugador2) {
         this.jugador1 = new Jugadores(nombreJugador1);
         this.jugador2 = new Jugadores(nombreJugador2);
-        verificaciones = new Verificaciones();
+        verificacionesLan = new VerificacionesLan();
         inicializarFichasEquipo1();
         inicializarFichasEquipo2();
         turno = 0;
@@ -84,7 +84,7 @@ public class juegoLan {
         // Si la ficha se mueve a una posición ocupada por una ficha del otro jugador,
         // eliminar esa ficha del otro jugador
 
-        Fichas fichaEnNuevaPosicion = VerificacionesLan.hayFicha2(i, j, turno, this);
+        Fichas fichaEnNuevaPosicion = verificacionesLan.hayFicha2(i, j, turno, this);
         if (fichaEnNuevaPosicion != null) {
             if (turno == 0) {
                 jugador1.fichas.remove(fichaEnNuevaPosicion);

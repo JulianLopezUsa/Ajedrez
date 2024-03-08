@@ -27,7 +27,7 @@ public class TableroCliente extends JFrame {
     private Cliente cliente;
     private String nombre;
     private String nombreJ2;
-    public JButton fin1, fin2;
+    public JButton fin2;
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
@@ -137,7 +137,7 @@ public class TableroCliente extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        AccionRendir accionRendir = new AccionRendir(this, 2, fin1, fin2);
+        AccionRendir accionRendir = new AccionRendir(this, 2, null, fin2);
         add(contenido);
     }
 
