@@ -58,9 +58,20 @@ public class Cliente extends Conexion {
 
     
     public static void main(String[] args) throws IOException {
-        Cliente cliente = new Cliente();
-        StringTokenizer separador = new StringTokenizer(cliente.leerDatosServidor());
-        System.out.println("x = " + separador.nextToken() + "  y = " + separador.nextToken());
-        cliente.cerrarCliente();
+    Cliente cliente = new Cliente();
+    String datosServidor = cliente.leerDatosServidor();
+    if (datosServidor != null) {
+        StringTokenizer separador = new StringTokenizer(datosServidor);
+        if (separador.hasMoreTokens()) {
+            System.out.println("x = " + separador.nextToken());
+        }
+        if (separador.hasMoreTokens()) {
+            System.out.println("y = " + separador.nextToken());
+        }
+    } else {
+        System.out.println("No se recibieron datos del servidor.");
     }
+    cliente.cerrarCliente();
+}
+
 }

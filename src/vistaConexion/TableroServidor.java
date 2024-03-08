@@ -1,16 +1,6 @@
 package vistaConexion;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import modelo.fichas.Fichas;
@@ -33,8 +23,7 @@ public class TableroServidor extends JFrame {
     private JTextArea texto = new JTextArea();
 
     
-
-    public TableroServidor(String nombreJ1, Servidor servidor) {
+    public TableroServidor(String nombreJ1, String nombreJ2, Servidor servidor) {
         this.servidor = servidor;
         servidor.enviarDatoCliente(nombreJ1);
         this.nombreJ1 = nombreJ1;
@@ -103,12 +92,15 @@ public class TableroServidor extends JFrame {
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
+        fin2 = new JButton("Rendirse"); // inicializamos fin2 aquí
+        fin2.setBackground(Color.black);
+        fin2.setForeground(Color.white);
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador2.add(nombre2);
         panelJugador2.add(Box.createHorizontalGlue());
-        panelJugador2.add(fin2);
+        panelJugador2.add(fin2); // agregamos fin2 al panel
 
         panelDerecho.add(label);
         panelDerecho.add(panelJugador1);

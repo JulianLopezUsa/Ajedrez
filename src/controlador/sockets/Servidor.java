@@ -32,11 +32,6 @@ public class Servidor extends Conexion
         return bandera;
     }
 
-    /**
-     * Envia los datos al cliente
-     * 
-     * @param dato Datos a enviar
-     */
     public void enviarDatoCliente(String dato) {
         try {
             salida = new DataOutputStream(cs.getOutputStream());
@@ -70,11 +65,6 @@ public class Servidor extends Conexion
         }
     }
 
-    /**
-     * Lee los datos que ha enviado el cliente.
-     * 
-     * @return Devuelve los datos del cliente. 
-     */
     public String leerDatosCliente(){
         String dato = null;
         try {
