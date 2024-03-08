@@ -35,7 +35,7 @@ public class TableroCliente extends JFrame {
     public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
-    private Jugadores jugadores;
+    public Jugadores jugadores;
 
     public TableroCliente(String nombre, Jugadores jugadores) {
         this.jugadores = jugadores;

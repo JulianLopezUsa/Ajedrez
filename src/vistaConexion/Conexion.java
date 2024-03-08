@@ -2,7 +2,12 @@ package vistaConexion;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,12 +17,22 @@ import javax.swing.JPanel;
 
 public class Conexion extends JFrame {
     public JButton crear,unir,salir;
+    private Image backgroundImage;
 
-    public Conexion() {
+   
+        
+        public Conexion() {
+        try {
+            backgroundImage = ImageIO.read(new File("src/img/2.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setTitle("Partida Online");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        
         // Creamos los botones
         crear = new JButton("Crear partida");
         crear.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -25,11 +40,18 @@ public class Conexion extends JFrame {
         unir.setAlignmentX(Component.CENTER_ALIGNMENT);
         salir = new JButton("Salir");
         salir.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        
         // Configuramos el diseño del panel
-        JPanel panel = new JPanel();
+        // JPanel panel = new JPanel();
+        
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        };
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
         // Agregamos los botones al panel
         panel.add(Box.createRigidArea(new Dimension(0, 25))); 
         panel.add(crear);

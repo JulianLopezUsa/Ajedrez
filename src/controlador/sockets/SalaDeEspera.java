@@ -12,7 +12,7 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
         // Atributos de clase
         private Servidor servidor;
         private final String nombre;
-        private final Jugadores jugadores;
+        public final Jugadores jugadores;
 
         public SalaDeEspera(VentanaLan ventanaLan, boolean modal, String nombre, Jugadores jugadores) {
                 super();
