@@ -37,7 +37,6 @@ public class VistaTablero extends JFrame {
     }
 
     public void initComponents() {
-
         setTitle("MyLocalChess");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,7 +150,6 @@ public class VistaTablero extends JFrame {
        
     }
     
-
     public JButton getBoton(int x, int y) {
         return cuadro[x][y];
     }
@@ -179,8 +177,6 @@ public class VistaTablero extends JFrame {
         cuadro[7][3].setIcon(escalarImagen("src/img/dama_blanco.png"));
         cuadro[7][4].setIcon(escalarImagen("src/img/rey_blanco.png"));
     }
-
-    
 
     public ImageIcon escalarImagen(String ruta) {
         ImageIcon icono = new ImageIcon(ruta);

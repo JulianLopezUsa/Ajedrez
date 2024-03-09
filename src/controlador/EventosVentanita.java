@@ -26,7 +26,7 @@ public class EventosVentanita implements ActionListener {
             this.rendir.setVisible(false);
             this.vistaTablero.setVisible(false);
             MenuA menu = new MenuA();
-            new EventosVentanaInicio(menu);
+            new EventosVentanaInicio(menu, null);
         } else if (e.getSource().equals(this.rendir.btnRechazar)) {
             this.rendir.setVisible(false);
         }

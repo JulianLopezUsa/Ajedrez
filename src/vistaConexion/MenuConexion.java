@@ -15,13 +15,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class Conexion extends JFrame {
+public class MenuConexion extends JFrame {
     public JButton crear,unir,salir;
     private Image backgroundImage;
 
    
         
-        public Conexion() {
+        public MenuConexion() {
         try {
             backgroundImage = ImageIO.read(new File("src/img/2.png"));
 

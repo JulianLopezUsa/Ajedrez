@@ -1,5 +1,14 @@
 package vistaConexion;
 
+import modelo.fichas.Fichas;
+import modelo.jugadores.Jugadores;
+import sockets.Cliente;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -12,22 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import modelo.fichas.Fichas;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import modelo.jugadores.Jugadores;
-import controlador.AccionRendir;
-import controlador.sockets.Cliente;
 
-public class TableroCliente extends JFrame {
+public class TableroCliente extends javax.swing.JFrame {
 
     public JButton[][] cuadro;
-    private Cliente cliente;
-    private String nombre;
+    private String nombreJ1;
     private String nombreJ2;
-    public JButton fin2;
+    public JButton fin1, fin2;
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
@@ -35,25 +35,31 @@ public class TableroCliente extends JFrame {
     public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
-    public Jugadores jugadores;
 
-    public TableroCliente(String nombre, Jugadores jugadores) {
+    private final Jugadores[] jugadores;
+    // Es el turno de los jugadores.
+    private int turno;
+    // Indica si la partida se ha acabado.
+    private boolean finPartida;
+    // Sirve para llamar los movimientos al cliente
+    public Cliente cliente;
+
+    public TableroCliente(Jugadores[] jugadores, String nombre) {
         this.jugadores = jugadores;
         try {
             cliente = new Cliente();
         } catch (IOException ex) {
-            Logger.getLogger(TableroCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger("nn").log(Level.SEVERE, null, ex);
         }
         cliente.enviarDatosServidor(nombre);
-
-        this.nombre = nombre;
-        this.nombreJ2 = nombreJ2;
+        String datos = cliente.leerDatosServidor();
+        jugadores[0].setNombre(datos);
+        jugadores[1].setNombre(nombre);
         initComponents();
     }
 
     public void initComponents() {
-
-        setTitle("TServidor");
+        setTitle("MyLocalChessCliente");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -93,12 +99,16 @@ public class TableroCliente extends JFrame {
 
         JLabel label1 = new JLabel(" - Jugador 1:");
         label1.setForeground(Color.BLACK);
-        JLabel nombre1 = new JLabel(nombre);
+        JLabel nombre1 = new JLabel(nombreJ1);
+        fin1 = new JButton("Rendirse");
+        fin1.setBackground(Color.black);
+        fin1.setForeground(Color.white);
 
         panelJugador1.add(label1);
         panelJugador1.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador1.add(nombre1);
         panelJugador1.add(Box.createHorizontalGlue());
+        panelJugador1.add(fin1);
 
         JPanel panelJugador2 = new JPanel();
         panelJugador2.setBackground(Color.WHITE);
@@ -108,6 +118,9 @@ public class TableroCliente extends JFrame {
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
+        fin2 = new JButton("Rendirse");
+        fin2.setBackground(Color.black);
+        fin2.setForeground(Color.white);
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -137,7 +150,7 @@ public class TableroCliente extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        //AccionRendir accionRendir = new AccionRendir(this, 2, null, fin2);
+        //new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
     }
 
@@ -320,7 +333,8 @@ public class TableroCliente extends JFrame {
         return nombreFichaCoronada;
     }
 
-    public void closeGame() {
-        this.dispose();
+    public int getTurno() {
+        return turno;
     }
+
 }

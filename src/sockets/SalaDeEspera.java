@@ -1,20 +1,24 @@
-package controlador.sockets;
+package sockets;
 
+import modelo.Tablero.Tablero;
 import modelo.jugadores.Jugadores;
+import vistaConexion.MenuConexion;
 import vistaConexion.TableroServidor;
 
 import java.io.IOException;
+import java.lang.ModuleLayer.Controller;
 
-import controlador.VentanaLan;
+import controlador.EventoServidor;
+
 
 public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
 
         // Atributos de clase
         private Servidor servidor;
         private final String nombre;
-        public final Jugadores jugadores;
+        public final Jugadores[] jugadores;
 
-        public SalaDeEspera(VentanaLan ventanaLan, boolean modal, String nombre, Jugadores jugadores) {
+        public SalaDeEspera(MenuConexion ventanaLan, boolean modal, String nombre, Jugadores[] jugadores) {
                 super();
                 this.jugadores = jugadores;
                 initComponents();
@@ -28,8 +32,6 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
                 jLabel1.setText(jLabel1.getText() + " " + nombre);
         }
 
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
                 jPanel1 = new javax.swing.JPanel();
@@ -150,9 +152,9 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
                 // Hace invisible la sala de espera.
                 setVisible(false);
                 // Abre el tablero de juego
-                String nombreJ2 = servidor.leerDatosCliente();
-                TableroServidor tablero = new TableroServidor(nombre, nombreJ2, servidor);
-                tablero.setVisible(true);
+                new EventoServidor(new TableroServidor(jugadores, nombre, servidor), new Tablero(nombre, nombre));
+                //TableroServidor tablero = new TableroServidor(nombre, nombreJ2, servidor);
+                //tablero.setVisible(true);
 
         }
 

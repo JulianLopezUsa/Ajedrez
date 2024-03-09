@@ -1,31 +1,32 @@
-package controlador.sockets;
+package sockets;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
-public class Servidor extends Conexion 
-{
+public class Servidor extends Conexion {
     private int numConexiones;
-    
-    public Servidor(int numConexiones) throws IOException {//Se usa el constructor para servidor de Conexion
+
+    public Servidor(int numConexiones) throws IOException {// Se usa el constructor para servidor de Conexion
         super("servidor");
-        JOptionPane.showMessageDialog(null, "Esperando", "Servidor", JOptionPane.INFORMATION_MESSAGE); //Esperando conexión
+        JOptionPane.showMessageDialog(null, "Esperando", "Servidor", JOptionPane.INFORMATION_MESSAGE); // Esperando
+                                                                                                       // conexión
         this.numConexiones = numConexiones;
     }
 
-    //Método para iniciar el servidor
+    // Método para iniciar el servidor
     public boolean esperarConexion() {
         boolean bandera = false;
         try {
-            if(numConexiones > 0){
-                cs = ss.accept(); //Accept comienza el socket y espera una conexión desde un cliente     
-                JOptionPane.showMessageDialog(null, "Conexión exitosa","Servidor",JOptionPane.INFORMATION_MESSAGE);
+            if (numConexiones > 0) {
+                cs = ss.accept(); // Accept comienza el socket y espera una conexión desde un cliente
+                JOptionPane.showMessageDialog(null, "Conexión exitosa", "Servidor", JOptionPane.INFORMATION_MESSAGE);
                 numConexiones--;
                 bandera = true;
-            }else
-               JOptionPane.showMessageDialog(null, "Se han superado las conexiones", "Servidor", JOptionPane.ERROR_MESSAGE);           
+            } else
+                JOptionPane.showMessageDialog(null, "Se han superado las conexiones", "Servidor",
+                        JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -36,17 +37,17 @@ public class Servidor extends Conexion
         try {
             salida = new DataOutputStream(cs.getOutputStream());
             salida.writeUTF(dato);
-            
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
     }
 
     /**
      * Limpia el buffer de la salida del servidor
      */
-    public void limpiarSalida(){
+    public void limpiarSalida() {
         try {
             salida.flush();
         } catch (IOException ex) {
@@ -57,7 +58,7 @@ public class Servidor extends Conexion
     /**
      * Cierra la conexión con el cliente.
      */
-    public void cerrarConexiónCliente(){
+    public void cerrarConexiónCliente() {
         try {
             cs.close();
         } catch (IOException ex) {
@@ -65,7 +66,7 @@ public class Servidor extends Conexion
         }
     }
 
-    public String leerDatosCliente(){
+    public String leerDatosCliente() {
         String dato = null;
         try {
             entrada = new DataInputStream(cs.getInputStream());
@@ -73,20 +74,22 @@ public class Servidor extends Conexion
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        return dato;       
+        return dato;
     }
-            
+
     /**
      * Finaliza el servidor
      */
-    public void finalizarConexión()  {
+    public void finalizarConexión() {
         try {
-            ss.close();//Se finaliza la conexión
-            JOptionPane.showMessageDialog(null, "Fin Servidor", "Servidor", JOptionPane.INFORMATION_MESSAGE); //Esperando conexión
+            ss.close();// Se finaliza la conexión
+            JOptionPane.showMessageDialog(null, "Fin Servidor", "Servidor", JOptionPane.INFORMATION_MESSAGE); // Esperando
+                                                                                                              // conexión
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
+
     public static void main(String[] args) throws IOException {
         Servidor servidor = new Servidor(2);
         servidor.esperarConexion();

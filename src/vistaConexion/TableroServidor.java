@@ -1,19 +1,35 @@
 package vistaConexion;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
-import controlador.AccionRendir;
-import controlador.sockets.Servidor;
+import modelo.jugadores.Jugadores;
+import sockets.Servidor;
+import vista.VistaTablero;
 
-public class TableroServidor extends JFrame {
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.ArrayList;
 
-    private final Servidor servidor;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+public class TableroServidor extends javax.swing.JFrame {
+
     public JButton[][] cuadro;
     private String nombreJ1;
     private String nombreJ2;
-    public JButton fin1;
+    public JButton fin1, fin2;
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
@@ -22,17 +38,29 @@ public class TableroServidor extends JFrame {
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
 
-    public TableroServidor(String nombreJ1, String nombreJ2, Servidor servidor) {
+    private final Jugadores[] jugadores;
+    // Es el turno de los jugadores.
+    private int turno;
+    // Indica si la partida se ha acabado.
+    private boolean finPartida;
+    // Sirve para llamar los movimientos al cliente
+    private Servidor servidor;
+
+    public TableroServidor(Jugadores[] jugadores, String nombre, Servidor servidor) {
         this.servidor = servidor;
-        servidor.enviarDatoCliente(nombreJ1);
-        this.nombreJ1 = nombreJ1;
-        this.nombreJ2 = nombreJ2;
+        this.servidor.enviarDatoCliente(nombre);
+        this.jugadores = jugadores;
+        jugadores[0].setNombre(nombre);
+        jugadores[1].setNombre(this.servidor.leerDatosCliente());
         initComponents();
     }
 
-    public void initComponents() {
+    public int getTurno() {
+        return turno;
+    }
 
-        setTitle("TServidor");
+    public void initComponents() {
+        setTitle("MyLocalChessServidor");
         setSize(1300, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -91,11 +119,15 @@ public class TableroServidor extends JFrame {
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
         JLabel nombre2 = new JLabel(nombreJ2);
+        fin2 = new JButton("Rendirse");
+        fin2.setBackground(Color.black);
+        fin2.setForeground(Color.white);
 
         panelJugador2.add(label2);
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador2.add(nombre2);
         panelJugador2.add(Box.createHorizontalGlue());
+        panelJugador2.add(fin2);
 
         panelDerecho.add(label);
         panelDerecho.add(panelJugador1);
@@ -119,7 +151,7 @@ public class TableroServidor extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        //AccionRendir accionRendir = new AccionRendir(this, 2, fin1, null);
+        // new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
     }
 
@@ -140,7 +172,6 @@ public class TableroServidor extends JFrame {
             numeroMovimiento++;
             texto.append("---------------------------------------------------------\n");
         }
-
     }
 
     public JButton getBoton(int x, int y) {
@@ -301,9 +332,4 @@ public class TableroServidor extends JFrame {
         }
         return nombreFichaCoronada;
     }
-
-    public void closeGame() {
-        this.dispose();
-    }
-
 }
