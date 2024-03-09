@@ -5,7 +5,6 @@ import javax.swing.*;
 
 import java.awt.*;
 
-
 public class Rendir extends JFrame {
 
   private JPanel contentPane;
@@ -28,7 +27,7 @@ public class Rendir extends JFrame {
     contentPane.add(lblMensaje, BorderLayout.NORTH);
 
     ImageIcon icono = new ImageIcon(rutaImagen);
-    Image imagen = icono.getImage().getScaledInstance(120, 180, Image.SCALE_SMOOTH);
+    Image imagen = icono.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
     JLabel lblImagen = new JLabel(new ImageIcon(imagen));
     lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
     contentPane.add(lblImagen, BorderLayout.CENTER);
@@ -45,5 +44,8 @@ public class Rendir extends JFrame {
     panelBotones.add(btnRechazar);
     contentPane.add(panelBotones, BorderLayout.SOUTH);
 
+    
+
   }
+
 }

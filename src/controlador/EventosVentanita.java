@@ -6,15 +6,11 @@ import java.awt.event.ActionListener;
 import vista.MenuA;
 import vista.Rendir;
 import vista.VistaTablero;
-import modelo.jugadores.*;
-
 
 public class EventosVentanita implements ActionListener {
 
     private Rendir rendir;
     private VistaTablero vistaTablero;
-    private Jugadores jugadores;
-    
 
     public EventosVentanita(Rendir rendir, VistaTablero vistaTablero) {
         this.rendir = rendir;
@@ -30,7 +26,7 @@ public class EventosVentanita implements ActionListener {
             this.rendir.setVisible(false);
             this.vistaTablero.setVisible(false);
             MenuA menu = new MenuA();
-            new EventosVentanaInicio(menu,jugadores);
+            new EventosVentanaInicio(menu);
         } else if (e.getSource().equals(this.rendir.btnRechazar)) {
             this.rendir.setVisible(false);
         }

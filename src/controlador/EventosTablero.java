@@ -13,7 +13,6 @@ import modelo.fichas.Torre;
 import modelo.jugadores.Jugadores;
 import vista.VistaTablero;
 
-
 public class EventosTablero implements ActionListener {
 
     private VistaTablero vistaTablero;

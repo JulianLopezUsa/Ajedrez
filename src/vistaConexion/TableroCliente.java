@@ -137,7 +137,7 @@ public class TableroCliente extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        AccionRendir accionRendir = new AccionRendir(this, 2, null, fin2);
+        //AccionRendir accionRendir = new AccionRendir(this, 2, null, fin2);
         add(contenido);
     }
 

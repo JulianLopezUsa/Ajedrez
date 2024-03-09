@@ -21,6 +21,7 @@ public class Rey extends Fichas {
 
     @Override
     public void movimientoFicha(String posicionActual, Tablero tablero, int turno, boolean banderaJaque, int primeraVez) {
+        listaMovimientosEquipoContrario.clear();
         movimientosSegurosRey.clear();
         listaDeMovimientos.clear();
         int tt;

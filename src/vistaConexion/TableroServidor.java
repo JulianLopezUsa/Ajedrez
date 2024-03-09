@@ -119,7 +119,7 @@ public class TableroServidor extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        AccionRendir accionRendir = new AccionRendir(this, 2, fin1, null);
+        //AccionRendir accionRendir = new AccionRendir(this, 2, fin1, null);
         add(contenido);
     }
 
