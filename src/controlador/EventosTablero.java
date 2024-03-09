@@ -58,7 +58,10 @@ public class EventosTablero implements ActionListener {
                         // CAMBIO DE VISTA ENROQUE
                         if (fichaSeleccionada instanceof Rey) {
                             if (!cambioVistaEnroque(fichaSeleccionada, i, j, vistaTablero)) {
+                                System.out.println("entra aca");
+                                vistaTablero.eliminarDeVista(cacheY, cacheX);
                                 arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+                                actualizarVista();
                             }
                         } else if (fichaSeleccionada instanceof Peon) {
                             Peon peon = (Peon) fichaSeleccionada;
@@ -261,7 +264,7 @@ public class EventosTablero implements ActionListener {
             Rey rey = (Rey) fichaSeleccionada;
             if (rey.enroque == true) {
                 // Eroque largo
-                if (j < rey.getPosX()) {
+                if (j < (rey.getPosX()-1) && i==rey.getPosY()) {
                     int cachexx = rey.getPosX();
                     int cacheyy = rey.getPosY();
                     vistaTablero.eliminarDeVista(cacheyy, cachexx);
@@ -280,9 +283,8 @@ public class EventosTablero implements ActionListener {
                         }
                     }
                 }
-
                 // Eroque corto
-                else if (j > rey.getPosX()) {
+                else if (j > (rey.getPosX()+1) && i==rey.getPosY()) {
                     int cachexx = rey.getPosX();
                     int cacheyy = rey.getPosY();
                     vistaTablero.eliminarDeVista(cacheyy, cachexx);

@@ -96,7 +96,7 @@ public class TableroServidor extends JFrame {
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador2.add(nombre2);
         panelJugador2.add(Box.createHorizontalGlue());
-       
+
         panelDerecho.add(label);
         panelDerecho.add(panelJugador1);
         panelDerecho.add(panelJugador2);

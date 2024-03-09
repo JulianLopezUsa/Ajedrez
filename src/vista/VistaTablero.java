@@ -129,7 +129,7 @@ public class VistaTablero extends JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        AccionRendir accionRendir = new AccionRendir(this, 2, fin1, fin2);
+        new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
     }
 
