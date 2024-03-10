@@ -9,7 +9,6 @@ import vistaConexion.MenuConexion;
 import vistaConexion.TableroCliente;
 import modelo.Tablero.Tablero;
 import modelo.jugadores.Jugadores;
-import sockets.Cliente;
 import sockets.SalaDeEspera;
 
 public class EventosMenuConexion implements ActionListener {
@@ -18,12 +17,14 @@ public class EventosMenuConexion implements ActionListener {
     private final MenuA menuA;
     public String nombreJ1 = "";
     public String nombreJ2 = "";
+    public Tablero tablero;
     //Jugadores que se agregaran.
     private final Jugadores[] jugadores;
 
     public EventosMenuConexion(MenuConexion conexion, MenuA menuA) {
         this.menuA = menuA;
         this.conexion = conexion;
+        this.tablero = new Tablero(nombreJ2, nombreJ1);
         this.jugadores = new Jugadores[2];
         jugadores[0] = new Jugadores("0");
         jugadores[1] = new Jugadores("1");
@@ -46,10 +47,10 @@ public class EventosMenuConexion implements ActionListener {
 
     private void crear() {
         this.menuA.setVisible(false);
-        //this.conexion.setVisible(false);
+        //conexion.setVisible(false);
         nombreJ1 = JOptionPane.showInputDialog(this.conexion, "Ingrese su nombre", "Nombre del jugador",
                 JOptionPane.QUESTION_MESSAGE);
-        Thread hilo = new Thread(new SalaDeEspera(this.conexion, false, nombreJ1, jugadores));
+        Thread hilo = new Thread(new SalaDeEspera(this.conexion, false, nombreJ1, jugadores, tablero));
         hilo.start();
     }
 
@@ -59,7 +60,7 @@ public class EventosMenuConexion implements ActionListener {
         nombreJ2 = JOptionPane.showInputDialog(this.conexion, "Ingrese su nombre", "Nombre jugador",
                 JOptionPane.QUESTION_MESSAGE);
 
-        new EventosCliente(new TableroCliente(jugadores, nombreJ2), new Tablero(nombreJ2, nombreJ1));
+        new EventosCliente(new TableroCliente(jugadores, nombreJ2),tablero);
         
         //TableroCliente juego = new TableroCliente(nombre, jugadores);
         //juego.setVisible(true);

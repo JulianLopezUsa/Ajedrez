@@ -23,6 +23,8 @@ public class Cliente extends Conexion {
         return dato;
     }
 
+    
+
     public void enviarDatosServidor(String dato) {
         try {
             salida = new DataOutputStream(cs.getOutputStream());

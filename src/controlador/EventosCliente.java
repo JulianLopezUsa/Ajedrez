@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
@@ -16,12 +17,13 @@ import modelo.jugadores.Jugadores;
 import sockets.Cliente;
 import vistaConexion.TableroCliente;
 
-public class EventosCliente implements ActionListener {
+public class EventosCliente implements ActionListener, Runnable {
 
     public TableroCliente vistaTablero;
-    private Tablero tablero;
+    public Tablero tablero;
     private Fichas fichaSeleccionada;
     Fichas fichaElegida;
+    private int fsX, fsY;
     private int cacheX, cacheY;
     public boolean nn = false, nn2 = false;
     public boolean jaqueNegro = false, jaqueBlanco = false, banderaJaque = false;
@@ -33,9 +35,10 @@ public class EventosCliente implements ActionListener {
         this.vistaTablero = vistaTablero;
         this.tablero = tablero;
         this.cliente = vistaTablero.cliente;
-        this.vistaTablero.setVisible(true);
         this.vistaTablero.agregarFichas();
+        this.vistaTablero.setVisible(true);
         this.vistaTablero.setFocusable(true);
+        this.cliente.limpiarSalida();
 
         // Agregar ActionListener a cada botón en el tablero
         for (int i = 0; i < 8; i++) {
@@ -43,11 +46,12 @@ public class EventosCliente implements ActionListener {
                 vistaTablero.cuadro[i][j].addActionListener(this);
             }
         }
+        desactivarCuadros();
+        new Thread(this).start();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
 
@@ -57,145 +61,16 @@ public class EventosCliente implements ActionListener {
 
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
                     if (vistaTablero.cuadro[i][j].getBackground() == Color.YELLOW) {
+                        verificarMovimientoCuadroAmarillo(i, j);
+                        cliente.enviarDatosServidor(i + " " +j+ " "+tablero.turno+" "+fsX+" "+fsY);
+                        cliente.limpiarSalida();
+                        desactivarCuadros();
 
-                        // Mover la ficha seleccionada al cuadro amarillo
-                        vistaTablero.eliminarDeVista(cacheY, cacheX);
-                        // CAMBIO DE VISTA ENROQUE
-                        if (fichaSeleccionada instanceof Rey) {
-                            if (!cambioVistaEnroque(fichaSeleccionada, i, j, vistaTablero)) {
-                                System.out.println("entra aca");
-                                vistaTablero.eliminarDeVista(cacheY, cacheX);
-                                arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
-                                actualizarVista();
-                            }
-                        } else if (fichaSeleccionada instanceof Peon) {
-                            Peon peon = (Peon) fichaSeleccionada;
-                            if (peon.banderaPeonAlPaso) {
-                                String[] pos = peon.movimeintoPeonAlPaso.get(0).split(" ");
-                                int x = Integer.parseInt(pos[0]);
-                                int y = Integer.parseInt(pos[1]);
-                                if (x == i && y == j) {
-                                    Peon peonsito = (Peon) tablero.historialFichas
-                                            .get(tablero.historialFichas.size() - 1);
-                                    if (tablero.getTurno() == 0) {
-                                        tablero.jugador1.fichas.remove(peonsito);
-                                    } else {
-                                        tablero.jugador2.fichas.remove(peonsito);
-                                    }
-                                    vistaTablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
-                                }
-                            }
-                            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
-
-                        } else {
-                            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
-                        }
-                        fichaSeleccionada.movio = true;
-
-                        Fichas fichaX = arrExtra.get(0);
-                        if (fichaX != null) {
-                            vistaTablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
-
-                        }
-
-                        vistaTablero.banderaJaque_blancaa = false;
-                        vistaTablero.banderaJaque_negras = false;
-                        vistaTablero.quitarJaque();
-
-                        // Actualizar la vista para reflejar el movimiento
-                        actualizarVista();
-
-                        // Para coronación del peón
-                        if (fichaSeleccionada instanceof Peon) {
-                            if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
-                                tablero.eliminarFicha(fichaSeleccionada);
-                                vistaTablero.eliminarDeVista(
-                                        fichaSeleccionada.getPosX(),
-                                        fichaSeleccionada.getPosY());
-
-                                String nn = vistaTablero.coronacionPieza(
-                                        tablero.getTurno(),
-                                        fichaSeleccionada.getPosY(),
-                                        fichaSeleccionada.getPosX());
-                                tablero.crearFichaNueva(
-                                        nn,
-                                        fichaSeleccionada.getPosX(),
-                                        fichaSeleccionada.getPosY());
-                            }
-                        }
-
-                        if (tablero.getTurno() == 1) {
-                            if (tablero.jaqueBlanco == false) {
-                                vistaTablero.banderaJaque_blancaa = false;
-                            }
-                            if (tablero.jaqueNegro == false) {
-                                vistaTablero.banderaJaque_negras = false;
-                            }
-
-                            vistaTablero.resetearColores();
-                            // Verificar Jaque
-                            nn = verificarJaque(1);
-
-                        } else {
-                            if (tablero.jaqueBlanco == false) {
-                                vistaTablero.banderaJaque_blancaa = false;
-                            }
-                            if (tablero.jaqueNegro == false) {
-                                vistaTablero.banderaJaque_negras = false;
-                            }
-
-                            vistaTablero.resetearColores();
-                            nn2 = verificarJaque(0);
-                        }
-                        if (!nn && !nn2) {
-                            banderaJaque = false;
-                            vistaTablero.resetearColores();
-                        }
-                        // Actualizar historial y Cambiar turno
-                        vistaTablero.mostrarHistorialPartida(tablero.historialPartida);
-                        tablero.turno = (tablero.turno + 1) % 2;
-
-                        // SE VERIFICA JAQUE MATE
-                        if (banderaJaque) {
-                            if (tablero.verificaciones.detectarJaqueMate(tablero).isEmpty()) {
-                                if (tablero.getTurno() == 0) {
-                                    JOptionPane.showMessageDialog(null,
-                                            "Jaque mate al equipo blanco. Gana el equipo negro");
-                                } else {
-                                    JOptionPane.showMessageDialog(null,
-                                            "Jaque mate al equipo negro. Gana el equipo blanco");
-                                }
-                                System.exit(0);
-                            }
-                        }
-                        // Limpiar la ficha seleccionada
-                        fichaSeleccionada = null;
                     } else {
-                        // Si no hay una ficha seleccionada, seleccionar la ficha presionada
-                        if (f != null) {
-                            actualizarVista();
-                            fichaSeleccionada = f;
-                            cacheX = i;
-                            cacheY = j;
+                        verificarFichaPresionada(f, i, j);
+                        fsX = i;
+                        fsY = j;
 
-                            // Se tiene que verificar si no está en jaque la ficha entonces permitir
-                            // movimeinto
-                            // Si sí se encuentra en jaque entonces no permite movimiento
-                            if (banderaJaque) {
-                                if (tablero.verificaciones.esMovimientoValidoParaSalirDelJaque(f, i, j, tablero)) {
-                                    this.vistaTablero.resaltarMovimientos(tablero.fichasValidasSalvarJaque);
-                                }
-
-                            } else {
-                                if (!banderaJaque) {
-                                    // Obtener los posibles movimientos de la ficha en esa posición
-                                    f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
-                                    this.vistaTablero.resaltarMovimientos(f.getLista());
-                                    System.out.println(f.getLista());
-                                }
-                            }
-
-                        }
                     }
                     return; // Salir del bucle cuando se encuentre el botón presionado
                 }
@@ -312,5 +187,225 @@ public class EventosCliente implements ActionListener {
             }
         }
         return false;
+    }
+
+    /**
+     * Activa los cuadros despues del movimiento del contrincante.
+     */
+    private void activarCuadros() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                vistaTablero.cuadro[i][j].setEnabled(true);
+            }
+        }
+    }
+
+    // Función que desactiva cuadros si ya se jugó
+    private void desactivarCuadros() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                vistaTablero.cuadro[i][j].setEnabled(false);
+            }
+        }
+    }
+
+    /**
+     * Se ejecuta mientras el contrincante mueve las fichas.
+     */
+    private void esperarTurno() {
+        while (true) {
+            try {
+
+                System.out.println(tablero.jugador2.getFichas());
+                System.out.println("eeeeee");
+                StringTokenizer separador = new StringTokenizer(cliente.leerDatosServidor());
+                int x = Integer.parseInt(separador.nextToken());
+                int y = Integer.parseInt(separador.nextToken());
+                int turno = Integer.parseInt(separador.nextToken());
+                int Fx = Integer.parseInt(separador.nextToken());
+                int Fy = Integer.parseInt(separador.nextToken());
+
+                System.out.println("cliente");
+                Fichas f = null;
+                System.out.println("tab"+tablero.getTurno());
+                if(tablero.getTurno()==0){
+                    for(Fichas fichas :tablero.jugador2.fichas){
+                        if(fichas.getPosY()==Fx && fichas.getPosX()==Fy){
+                            f = fichas;
+                        }
+                    }
+                }
+                verificarFichaPresionada(f, Fx, Fy);
+                verificarMovimientoCuadroAmarillo(x, y);
+
+                tablero.turno = turno;
+                System.out.println(tablero.getTurno());
+                // accionDespuesDePresionar(vistaTablero.cuadro[y][x]);
+                if (turno == 1) {
+                    activarCuadros();
+                    break;
+                }
+                
+
+            
+            } catch (Exception e) {
+                System.out.println("No hay dato todavía");
+            }
+
+        }
+    }
+
+    public void verificarMovimientoCuadroAmarillo(int i, int j) {
+        // Mover la ficha seleccionada al cuadro amarillo
+        
+        vistaTablero.eliminarDeVista(cacheY, cacheX);
+        // CAMBIO DE VISTA ENROQUE
+        if (fichaSeleccionada instanceof Rey) {
+            if (!cambioVistaEnroque(fichaSeleccionada, i, j, vistaTablero)) {
+                System.out.println("entra aca");
+                vistaTablero.eliminarDeVista(cacheY, cacheX);
+                arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+                actualizarVista();
+            }
+        } else if (fichaSeleccionada instanceof Peon) {
+            Peon peon = (Peon) fichaSeleccionada;
+            if (peon.banderaPeonAlPaso) {
+                String[] pos = peon.movimeintoPeonAlPaso.get(0).split(" ");
+                int x = Integer.parseInt(pos[0]);
+                int y = Integer.parseInt(pos[1]);
+                if (x == i && y == j) {
+                    Peon peonsito = (Peon) tablero.historialFichas
+                            .get(tablero.historialFichas.size() - 1);
+                    if (tablero.getTurno() == 0) {
+                        tablero.jugador1.fichas.remove(peonsito);
+                    } else {
+                        tablero.jugador2.fichas.remove(peonsito);
+                    }
+                    vistaTablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
+                }
+            }
+            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+
+        } else {
+            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+        }
+        fichaSeleccionada.movio = true;
+
+        Fichas fichaX = arrExtra.get(0);
+        if (fichaX != null) {
+            vistaTablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
+
+        }
+
+        vistaTablero.banderaJaque_blancaa = false;
+        vistaTablero.banderaJaque_negras = false;
+        vistaTablero.quitarJaque();
+
+        // Actualizar la vista para reflejar el movimiento
+        actualizarVista();
+
+        // Para coronación del peón
+        if (fichaSeleccionada instanceof Peon) {
+            if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
+                tablero.eliminarFicha(fichaSeleccionada);
+                vistaTablero.eliminarDeVista(
+                        fichaSeleccionada.getPosX(),
+                        fichaSeleccionada.getPosY());
+
+                String nn = vistaTablero.coronacionPieza(
+                        tablero.getTurno(),
+                        fichaSeleccionada.getPosY(),
+                        fichaSeleccionada.getPosX());
+                tablero.crearFichaNueva(
+                        nn,
+                        fichaSeleccionada.getPosX(),
+                        fichaSeleccionada.getPosY());
+            }
+        }
+
+        if (tablero.getTurno() == 1) {
+            if (tablero.jaqueBlanco == false) {
+                vistaTablero.banderaJaque_blancaa = false;
+            }
+            if (tablero.jaqueNegro == false) {
+                vistaTablero.banderaJaque_negras = false;
+            }
+
+            vistaTablero.resetearColores();
+            // Verificar Jaque
+            nn = verificarJaque(1);
+
+        } else {
+            if (tablero.jaqueBlanco == false) {
+                vistaTablero.banderaJaque_blancaa = false;
+            }
+            if (tablero.jaqueNegro == false) {
+                vistaTablero.banderaJaque_negras = false;
+            }
+
+            vistaTablero.resetearColores();
+            nn2 = verificarJaque(0);
+        }
+        if (!nn && !nn2) {
+            banderaJaque = false;
+            vistaTablero.resetearColores();
+        }
+        // Actualizar historial y Cambiar turno
+        vistaTablero.mostrarHistorialPartida(tablero.historialPartida);
+        if(tablero.getTurno()==1){
+            tablero.turno = (tablero.turno + 1) % 2;
+        }
+
+        // SE VERIFICA JAQUE MATE
+        if (banderaJaque) {
+            if (tablero.verificaciones.detectarJaqueMate(tablero).isEmpty()) {
+                if (tablero.getTurno() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "Jaque mate al equipo blanco. Gana el equipo negro");
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Jaque mate al equipo negro. Gana el equipo blanco");
+                }
+                System.exit(0);
+            }
+        }
+        // Limpiar la ficha seleccionada
+        fichaSeleccionada = null;
+
+        if (tablero.turno == 0) {
+            new Thread(this).start();
+        }
+    }
+
+    public void verificarFichaPresionada(Fichas f, int i, int j) {
+        // Si no hay una ficha seleccionada, seleccionar la ficha presionada
+        if (f != null) {
+            actualizarVista();
+            fichaSeleccionada = f;
+            cacheX = i;
+            cacheY = j;
+
+            // Se tiene que verificar si no está en jaque la ficha entonces permitir
+            // movimeinto
+            // Si sí se encuentra en jaque entonces no permite movimiento
+            if (banderaJaque) {
+                if (tablero.verificaciones.esMovimientoValidoParaSalirDelJaque(f, i, j, tablero)) {
+                    this.vistaTablero.resaltarMovimientos(tablero.fichasValidasSalvarJaque);
+                }
+
+            } else {
+                if (!banderaJaque) {
+                    // Obtener los posibles movimientos de la ficha en esa posición
+                    f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
+                    this.vistaTablero.resaltarMovimientos(f.getLista());
+                    System.out.println(f.getLista());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        esperarTurno();
     }
 }

@@ -6,7 +6,6 @@ import vistaConexion.MenuConexion;
 import vistaConexion.TableroServidor;
 
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
 
 import controlador.EventoServidor;
 
@@ -16,10 +15,12 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
         // Atributos de clase
         private Servidor servidor;
         private final String nombre;
+        public Tablero tablero;
         public final Jugadores[] jugadores;
 
-        public SalaDeEspera(MenuConexion ventanaLan, boolean modal, String nombre, Jugadores[] jugadores) {
+        public SalaDeEspera(MenuConexion ventanaLan, boolean modal, String nombre, Jugadores[] jugadores, Tablero tablero) {
                 super();
+                this.tablero = tablero;
                 this.jugadores = jugadores;
                 initComponents();
                 try {
@@ -152,7 +153,7 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
                 // Hace invisible la sala de espera.
                 setVisible(false);
                 // Abre el tablero de juego
-                new EventoServidor(new TableroServidor(jugadores, nombre, servidor), new Tablero(nombre, nombre));
+                new EventoServidor(new TableroServidor(jugadores, nombre, servidor), tablero, servidor);
                 //TableroServidor tablero = new TableroServidor(nombre, nombreJ2, servidor);
                 //tablero.setVisible(true);
 

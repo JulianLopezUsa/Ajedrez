@@ -37,7 +37,7 @@ public class Servidor extends Conexion {
         try {
             salida = new DataOutputStream(cs.getOutputStream());
             salida.writeUTF(dato);
-
+            System.out.println(salida);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
