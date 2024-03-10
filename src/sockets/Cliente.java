@@ -23,12 +23,14 @@ public class Cliente extends Conexion {
         return dato;
     }
 
-    
+
 
     public void enviarDatosServidor(String dato) {
         try {
+
             salida = new DataOutputStream(cs.getOutputStream());
             salida.writeUTF(dato);
+            System.out.println(dato);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

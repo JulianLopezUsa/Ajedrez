@@ -60,15 +60,16 @@ public class EventoServidor implements ActionListener, Runnable {
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
                     if (vistaTablero.cuadro[i][j].getBackground() == Color.YELLOW) {
                         verificarMovimientoCuadroAmarillo(i, j);
-                        servidor.enviarDatoCliente(i + " " + j + " "+tablero.turno+" "+fsX+" "+fsY);
+                        servidor.enviarDatoCliente(i + " " + j + " " + tablero.turno + " " + fsX + " " + fsY);
                         servidor.limpiarSalida();
-                        desactivarCuadros();
+                        //desactivarCuadros();
 
                     } else {
-
-                        verificarFichaPresionada(f, i, j);
-                        fsX = i;
-                        fsY = j;
+                        if (tablero.getTurno() != 1) {
+                            verificarFichaPresionada(f, i, j);
+                            fsX = i;
+                            fsY = j;
+                        }
                     }
                     return; // Salir del bucle cuando se encuentre el botón presionado
                 }
@@ -193,7 +194,6 @@ public class EventoServidor implements ActionListener, Runnable {
         // CAMBIO DE VISTA ENROQUE
         if (fichaSeleccionada instanceof Rey) {
             if (!cambioVistaEnroque(fichaSeleccionada, i, j, vistaTablero)) {
-                System.out.println("entra aca");
                 vistaTablero.eliminarDeVista(cacheY, cacheX);
                 arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
                 actualizarVista();
@@ -283,9 +283,9 @@ public class EventoServidor implements ActionListener, Runnable {
         }
         // Actualizar historial y Cambiar turno
         vistaTablero.mostrarHistorialPartida(tablero.historialPartida);
-        if(tablero.getTurno()==0){
+        if (tablero.getTurno() == 0) {
             tablero.turno = (tablero.turno + 1) % 2;
-            
+
         }
 
         // SE VERIFICA JAQUE MATE
@@ -304,7 +304,7 @@ public class EventoServidor implements ActionListener, Runnable {
         // Limpiar la ficha seleccionada
         fichaSeleccionada = null;
 
-        if(tablero.turno == 1){
+        if (tablero.turno == 1) {
             new Thread(this).start();
         }
     }
@@ -330,7 +330,6 @@ public class EventoServidor implements ActionListener, Runnable {
                     // Obtener los posibles movimientos de la ficha en esa posición
                     f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
                     this.vistaTablero.resaltarMovimientos(f.getLista());
-                    System.out.println(f.getLista());
                 }
             }
         }
@@ -342,26 +341,26 @@ public class EventoServidor implements ActionListener, Runnable {
     private void esperarTurno() {
         while (true) {
             try {
+                System.out.println("eeee");
                 StringTokenizer separador = new StringTokenizer(servidor.leerDatosCliente());
                 int x = Integer.parseInt(separador.nextToken());
                 int y = Integer.parseInt(separador.nextToken());
                 int turno = Integer.parseInt(separador.nextToken());
                 int Fx = Integer.parseInt(separador.nextToken());
                 int Fy = Integer.parseInt(separador.nextToken());
-                
+
                 System.out.println("servidor");
-                System.out.println("tab"+tablero.getTurno());
                 Fichas f = null;
-                if(tablero.getTurno()==1){
-                    for(Fichas fichas :tablero.jugador1.fichas){
-                        if(fichas.getPosY()==Fx && fichas.getPosX()==Fy){
+                if (tablero.getTurno() == 1) {
+                    for (Fichas fichas : tablero.jugador1.fichas) {
+                        if (fichas.getPosY() == Fx && fichas.getPosX() == Fy) {
                             f = fichas;
                         }
                     }
                 }
                 verificarFichaPresionada(f, Fx, Fy);
                 verificarMovimientoCuadroAmarillo(x, y);
-                
+
                 tablero.turno = turno;
                 if (turno == 0) {
                     activarCuadros();

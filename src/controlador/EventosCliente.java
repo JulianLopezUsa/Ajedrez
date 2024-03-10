@@ -46,7 +46,7 @@ public class EventosCliente implements ActionListener, Runnable {
                 vistaTablero.cuadro[i][j].addActionListener(this);
             }
         }
-        desactivarCuadros();
+        //desactivarCuadros();
         new Thread(this).start();
     }
 
@@ -64,13 +64,14 @@ public class EventosCliente implements ActionListener, Runnable {
                         verificarMovimientoCuadroAmarillo(i, j);
                         cliente.enviarDatosServidor(i + " " +j+ " "+tablero.turno+" "+fsX+" "+fsY);
                         cliente.limpiarSalida();
-                        desactivarCuadros();
+                        //desactivarCuadros();
 
                     } else {
+                        if(tablero.getTurno()!=0){
                         verificarFichaPresionada(f, i, j);
                         fsX = i;
                         fsY = j;
-
+                        }
                     }
                     return; // Salir del bucle cuando se encuentre el botón presionado
                 }
@@ -215,9 +216,7 @@ public class EventosCliente implements ActionListener, Runnable {
     private void esperarTurno() {
         while (true) {
             try {
-
-                System.out.println(tablero.jugador2.getFichas());
-                System.out.println("eeeeee");
+                
                 StringTokenizer separador = new StringTokenizer(cliente.leerDatosServidor());
                 int x = Integer.parseInt(separador.nextToken());
                 int y = Integer.parseInt(separador.nextToken());
@@ -227,7 +226,6 @@ public class EventosCliente implements ActionListener, Runnable {
 
                 System.out.println("cliente");
                 Fichas f = null;
-                System.out.println("tab"+tablero.getTurno());
                 if(tablero.getTurno()==0){
                     for(Fichas fichas :tablero.jugador2.fichas){
                         if(fichas.getPosY()==Fx && fichas.getPosX()==Fy){
@@ -239,7 +237,6 @@ public class EventosCliente implements ActionListener, Runnable {
                 verificarMovimientoCuadroAmarillo(x, y);
 
                 tablero.turno = turno;
-                System.out.println(tablero.getTurno());
                 // accionDespuesDePresionar(vistaTablero.cuadro[y][x]);
                 if (turno == 1) {
                     activarCuadros();
@@ -262,7 +259,6 @@ public class EventosCliente implements ActionListener, Runnable {
         // CAMBIO DE VISTA ENROQUE
         if (fichaSeleccionada instanceof Rey) {
             if (!cambioVistaEnroque(fichaSeleccionada, i, j, vistaTablero)) {
-                System.out.println("entra aca");
                 vistaTablero.eliminarDeVista(cacheY, cacheX);
                 arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
                 actualizarVista();
@@ -398,7 +394,6 @@ public class EventosCliente implements ActionListener, Runnable {
                     // Obtener los posibles movimientos de la ficha en esa posición
                     f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
                     this.vistaTablero.resaltarMovimientos(f.getLista());
-                    System.out.println(f.getLista());
                 }
             }
         }
