@@ -2,6 +2,7 @@ package modelo.Tablero;
 
 import java.util.ArrayList;
 
+import modelo.juegoLan;
 import modelo.fichas.Fichas;
 import modelo.jugadores.Jugadores;
 
@@ -33,6 +34,23 @@ public class Verificaciones {
             }
         } else if (turno == 1) {
             for (Fichas ficha : tablero.jugador2.fichas) {
+                if (ficha.getPosX() == j && ficha.getPosY() == i) {
+                    return ficha;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Fichas hayFicha2(int i, int j, int turno, juegoLan juegoLan) {
+        if (turno == 0) {
+            for (Fichas ficha : juegoLan.jugador1.fichas) {
+                if (ficha.getPosX() == j && ficha.getPosY() == i) {
+                    return ficha;
+                }
+            }
+        } else if (turno == 1) {
+            for (Fichas ficha : juegoLan.jugador2.fichas) {
                 if (ficha.getPosX() == j && ficha.getPosY() == i) {
                     return ficha;
                 }

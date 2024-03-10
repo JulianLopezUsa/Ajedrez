@@ -1,7 +1,7 @@
 package modelo;
 import java.util.ArrayList;
 
-import modelo.Tablero.VerificacionesLan;
+import modelo.Tablero.Verificaciones;
 import modelo.fichas.Alfil;
 import modelo.fichas.Caballo;
 import modelo.fichas.Dama;
@@ -18,7 +18,7 @@ import modelo.jugadores.Jugadores;
  */
 public class juegoLan {
 
-    public VerificacionesLan verificacionesLan;
+    public Verificaciones verificacionesLan;
     public int turno;
     public Jugadores jugador1;
     public Jugadores jugador2;
@@ -41,7 +41,7 @@ public class juegoLan {
     public juegoLan(String nombreJugador1, String nombreJugador2) {
         this.jugador1 = new Jugadores(nombreJugador1);
         this.jugador2 = new Jugadores(nombreJugador2);
-        verificacionesLan = new VerificacionesLan();
+        verificacionesLan = new Verificaciones();
         inicializarFichasEquipo1();
         inicializarFichasEquipo2();
         turno = 0;
