@@ -13,11 +13,8 @@ public class EventosVentanaInicio implements ActionListener {
     // private final Jugador[] jugadores;
 
     private final MenuA menuA;
-    private final Jugadores jugadores;
-
     public EventosVentanaInicio(MenuA menuA , Jugadores jugadores) {
         this.menuA = menuA;
-        this.jugadores = jugadores;
         this.menuA.botonIniciar.addActionListener(this);
         this.menuA.botonIniciarL.addActionListener(this);
         this.menuA.botonSalir.addActionListener(this);

@@ -8,12 +8,10 @@ import java.awt.*;
 public class Rendir extends JFrame {
 
   private JPanel contentPane;
-  private int jugador;
   public JButton btnAceptar;
   public JButton btnRechazar;
 
   public Rendir(String mensaje, String rutaImagen, int jugador) {
-    this.jugador = jugador;
     setTitle("Panel de Rendición");
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setBounds(100, 100, 400, 300);

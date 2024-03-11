@@ -9,14 +9,11 @@ import javax.swing.JButton;
 public class AccionRendir implements ActionListener {
 
     private VistaTablero vistaTablero;
-    private int jugador;
-    private Rendir rendirFrame;
     private JButton fin1;
     private JButton fin2;
 
     public AccionRendir(VistaTablero vistaTablero, int jugador, JButton fin1, JButton fin2) {
         this.vistaTablero = vistaTablero;
-        this.jugador = jugador;
         this.fin1 = fin1;
         this.fin2 = fin2;
         this.fin1.addActionListener(this);

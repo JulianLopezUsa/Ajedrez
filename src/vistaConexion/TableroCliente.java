@@ -39,8 +39,7 @@ public class TableroCliente extends javax.swing.JFrame {
     private final Jugadores[] jugadores;
     // Es el turno de los jugadores.
     private int turno;
-    // Indica si la partida se ha acabado.
-    private boolean finPartida;
+
     // Sirve para llamar los movimientos al cliente
     public Cliente cliente;
 
@@ -99,7 +98,7 @@ public class TableroCliente extends javax.swing.JFrame {
 
         JLabel label1 = new JLabel(" - Jugador 1:");
         label1.setForeground(Color.BLACK);
-        JLabel nombre1 = new JLabel(nombreJ1);
+        JLabel nombre1 = new JLabel(jugadores[0].getNombre());
         fin1 = new JButton("Rendirse");
         fin1.setBackground(Color.black);
         fin1.setForeground(Color.white);
@@ -108,7 +107,7 @@ public class TableroCliente extends javax.swing.JFrame {
         panelJugador1.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador1.add(nombre1);
         panelJugador1.add(Box.createHorizontalGlue());
-        panelJugador1.add(fin1);
+        //panelJugador1.add(fin1);
 
         JPanel panelJugador2 = new JPanel();
         panelJugador2.setBackground(Color.WHITE);
@@ -117,7 +116,7 @@ public class TableroCliente extends javax.swing.JFrame {
 
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
-        JLabel nombre2 = new JLabel(nombreJ2);
+        JLabel nombre2 = new JLabel(jugadores[1].getNombre());
         fin2 = new JButton("Rendirse");
         fin2.setBackground(Color.black);
         fin2.setForeground(Color.white);

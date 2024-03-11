@@ -1,10 +1,8 @@
 package vistaConexion;
 
-import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import modelo.jugadores.Jugadores;
 import sockets.Servidor;
-import vista.VistaTablero;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,23 +31,21 @@ public class TableroServidor extends javax.swing.JFrame {
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
+    private final Jugadores[] jugadores;
     public Boolean banderaJaque_negras = false, banderaJaque_blancaa = false;
     public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
     private JTextArea texto = new JTextArea();
 
-    private final Jugadores[] jugadores;
     // Es el turno de los jugadores.
     private int turno;
-    // Indica si la partida se ha acabado.
-    private boolean finPartida;
     // Sirve para llamar los movimientos al cliente
     private Servidor servidor;
 
     public TableroServidor(Jugadores[] jugadores, String nombre, Servidor servidor) {
+        this.jugadores = jugadores;
         this.servidor = servidor;
         this.servidor.enviarDatoCliente(nombre);
-        this.jugadores = jugadores;
         jugadores[0].setNombre(nombre);
         jugadores[1].setNombre(this.servidor.leerDatosCliente());
         initComponents();
@@ -100,7 +96,7 @@ public class TableroServidor extends javax.swing.JFrame {
 
         JLabel label1 = new JLabel(" - Jugador 1:");
         label1.setForeground(Color.BLACK);
-        JLabel nombre1 = new JLabel(nombreJ1);
+        JLabel nombre1 = new JLabel(jugadores[0].getNombre());
         fin1 = new JButton("Rendirse");
         fin1.setBackground(Color.black);
         fin1.setForeground(Color.white);
@@ -118,7 +114,7 @@ public class TableroServidor extends javax.swing.JFrame {
 
         JLabel label2 = new JLabel(" - Jugador 2:");
         label2.setForeground(Color.BLACK);
-        JLabel nombre2 = new JLabel(nombreJ2);
+        JLabel nombre2 = new JLabel(jugadores[1].getNombre());
         fin2 = new JButton("Rendirse");
         fin2.setBackground(Color.black);
         fin2.setForeground(Color.white);
@@ -127,7 +123,7 @@ public class TableroServidor extends javax.swing.JFrame {
         panelJugador2.add(Box.createRigidArea(new Dimension(10, 0)));
         panelJugador2.add(nombre2);
         panelJugador2.add(Box.createHorizontalGlue());
-        panelJugador2.add(fin2);
+        //panelJugador2.add(fin2);
 
         panelDerecho.add(label);
         panelDerecho.add(panelJugador1);
