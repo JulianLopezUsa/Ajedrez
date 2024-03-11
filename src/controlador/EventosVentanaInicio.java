@@ -7,7 +7,7 @@ import modelo.Tablero.Tablero;
 import modelo.jugadores.Jugadores;
 import vista.MenuA;
 import vista.VistaTablero;
-import vistaConexion.MenuConexion;
+import vistaConexion.*;
 
 public class EventosVentanaInicio implements ActionListener {
     // private final Jugador[] jugadores;

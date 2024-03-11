@@ -30,7 +30,6 @@ public class Cliente extends Conexion {
 
             salida = new DataOutputStream(cs.getOutputStream());
             salida.writeUTF(dato);
-            System.out.println(dato);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
