@@ -1,7 +1,10 @@
 
 package modelo.Tablero;
 
+import java.awt.Color;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
 
 import modelo.fichas.Alfil;
 import modelo.fichas.Caballo;
@@ -23,13 +26,16 @@ public class Tablero {
     public int turno;
     public Jugadores jugador1;
     public Jugadores jugador2;
+    public Cuadro c;
+    public int jaqueX_negras, jaqueY_negras;
+    public int jaqueX_blancas, jaqueY_blancas;
 
     public ArrayList<String> historialPartida = new ArrayList<>();
 
     public ArrayList<Fichas> historialFichas = new ArrayList<>();
     public ArrayList<Boolean> historialJugadas = new ArrayList<>();
     public ArrayList<Fichas> arregloFichasMovimiento;
-
+    public ArrayList<Cuadro> listaDeCuadros = new ArrayList<>();
     public ArrayList<String> fichasValidasSalvarJaque = new ArrayList<>();
     public ArrayList<String> fichasValidasJaqueMate = new ArrayList<>();
 
@@ -47,6 +53,97 @@ public class Tablero {
         inicializarFichasEquipo2();
         turno = 0;
         arregloFichasMovimiento = new ArrayList<>();
+    }
+
+    public void inicializarCuadros(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                //cuadro[i][j] = new JButton();
+                if ((i + j) % 2 == 0) {
+                    c = new Cuadro(new Color(222, 184, 135),i,j);
+                    //cuadro[i][j].setBackground(new Color(222, 184, 135));
+                } else {
+                    c = new Cuadro(new Color(139, 69, 19),i,j);
+                    //cuadro[i][j].setBackground(new Color(139, 69, 19));
+                }
+                listaDeCuadros.add(c);
+            }
+        }
+    }
+
+    public void resetearColores(){
+        for(Cuadro cuadro : listaDeCuadros){
+            if ((cuadro.getX() + cuadro.getY()) % 2 == 0) {
+                cuadro.setColor(new Color(222, 184, 135));
+            } else {
+                cuadro.setColor(new Color(139, 69, 19));
+            }
+        }
+        resaltarJaque();
+    }
+
+    public void resaltarJaque() {
+        if(jaqueBlanco) {
+            for(Cuadro cuadro : listaDeCuadros){
+                if (cuadro.getX() == jaqueX_blancas && cuadro.getY() == jaqueY_blancas){
+                    cuadro.setColor(Color.RED);
+                }
+            }
+            //cuadro[jaqueX_blancas][jaqueY_blancas].setBackground(Color.RED);
+        } else if (jaqueNegro) {
+            for(Cuadro cuadro : listaDeCuadros){
+                if (cuadro.getX() == jaqueX_negras && cuadro.getY() == jaqueY_negras){
+                    cuadro.setColor(Color.RED);
+                }
+            }
+            //cuadro[jaqueX_negras][jaqueY_negras].setBackground(Color.RED);
+        }
+    }
+
+    public void ponerJaque(int x, int y) {
+        if (jaqueNegro) {
+            jaqueX_negras = y;
+            jaqueY_negras = x;
+            jaqueNegro = true;
+        } else if (jaqueBlanco) {
+            jaqueX_blancas = y;
+            jaqueY_blancas = x;
+            jaqueBlanco = true;
+        }
+        
+        for(Cuadro cuadro : listaDeCuadros){
+            if (cuadro.getX() == y && cuadro.getY() == x){
+                cuadro.setColor(Color.RED);
+            }
+        }
+        //cuadro[y][x].setBackground(Color.RED);
+    }
+
+
+    public void quitarJaque(){
+        // Resetear el color de todos los botones del tablero
+        for(Cuadro cuadro : listaDeCuadros){
+            if ((cuadro.getX() + cuadro.getY()) % 2 == 0) {
+                cuadro.setColor(new Color(222, 184, 135));
+            } else {
+                cuadro.setColor(new Color(139, 69, 19));
+            }
+        }
+    }
+
+    public void resaltarMovimeintosCuadros(ArrayList<String> arreglo){
+        // Resalta los botones correspondientes
+        resetearColores();
+        for (String movimiento : arreglo) {
+            String[] pos = movimiento.split(" ");
+            int newX = pos[0].charAt(0) - 'a';
+            int newY = Integer.parseInt(pos[1]);
+            for(Cuadro cuadro : listaDeCuadros){
+                if (cuadro.getX() == newX && cuadro.getY() == newY){
+                    cuadro.setColor(Color.YELLOW);
+                }
+            }
+        }
     }
 
     public void inicializarFichasEquipo1() {

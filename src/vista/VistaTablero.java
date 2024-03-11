@@ -25,6 +25,7 @@ public class VistaTablero extends JFrame {
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;
     public String nombreFichaCoronada;
+    JPanel contenido = new JPanel(new GridLayout(1, 2));
     public Boolean banderaJaque_negras = false, banderaJaque_blancaa = false;
     public Object[] opciones = { new ImageIcon("src/img/torre_blanco.png"), new ImageIcon("src/img/alfil_blanco.png"),
             new ImageIcon("src/img/reina_blanco.png"), new ImageIcon("src/img/caballo_blanco.png") };
@@ -42,21 +43,7 @@ public class VistaTablero extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        cuadro = new JButton[8][8];
-
-        JPanel panelTablero = new JPanel(new GridLayout(8, 8));
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                cuadro[i][j] = new JButton();
-                if ((i + j) % 2 == 0) {
-                    cuadro[i][j].setBackground(new Color(222, 184, 135));
-                } else {
-                    cuadro[i][j].setBackground(new Color(139, 69, 19));
-                }
-                panelTablero.add(cuadro[i][j]);
-            }
-        }
-        add(panelTablero);
+        inicializarCuadrosVista();
 
         JPanel panelDerecho = new JPanel();
         panelDerecho.setBackground(Color.WHITE);
@@ -110,8 +97,7 @@ public class VistaTablero extends JFrame {
         panelDerecho.add(panelJugador1);
         panelDerecho.add(panelJugador2);
 
-        JPanel contenido = new JPanel(new GridLayout(1, 2));
-        contenido.add(panelTablero);
+        
         contenido.add(panelDerecho);
 
         panelDerecho.add(Box.createRigidArea(new Dimension(50, 70)));
@@ -148,6 +134,26 @@ public class VistaTablero extends JFrame {
             texto.append("---------------------------------------------------------\n");
         }
        
+    }
+
+    public void inicializarCuadrosVista(){
+
+        cuadro = new JButton[8][8];
+
+        JPanel panelTablero = new JPanel(new GridLayout(8, 8));
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                cuadro[i][j] = new JButton();
+                if ((i + j) % 2 == 0) {
+                    cuadro[i][j].setBackground(new Color(222, 184, 135));
+                } else {
+                    cuadro[i][j].setBackground(new Color(139, 69, 19));
+                }
+                panelTablero.add(cuadro[i][j]);
+            }
+        }
+        add(panelTablero);
+        contenido.add(panelTablero);
     }
     
     public JButton getBoton(int x, int y) {

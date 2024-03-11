@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
+import modelo.Tablero.Cuadro;
 import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
@@ -20,7 +22,7 @@ public class EventosTablero implements ActionListener {
     private Fichas fichaSeleccionada;
     Fichas fichaElegida;
     private int cacheX, cacheY;
-    
+    public Cuadro cuadroSeleccionado;
     public boolean nn = false, nn2 = false;
     public boolean jaqueNegro = false, jaqueBlanco = false, banderaJaque = false;
 
@@ -30,29 +32,29 @@ public class EventosTablero implements ActionListener {
         this.vistaTablero = vistaTablero;
         this.tablero = tablero;
         this.vistaTablero.setVisible(true);
+        this.tablero.inicializarCuadros();
         this.vistaTablero.agregarFichas();
-
-        // Agregar ActionListener a cada botón en el tablero
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                vistaTablero.cuadro[i][j].addActionListener(this);
-            }
-        }
+        darAccionBotones();
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-
-                if (e.getSource() == this.vistaTablero.cuadro[i][j]) {
+                if(e.getSource() == this.vistaTablero.cuadro[i][j]) {
                     // Verificar si hay una ficha en el botón presionado
                     Fichas f = tablero.verificaciones.hayFicha(i, j, tablero.getTurno(), tablero);
-
+                    
+                    //Encontrar cuadro
+                    for(Cuadro cuadro : tablero.listaDeCuadros){
+                        if(cuadro.getX()==i && cuadro.getY()==j){
+                            cuadroSeleccionado = cuadro;
+                        }
+                    }
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
-                    if (vistaTablero.cuadro[i][j].getBackground() == Color.YELLOW) {
-
+                    //if (vistaTablero.cuadro[i][j].getBackground() == Color.YELLOW) {
+                    if(cuadroSeleccionado.getColor() == Color.YELLOW) {
                         // Mover la ficha seleccionada al cuadro amarillo
                         vistaTablero.eliminarDeVista(cacheY, cacheX);
                         // CAMBIO DE VISTA ENROQUE
@@ -169,6 +171,7 @@ public class EventosTablero implements ActionListener {
                         // Si no hay una ficha seleccionada, seleccionar la ficha presionada
                         if (f != null) {
                             actualizarVista();
+                            
                             fichaSeleccionada = f;
                             cacheX = i;
                             cacheY = j;
@@ -179,6 +182,8 @@ public class EventosTablero implements ActionListener {
                             if (banderaJaque) {
                                 if (tablero.verificaciones.esMovimientoValidoParaSalirDelJaque(f, i, j, tablero)) {
                                     this.vistaTablero.resaltarMovimientos(tablero.fichasValidasSalvarJaque);
+                                    tablero.resetearColores();
+                                    tablero.resaltarMovimeintosCuadros(tablero.fichasValidasSalvarJaque);
                                 }
 
                             } else {
@@ -186,6 +191,8 @@ public class EventosTablero implements ActionListener {
                                     // Obtener los posibles movimientos de la ficha en esa posición
                                     f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
                                     this.vistaTablero.resaltarMovimientos(f.getLista());
+                                    tablero.resetearColores();
+                                    tablero.resaltarMovimeintosCuadros(f.getLista());
                                     System.out.println(f.getLista());
                                 }
                             }
@@ -199,10 +206,18 @@ public class EventosTablero implements ActionListener {
 
     }
 
+    public void darAccionBotones(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                vistaTablero.cuadro[i][j].addActionListener(this);
+            }
+        }
+    }
+
     public void actualizarVista() {
         // Actualizar la vista de acuerdo a la configuración actual del tablero
         vistaTablero.resetearColores(); // Resetear los colores de los botones del tablero
-
+        tablero.resetearColores();
         for (Fichas ficha : tablero.jugador1.fichas) {
             int posX = ficha.getPosX();
             int posY = ficha.getPosY();
@@ -226,12 +241,15 @@ public class EventosTablero implements ActionListener {
                 }
                 vistaTablero.ponerJaque(tablero.jaqueBlanco, tablero.jaqueNegro, "blanco",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
-                vistaTablero.ponerJaque(
-                        tablero.jaqueBlanco,
+                tablero.ponerJaque(fichaElegida.getPosX(), fichaElegida.getPosY());
+                
+                vistaTablero.ponerJaque(tablero.jaqueBlanco,
                         tablero.jaqueNegro,
                         "negro",
                         fichaElegida.getPosX(),
                         fichaElegida.getPosY());
+                tablero.ponerJaque(fichaElegida.getPosX(), fichaElegida.getPosY());
+                
                 jaqueNegro = true;
                 banderaJaque = true;
                 return true;
@@ -244,12 +262,16 @@ public class EventosTablero implements ActionListener {
                 }
                 vistaTablero.ponerJaque(tablero.jaqueBlanco, tablero.jaqueNegro, "negro",
                         fichaElegida.getPosX(), fichaElegida.getPosY());
+                tablero.ponerJaque(fichaElegida.getPosX(), fichaElegida.getPosY());
+                
                 vistaTablero.ponerJaque(
                         tablero.jaqueBlanco,
                         tablero.jaqueNegro,
                         "blanco",
                         fichaElegida.getPosX(),
                         fichaElegida.getPosY());
+                tablero.ponerJaque(fichaElegida.getPosX(), fichaElegida.getPosY());
+                
                 jaqueBlanco = true;
                 banderaJaque = true;
                 return true;
