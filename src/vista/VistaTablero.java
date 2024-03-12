@@ -219,6 +219,8 @@ public class VistaTablero extends JFrame {
     }
 
     public void quitarJaque(){
+        banderaJaque_blancaa = false;
+        banderaJaque_negras = false;
         // Resetear el color de todos los botones del tablero
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -230,6 +232,15 @@ public class VistaTablero extends JFrame {
             }
         }
     }
+
+    public void cambiarBanderaB(){
+        banderaJaque_blancaa = false;
+    }
+
+    public void cambiarBanderaN(){
+        banderaJaque_negras = false;
+    }
+
 
     public void resaltarJaque() {
         if (banderaJaque_blancaa) {

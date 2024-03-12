@@ -25,8 +25,6 @@ import javax.swing.JTextArea;
 public class TableroServidor extends javax.swing.JFrame {
 
     public JButton[][] cuadro;
-    private String nombreJ1;
-    private String nombreJ2;
     public JButton fin1, fin2;
     public int jaqueX_negras, jaqueY_negras;
     public int jaqueX_blancas, jaqueY_blancas;

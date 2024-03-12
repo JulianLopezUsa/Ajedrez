@@ -4,8 +4,6 @@ package modelo.Tablero;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-
 import modelo.fichas.Alfil;
 import modelo.fichas.Caballo;
 import modelo.fichas.Dama;
