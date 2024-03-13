@@ -2,8 +2,8 @@ package sockets;
 
 import modelo.Tablero.Tablero;
 import modelo.jugadores.Jugadores;
+import vista.VistaTablero;
 import vistaConexion.MenuConexion;
-import vistaConexion.TableroServidor;
 
 import java.io.IOException;
 
@@ -153,10 +153,9 @@ public class SalaDeEspera extends javax.swing.JDialog implements Runnable {
                 // Hace invisible la sala de espera.
                 setVisible(false);
                 // Abre el tablero de juego
-                new EventoServidor(new TableroServidor(jugadores, nombre, servidor), tablero, servidor);
+                new EventoServidor(jugadores, nombre, new VistaTablero(nombre, nombre), tablero, servidor);
                 //TableroServidor tablero = new TableroServidor(nombre, nombreJ2, servidor);
                 //tablero.setVisible(true);
-
         }
 
 }

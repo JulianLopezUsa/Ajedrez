@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import vista.MenuA;
+import vista.VistaTablero;
 import vistaConexion.MenuConexion;
-import vistaConexion.TableroCliente;
 import modelo.Tablero.Tablero;
 import modelo.jugadores.Jugadores;
 import sockets.SalaDeEspera;
@@ -60,7 +60,7 @@ public class EventosMenuConexion implements ActionListener {
         nombreJ2 = JOptionPane.showInputDialog(this.conexion, "Ingrese su nombre", "Nombre jugador",
                 JOptionPane.QUESTION_MESSAGE);
 
-        new EventosCliente(new TableroCliente(jugadores, nombreJ2),tablero);
+        new EventosCliente(jugadores, nombreJ1 ,new VistaTablero(nombreJ2, nombreJ1),tablero);
         
         //TableroCliente juego = new TableroCliente(nombre, jugadores);
         //juego.setVisible(true);

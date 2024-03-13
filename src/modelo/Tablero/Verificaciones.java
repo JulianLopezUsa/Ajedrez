@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import controlador.EventoServidor;
+import controlador.Eventos;
+import controlador.EventosCliente;
 import controlador.EventosTablero;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
@@ -11,7 +14,7 @@ import modelo.fichas.Rey;
 import modelo.fichas.Torre;
 import modelo.jugadores.Jugadores;
 
-public class Verificaciones {
+public class Verificaciones implements Runnable {
 
     public Fichas fichaElegida;
     public boolean nn = false, nn2 = false;
@@ -19,6 +22,9 @@ public class Verificaciones {
     public boolean jaqueNegro = false, jaqueBlanco = false, banderaJaque = false;
     public Fichas fichaSeleccionada;
     public int cacheX, cacheY;
+    public Eventos evi;
+    public String tipo = "";
+    public Tablero tablero;
 
     public Fichas hayFicha(int i, int j, int turno, Tablero tablero) {
         if (turno == 0) {
@@ -304,7 +310,7 @@ public class Verificaciones {
     }
 
     public boolean verificarJaque(int turnoo, Tablero tablero) {
-        if (tablero.verificaciones.estaEnJaque(turnoo, tablero)) {
+        if (estaEnJaque(turnoo, tablero)) {
             if (turnoo == 1) {
                 JOptionPane.showMessageDialog(null, "¡El rey Blanco está en jaque!");
                 for (Fichas ficha : tablero.jugador2.fichas) {
@@ -345,7 +351,16 @@ public class Verificaciones {
         return false;
     }
 
-    public void VerificarPosiblesMovimientos(Fichas f, int i, int j, Tablero tablero, EventosTablero ev) {
+    public void VerificarPosiblesMovimientos(Fichas f, int i, int j, Tablero tablero, Eventos ev, String tipo) {
+        this.tablero = tablero;
+        if (tipo.equals("normal")) {
+            ev = (EventosTablero) ev;
+        } else if (tipo.equals("cliente")) {
+            ev = (EventosCliente) ev;
+        } else if (tipo.equals("servidor")) {
+            ev = (EventoServidor) ev;
+        }
+
         if (f != null) {
             ev.actualizarVista();
             fichaSeleccionada = f;
@@ -354,158 +369,183 @@ public class Verificaciones {
             // Se tiene que verificar si no está en jaque la ficha entonces permitir
             // movimeinto
             // Si sí se encuentra en jaque entonces no permite movimiento
-            if (tablero.verificaciones.banderaJaque) {
-                if (tablero.verificaciones.esMovimientoValidoParaSalirDelJaque(f, i, j, tablero)) {
+            if (banderaJaque) {
+                if (esMovimientoValidoParaSalirDelJaque(f, i, j, tablero)) {
                     tablero.resaltarMovimeintosCuadros(tablero.fichasValidasSalvarJaque);
                     ev.resaltarMovimientos(tablero.fichasValidasSalvarJaque);
                 }
-            } else if (!tablero.verificaciones.banderaJaque) {
+            } else if (!banderaJaque) {
                 // Obtener los posibles movimientos de la ficha en esa posición
-                f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, tablero.verificaciones.banderaJaque, 0);
+                f.movimientoFicha((char) (i + 97) + " " + j, tablero, 3, banderaJaque, 0);
                 tablero.resaltarMovimeintosCuadros(f.getLista());
                 ev.resaltarMovimientos(f.getLista());
             }
         }
     }
 
-    public void verificarMovimientoAmarillo(int i, int j, EventosTablero ev, Tablero tablero) {
+    public void verificarMovimientoAmarillo(int i, int j, Eventos ev, Tablero tablero, String tipo) {
         // Mover la ficha seleccionada al cuadro amarillo
-
-        ev.eliminarDeVista(cacheY, cacheX);
-        // vistaTablero.eliminarDeVista(cacheY, cacheX);
-
-        // CAMBIO DE VISTA ENROQUE
-        if (fichaSeleccionada instanceof Rey) {
-            if (!cambioVistaEnroque(fichaSeleccionada, i, j, tablero, ev)) {
-                ev.eliminarDeVista(cacheY, cacheX);
-                // vistaTablero.eliminarDeVista(cacheY, cacheX);
-                arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
-                ev.actualizarVista();
+        if (fichaSeleccionada != null) {
+            this.evi = ev;
+            this.tipo = tipo;
+            if (tipo.equals("normal")) {
+                ev = (EventosTablero) ev;
+            } else if (tipo.equals("cliente")) {
+                ev = (EventosCliente) ev;
+            } else if (tipo.equals("servidor")) {
+                ev = (EventoServidor) ev;
             }
-        } else if (fichaSeleccionada instanceof Peon) {
-            Peon peon = (Peon) fichaSeleccionada;
-            if (peon.banderaPeonAlPaso) {
-                String[] pos = peon.movimeintoPeonAlPaso.get(0).split(" ");
-                int x = Integer.parseInt(pos[0]);
-                int y = Integer.parseInt(pos[1]);
-                if (x == i && y == j) {
-                    Peon peonsito = (Peon) tablero.historialFichas
-                            .get(tablero.historialFichas.size() - 1);
-                    if (tablero.getTurno() == 0) {
-                        tablero.jugador1.fichas.remove(peonsito);
-                    } else {
-                        tablero.jugador2.fichas.remove(peonsito);
+
+            ev.eliminarDeVista(cacheY, cacheX);
+            // vistaTablero.eliminarDeVista(cacheY, cacheX);
+
+            // CAMBIO DE VISTA ENROQUE
+            if (fichaSeleccionada instanceof Rey) {
+                if (!cambioVistaEnroque(fichaSeleccionada, i, j, tablero, ev, tipo)) {
+                    ev.eliminarDeVista(cacheY, cacheX);
+                    // vistaTablero.eliminarDeVista(cacheY, cacheX);
+                    arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+                    ev.actualizarVista();
+                }
+            } else if (fichaSeleccionada instanceof Peon) {
+                Peon peon = (Peon) fichaSeleccionada;
+                if (peon.banderaPeonAlPaso) {
+                    String[] pos = peon.movimeintoPeonAlPaso.get(0).split(" ");
+                    int x = Integer.parseInt(pos[0]);
+                    int y = Integer.parseInt(pos[1]);
+                    if (x == i && y == j) {
+                        Peon peonsito = (Peon) tablero.historialFichas
+                                .get(tablero.historialFichas.size() - 1);
+                        if (tablero.getTurno() == 0) {
+                            tablero.jugador1.fichas.remove(peonsito);
+                        } else {
+                            tablero.jugador2.fichas.remove(peonsito);
+                        }
+                        ev.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
+                        // vistaTablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
                     }
-                    ev.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
-                    // vistaTablero.eliminarDeVista(peonsito.getPosX(), peonsito.getPosY());
+                }
+                arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+
+            } else {
+
+                arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
+
+            }
+            fichaSeleccionada.movio = true;
+
+            Fichas fichaX = arrExtra.get(0);
+            if (fichaX != null) {
+                ev.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
+                // vistaTablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
+            }
+
+            // vistaTablero.banderaJaque_blancaa = false;
+            // vistaTablero.banderaJaque_negras = false;
+
+            ev.quitarJaqueVista();
+            // vistaTablero.quitarJaque();
+            // Actualizar la vista para reflejar el movimiento
+            ev.actualizarVista();
+
+            // Para coronación del peón
+            if (fichaSeleccionada instanceof Peon) {
+                if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
+                    tablero.eliminarFicha(fichaSeleccionada);
+                    ev.eliminarDeVista(fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
+                    // vistaTablero.eliminarDeVista(
+                    // fichaSeleccionada.getPosX(),
+                    // fichaSeleccionada.getPosY());
+
+                    String nn = ev.coronacionFichaVista(tablero.getTurno(),
+                            fichaSeleccionada.getPosY(),
+                            fichaSeleccionada.getPosX());
+                    /*
+                     * String nn = vistaTablero.coronacionPieza(
+                     * tablero.getTurno(),
+                     * fichaSeleccionada.getPosY(),
+                     * fichaSeleccionada.getPosX());
+                     */
+                    tablero.crearFichaNueva(
+                            nn,
+                            fichaSeleccionada.getPosX(),
+                            fichaSeleccionada.getPosY());
                 }
             }
-            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
 
-        } else {
-            arrExtra = tablero.moverFicha(fichaSeleccionada, i, j);
-        }
-        fichaSeleccionada.movio = true;
-
-        Fichas fichaX = arrExtra.get(0);
-        if (fichaX != null) {
-            ev.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
-            // vistaTablero.eliminarDeVista(fichaX.getPosX(), fichaX.getPosY());
-        }
-
-        // vistaTablero.banderaJaque_blancaa = false;
-        // vistaTablero.banderaJaque_negras = false;
-
-        ev.quitarJaqueVista();
-        // vistaTablero.quitarJaque();
-        // Actualizar la vista para reflejar el movimiento
-        ev.actualizarVista();
-
-        // Para coronación del peón
-        if (fichaSeleccionada instanceof Peon) {
-            if (((Peon) fichaSeleccionada).alcanzoExtremoTablero(i, j)) {
-                tablero.eliminarFicha(fichaSeleccionada);
-                ev.eliminarDeVista(fichaSeleccionada.getPosX(), fichaSeleccionada.getPosY());
-                // vistaTablero.eliminarDeVista(
-                // fichaSeleccionada.getPosX(),
-                // fichaSeleccionada.getPosY());
-
-                String nn = ev.coronacionFichaVista(tablero.getTurno(),
-                        fichaSeleccionada.getPosY(),
-                        fichaSeleccionada.getPosX());
-                /*
-                 * String nn = vistaTablero.coronacionPieza(
-                 * tablero.getTurno(),
-                 * fichaSeleccionada.getPosY(),
-                 * fichaSeleccionada.getPosX());
-                 */
-                tablero.crearFichaNueva(
-                        nn,
-                        fichaSeleccionada.getPosX(),
-                        fichaSeleccionada.getPosY());
-            }
-        }
-
-        if (tablero.getTurno() == 1) {
-            if (tablero.jaqueBlanco == false) {
-                ev.cambiarbanderaB();
-            }
-            if (tablero.jaqueNegro == false) {
-                ev.cambiarbanderaN();
-            }
-
-            tablero.resetearColores();
-            ev.resetearColoresVista();
-            // vistaTablero.resetearColores();
-            // Verificar Jaque
-            nn = tablero.verificaciones.verificarJaque(1, tablero);
-
-        } else {
-            if (tablero.jaqueBlanco == false) {
-                ev.cambiarbanderaB();
-            }
-            if (tablero.jaqueNegro == false) {
-                ev.cambiarbanderaN();
-            }
-            tablero.resetearColores();
-            ev.resetearColoresVista();
-            // vistaTablero.resetearColores();
-            nn2 = tablero.verificaciones.verificarJaque(0, tablero);
-        }
-
-        if (!nn && !nn2) {
-            tablero.verificaciones.banderaJaque = false;
-            tablero.resetearColores();
-            ev.resetearColoresVista();
-            // vistaTablero.resetearColores();
-
-        } else if (nn || nn2) {
-            ev.ponerJaqueVista();
-        }
-
-        // Actualizar historial y Cambiar turno
-        ev.mostrarHistorialVista();
-
-        tablero.turno = (tablero.turno + 1) % 2;
-
-        // SE VERIFICA JAQUE MATE
-        if (tablero.verificaciones.banderaJaque) {
-            if (tablero.verificaciones.detectarJaqueMate(tablero).isEmpty()) {
-                if (tablero.getTurno() == 0) {
-                    JOptionPane.showMessageDialog(null,
-                            "Jaque mate al equipo blanco. Gana el equipo negro");
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Jaque mate al equipo negro. Gana el equipo blanco");
+            if (tablero.getTurno() == 1) {
+                if (tablero.jaqueBlanco == false) {
+                    ev.cambiarbanderaB();
                 }
-                System.exit(0);
+                if (tablero.jaqueNegro == false) {
+                    ev.cambiarbanderaN();
+                }
+
+                tablero.resetearColores();
+                ev.resetearColoresVista();
+                // vistaTablero.resetearColores();
+                // Verificar Jaque
+                nn = verificarJaque(1, tablero);
+
+            } else {
+                if (tablero.jaqueBlanco == false) {
+                    ev.cambiarbanderaB();
+                }
+                if (tablero.jaqueNegro == false) {
+                    ev.cambiarbanderaN();
+                }
+                tablero.resetearColores();
+                ev.resetearColoresVista();
+                // vistaTablero.resetearColores();
+                nn2 = verificarJaque(0, tablero);
             }
+
+            if (!nn && !nn2) {
+                banderaJaque = false;
+                tablero.resetearColores();
+                ev.resetearColoresVista();
+                // vistaTablero.resetearColores();
+
+            } else if (nn || nn2) {
+                ev.ponerJaqueVista();
+            }
+
+            // Actualizar historial y Cambiar turno
+            ev.mostrarHistorialVista();
+
+            tablero.turno = (tablero.turno + 1) % 2;
+
+            // SE VERIFICA JAQUE MATE
+            if (banderaJaque) {
+                if (detectarJaqueMate(tablero).isEmpty()) {
+                    if (tablero.getTurno() == 0) {
+                        JOptionPane.showMessageDialog(null,
+                                "Jaque mate al equipo blanco. Gana el equipo negro");
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Jaque mate al equipo negro. Gana el equipo blanco");
+                    }
+                    System.exit(0);
+                }
+            }
+            // Limpiar la ficha seleccionada
+            fichaSeleccionada = null;
+
+            new Thread(this).start();
         }
-        // Limpiar la ficha seleccionada
-        fichaSeleccionada = null;
     }
 
-    public boolean cambioVistaEnroque(Fichas fichaSeleccionada, int i, int j, Tablero tablero, EventosTablero ev) {
+    public boolean cambioVistaEnroque(Fichas fichaSeleccionada, int i, int j, Tablero tablero, Eventos ev,
+            String tipo) {
+
+        if (tipo.equals("normal")) {
+            ev = (EventosTablero) ev;
+        } else if (tipo.equals("cliente")) {
+            ev = (EventosCliente) ev;
+        } else if (tipo.equals("servidor")) {
+            ev = (EventoServidor) ev;
+        }
+
         Jugadores equipo = (tablero.getTurno() == 1) ? tablero.jugador1 : tablero.jugador2;
         if (fichaSeleccionada instanceof Rey) {
             Rey rey = (Rey) fichaSeleccionada;
@@ -558,6 +598,24 @@ public class Verificaciones {
             }
         }
         return false;
+    }
+
+    @Override
+    public void run() {
+        if (tipo.equals("cliente")) {
+            evi = (EventosCliente) evi;
+            System.out.println("Ciente turno" + tablero.getTurno());
+            if (tablero.getTurno() == 0) {
+                evi.esperarTurno();
+            }
+        } else if (tipo.equals("servidor")) {
+            evi = (EventoServidor) evi;
+            System.out.println("Servido turno" + tablero.getTurno());
+            if (tablero.getTurno() == 1) {
+                evi.esperarTurno();
+            }
+        }
+
     }
 
 }

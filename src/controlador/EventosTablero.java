@@ -10,7 +10,7 @@ import modelo.Tablero.Tablero;
 import modelo.fichas.Fichas;
 import vista.VistaTablero;
 
-public class EventosTablero implements ActionListener {
+public class EventosTablero implements ActionListener, Eventos {
 
     public VistaTablero vistaTablero;
     private Tablero tablero;
@@ -44,9 +44,9 @@ public class EventosTablero implements ActionListener {
                     // Si ya hay una ficha seleccionada, intentar moverla al cuadro presionado
                     // if (vistaTablero.cuadro[i][j].getBackground() == Color.YELLOW) {
                     if (cuadroSeleccionado.getColor() == Color.YELLOW) {
-                        tablero.verificaciones.verificarMovimientoAmarillo(i,j, this, tablero);
+                        tablero.verificaciones.verificarMovimientoAmarillo(i,j, this, tablero, "normal");
                     } else {
-                        tablero.verificaciones.VerificarPosiblesMovimientos(f, i, j, tablero, this);
+                        tablero.verificaciones.VerificarPosiblesMovimientos(f, i, j, tablero, this,"normal");
                         //verificarMovimeintosFicha(f,i,j);
                     }
                     return; // Salir del bucle cuando se encuentre el botón presionado
@@ -121,4 +121,11 @@ public class EventosTablero implements ActionListener {
         vistaTablero.resaltarMovimientos(r);
     }
 
+    @Override
+    public void esperarTurno() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'esperarTurno'");
+    }
+
+    
 }
