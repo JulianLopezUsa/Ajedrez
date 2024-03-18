@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import controlador.AccionRendir;
+
 import java.awt.*;
 
 public class TableroCliente extends javax.swing.JFrame {
@@ -149,7 +151,7 @@ public class TableroCliente extends javax.swing.JFrame {
         texto.setBackground(Color.BLACK);
         texto.setForeground(Color.WHITE);
 
-        //new AccionRendir(this, 2, fin1, fin2);
+        // new AccionRendir(this, 2, fin1, fin2);
         add(contenido);
     }
 

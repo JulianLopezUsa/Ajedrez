@@ -18,7 +18,8 @@ public class AccionRendir implements ActionListener {
         this.fin2 = fin2;
         this.fin1.addActionListener(this);
         this.fin2.addActionListener(this);
-    }
+    }    
+    
 
     public void mostrarMensajeRendicion(int jugador) {
         String mensaje = ""; // Valor predeterminado
