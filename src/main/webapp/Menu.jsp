@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MyLocalChess</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/estiloIndex.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -28,9 +28,10 @@
                         <option value="2">Fichas Blancas</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button id="btnEnviar" class="btn btn-primary">Enviar</button>
             </form>
         </div>
     </div>
 </body>
+<script type="text/javascript" src="js/menujs.js"></script>
 </html>
