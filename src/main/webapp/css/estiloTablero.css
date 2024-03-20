@@ -5,11 +5,11 @@
 }
 
 .casilla-blanca {
-	background-color: #f0d9b5;
+	background-color: #8B4513;
 }
 
 .casilla-negra {
-	background-color: #b58863;
+	background-color: #DEB887;
 }
 
 .casilla {
@@ -36,5 +36,5 @@
     }
 
     .contenedor-texto {
-        margin-top: 20px; /* Ajusta según necesites */
+        margin-top: 5px; /* Ajusta según necesites */
     }

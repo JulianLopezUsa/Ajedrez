@@ -24,7 +24,7 @@
                     <div class="col-md-12">
                         <div class="contenedor-texto">
                             <textarea id="texto" rows="20" cols="50" readonly>
-                                jugadas
+
                             </textarea>
                         </div>
                     </div>

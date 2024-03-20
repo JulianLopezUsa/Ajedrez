@@ -92,3 +92,4 @@ function obtenerPieza(fila, columna) {
     // Devolver la ruta de la imagen de la pieza o null si no hay pieza en esa posición
     return pieza;
 }
+

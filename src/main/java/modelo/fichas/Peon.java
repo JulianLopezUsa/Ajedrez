@@ -3,10 +3,7 @@ package modelo.fichas;
 import java.util.ArrayList;
 import modelo.Tablero.Tablero;
 
-/**
- *
- * @author Laura
- */
+
 public class Peon extends Fichas {
 
   public ArrayList<String> listaDeMovimientos = new ArrayList<>();
