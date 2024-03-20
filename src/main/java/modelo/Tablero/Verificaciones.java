@@ -8,6 +8,7 @@ import controlador.EventoServidor;
 import controlador.Eventos;
 import controlador.EventosCliente;
 import controlador.EventosTablero;
+import controlador.MovimientoFichaServlet;
 import modelo.fichas.Fichas;
 import modelo.fichas.Peon;
 import modelo.fichas.Rey;
@@ -351,15 +352,8 @@ public class Verificaciones implements Runnable {
         return false;
     }
 
-    public void VerificarPosiblesMovimientos(Fichas f, int i, int j, Tablero tablero, Eventos ev, String tipo) {
+    public void VerificarPosiblesMovimientos(Fichas f, int i, int j, Tablero tablero, MovimientoFichaServlet ev, String tipo) {
         this.tablero = tablero;
-        if (tipo.equals("normal")) {
-            ev = (EventosTablero) ev;
-        } else if (tipo.equals("cliente")) {
-            ev = (EventosCliente) ev;
-        } else if (tipo.equals("servidor")) {
-            ev = (EventoServidor) ev;
-        }
 
         if (f != null) {
             ev.actualizarVista();
@@ -383,7 +377,7 @@ public class Verificaciones implements Runnable {
         }
     }
 
-    public void verificarMovimientoAmarillo(int i, int j, Eventos ev, Tablero tablero, String tipo) {
+    public void verificarMovimientoAmarillo(int i, int j, MovimientoFichaServlet ev, Tablero tablero, String tipo) {
         // Mover la ficha seleccionada al cuadro amarillo
         if (fichaSeleccionada != null) {
             this.evi = ev;
