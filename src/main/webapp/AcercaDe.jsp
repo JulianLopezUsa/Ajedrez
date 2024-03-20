@@ -14,9 +14,9 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<h2>Proyecto presentado por:</h2>
+	<h2>Proyecto presentado por:<b></b></h2>
 	<div class="card-container">
-		<div class="card" style="width: 15rem;">
+		<div class="card" style="width: 13rem;">
 			<img src="<%= request.getContextPath() %>/img/Logo.png"
 				class="card-img-top" alt="...">
 			<div class="card-body">
@@ -25,7 +25,7 @@
 				<a href="#" class="btn btn-primary">Go somewhere</a>
 			</div>
 		</div>
-		<div class="card" style="width: 15rem;">
+		<div class="card" style="width: 13rem;">
 			<img src="<%= request.getContextPath() %>/img/Logo.png"
 				class="card-img-top" alt="...">
 			<div class="card-body">
@@ -34,11 +34,11 @@
 				<a href="#" class="btn btn-primary">Go somewhere</a>
 			</div>
 		</div>
-		<div class="card" style="width: 15rem;">
+		<div class="card" style="width: 13rem;">
 			<img src="<%= request.getContextPath() %>/img/Logo.png"
 				class="card-img-top" alt="...">
 			<div class="card-body">
-				<h5 class="card-title">Juli�n L�pez</h5>
+				<h5 class="card-title">Julián López</h5>
 				<p class="card-text">Front</p>
 				<a href="#" class="btn btn-primary">Go somewhere</a>
 			</div>

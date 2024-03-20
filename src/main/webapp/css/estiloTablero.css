@@ -30,3 +30,11 @@
 .ficha-seleccionada {
 	border: 2px solid red;
 }
+.contenedor-tablero {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenedor-texto {
+        margin-top: 20px; /* Ajusta según necesites */
+    }

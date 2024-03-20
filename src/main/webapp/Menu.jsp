@@ -17,13 +17,12 @@
 
 	<div class="container mt-3">
 		<div class="form-container">
-			<form>
-				<div class="mb-3">
-					<label for="exampleInputEmail1">Nombre de Jugador</label> <input
-						type="email" class="form-control" id="exampleInputEmail1"
-						aria-describedby="emailHelp">
-					<div id="emailHelp" class="form-text"></div>
-				</div>
+			<form action="VistaTablero.jsp" method="post">
+    <div class="mb-3">
+        <label for="exampleInputEmail1">Nombre de Jugador</label> 
+        <input type="text" class="form-control" id="jugador" name="jugador" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text"></div>
+    </div>
 				<div class="mb-3">
 					<label for="exampleSelect">Color de fichas</label> <select
 						class="form-select" id="exampleSelect">
