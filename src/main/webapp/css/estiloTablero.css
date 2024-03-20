@@ -1,28 +1,29 @@
-
-  .tablero {
-      display: grid;
-      grid-template-columns: repeat(8, 70px);
-      grid-template-rows: repeat(8, 70px);
-  }
-  .casilla-blanca {
-      background-color: #f0d9b5;
-  }
-  
-  .casilla-negra {
-     background-color: #b58863;
-  }
-  
- .casilla {
-            position: relative; /* Permitir que las imágenes se superpongan */
-        }
-        .casilla img {
-            max-width: 100%;
-            max-height: 100%;
-            position: absolute; /* Posicionar las imágenes dentro de la casilla */
-            top: 0; /* Alinear la parte superior de las imágenes */
-            left: 0; /* Alinear la parte izquierda de las imágenes */
-        }
-.ficha-seleccionada {
-    border: 2px solid red;
+.tablero {
+	display: grid;
+	grid-template-columns: repeat(8, 70px);
+	grid-template-rows: repeat(8, 70px);
 }
-        
+
+.casilla-blanca {
+	background-color: #f0d9b5;
+}
+
+.casilla-negra {
+	background-color: #b58863;
+}
+
+.casilla {
+	position: relative; /* Permitir que las imágenes se superpongan */
+}
+
+.casilla img {
+	max-width: 100%;
+	max-height: 100%;
+	position: absolute; /* Posicionar las imágenes dentro de la casilla */
+	top: 0; /* Alinear la parte superior de las imágenes */
+	left: 0; /* Alinear la parte izquierda de las imágenes */
+}
+
+.ficha-seleccionada {
+	border: 2px solid red;
+}
