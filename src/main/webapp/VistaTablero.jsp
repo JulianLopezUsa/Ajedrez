@@ -30,18 +30,18 @@
 						<div class="casilla casilla-negra" data-fila="<%= i %>"
 							data-columna="<%= j %>">
 							<% }
-                                    if (i == 1 && (j >= 0 && j <= 7)) { piezas[indice++] = "img/peon_blanco.png"; }
-                                    if (i == 0 && (j == 0 || j == 7)) { piezas[indice++] = "img/torre_blanco.png"; }
-                                    if (i == 0 && (j == 1 || j == 6)) { piezas[indice++] = "img/caballo_blanco.png"; }
-                                    if (i == 0 && (j == 2 || j == 5)) { piezas[indice++] = "img/alfil_blanco.png"; }
-                                    if (i == 0 && j == 3) { piezas[indice++] = "img/dama_blanco.png"; }
-                                    if (i == 0 && j == 4) { piezas[indice++] = "img/rey_blanco.png"; }
-                                    if (i == 6 && (j >= 0 && j <= 7)) { piezas[indice++] = "img/peon_negro.png"; }
-                                    if (i == 7 && (j == 0 || j == 7)) { piezas[indice++] = "img/torre_negro.png"; }
-                                    if (i == 7 && (j == 1 || j == 6)) { piezas[indice++] = "img/caballo_negro.png"; }
-                                    if (i == 7 && (j == 2 || j == 5)) { piezas[indice++] = "img/alfil_negro.png"; }
-                                    if (i == 7 && j == 3) { piezas[indice++] = "img/dama_negro.png"; }
-                                    if (i == 7 && j == 4) { piezas[indice++] = "img/rey_negro.png"; }
+                                    if (i == 1 && (j >= 0 && j <= 7)) { piezas[indice++] = "img/peon_negro.png"; }
+                                    if (i == 0 && (j == 0 || j == 7)) { piezas[indice++] = "img/torre_negro.png"; }
+                                    if (i == 0 && (j == 1 || j == 6)) { piezas[indice++] = "img/caballo_negro.png"; }
+                                    if (i == 0 && (j == 2 || j == 5)) { piezas[indice++] = "img/alfil_negro.png"; }
+                                    if (i == 0 && j == 3) { piezas[indice++] = "img/dama_negro.png"; }
+                                    if (i == 0 && j == 4) { piezas[indice++] = "img/rey_negro.png"; }
+                                    if (i == 6 && (j >= 0 && j <= 7)) { piezas[indice++] = "img/peon_blanco.png"; }
+                                    if (i == 7 && (j == 0 || j == 7)) { piezas[indice++] = "img/torre_blanco.png"; }
+                                    if (i == 7 && (j == 1 || j == 6)) { piezas[indice++] = "img/caballo_blanco.png"; }
+                                    if (i == 7 && (j == 2 || j == 5)) { piezas[indice++] = "img/alfil_blanco.png"; }
+                                    if (i == 7 && j == 3) { piezas[indice++] = "img/dama_blanco.png"; }
+                                    if (i == 7 && j == 4) { piezas[indice++] = "img/rey_blanco.png"; }
                                     // Iterar sobre las imágenes de las piezas y mostrarlas en la casilla
                                     for (String pieza : piezas) {
                                         if (pieza != null) { %>
@@ -59,8 +59,13 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<h2>Nombre del Jugador</h2>
-					<h2>Jugadas</h2>
+					<h2>Jugador:</h2>
+					<h5>Jugadas</h5>
+					<div class="contenedor-texto">
+        <textarea id="texto" rows="10" cols="50" readonly>
+            jugadas
+        </textarea>
+    </div>
 				</div>
 			</div>
 		</div>

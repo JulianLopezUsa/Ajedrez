@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <nav class="navbar navbar-expand-lg bg-body-tertiary"
 	data-bs-theme="dark">
 	<div class="container-fluid">
@@ -18,7 +20,7 @@
 					aria-current="page" href="Menu.jsp">Inicio</a></li>
 				<li class="nav-item"><a class="nav-link" href="AcercaDe.jsp">Acerca
 						de</a></li>
-				<li class="nav-item"><a class="nav-link" href="index.html">Salir</a>
+				<li class="nav-item"><a class="nav-link" href="index.jsp">Salir</a>
 				</li>
 			</ul>
 		</div>

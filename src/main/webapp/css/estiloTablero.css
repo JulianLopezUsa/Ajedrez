@@ -13,15 +13,18 @@
 }
 
 .casilla {
-	position: relative; /* Permitir que las imágenes se superpongan */
+	position: relative;
+    width: 70px; /* Ancho de la casilla */
+    height: 70px; /* Alto de la casilla */
 }
 
 .casilla img {
 	max-width: 100%;
-	max-height: 100%;
-	position: absolute; /* Posicionar las imágenes dentro de la casilla */
-	top: 0; /* Alinear la parte superior de las imágenes */
-	left: 0; /* Alinear la parte izquierda de las imágenes */
+    max-height: 100%;
+    position: absolute;
+    top: 50%; /* Ubicar la imagen en el centro vertical */
+    left: 50%; /* Ubicar la imagen en el centro horizontal */
+    transform: translate(-50%, -50%); /* Centrar la imagen */
 }
 
 .ficha-seleccionada {
