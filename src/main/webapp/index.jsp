@@ -19,7 +19,9 @@
 
 <body>
 	<div class="container">
-		<button id="btnIniciar" class="btn btn-light">Iniciar Juego</button>
+		<button id="btnIniciar" class="btn btn-light custom-btn">Iniciar Juego</button>
+
+
 	</div>
 </body>
 <script type="text/javascript" src="js/indexjs.js"></script>

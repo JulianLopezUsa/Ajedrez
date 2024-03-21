@@ -7,11 +7,13 @@ body {
 	text-align: center;
 }
 
-.btn {
-	margin-top: 250px; /* Ajustar margen superior */
-	font-size: 160px; /* Cambiar tamaño de fuente */
-	padding: 8px 15px; /* Ajustar relleno */
+#btnIniciar.custom-btn {
+    font-size: 200px; /* Tamaño de fuente personalizado */
+    padding: 40px 40px; /* Padding personalizado (top y bottom, left y right) */
+    /* Otros estilos personalizados */
 }
+
+
 
 .container {
 	display: flex;
@@ -21,7 +23,7 @@ body {
 }
 
 .form-container {
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(137, 136, 135, 0.8);
 	padding: 10px;
 	border-radius: 10px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

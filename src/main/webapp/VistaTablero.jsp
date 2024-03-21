@@ -21,13 +21,13 @@
                         <h2>Jugador: <%= request.getParameter("jugador") %></h2>
                         <h5>Jugadas</h5>
                     </div>
-                    <div class="col-md-12">
-                        <div class="contenedor-texto">
-                            <textarea id="texto" rows="20" cols="50" readonly>
+                  <div class="col-md-12">
+    <div class="contenedor-texto">
+        <textarea id="texto" rows="20" cols="50" readonly></textarea>
+    </div>
+</div>
 
-                            </textarea>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@
 <body>
 	<h2>Proyecto presentado por:<b></b></h2>
 	<div class="card-container">
-		<div class="card" style="width: 13rem;">
+		<div class="card" style="width: 15rem;">
 			<img src="<%= request.getContextPath() %>/img/Logo.png"
 				class="card-img-top" alt="...">
 			<div class="card-body">
@@ -25,7 +25,7 @@
 				<a href="#" class="btn btn-primary">Go somewhere</a>
 			</div>
 		</div>
-		<div class="card" style="width: 13rem;">
+		<div class="card" style="width: 15rem;">
 			<img src="<%= request.getContextPath() %>/img/Logo.png"
 				class="card-img-top" alt="...">
 			<div class="card-body">
@@ -34,7 +34,7 @@
 				<a href="#" class="btn btn-primary">Go somewhere</a>
 			</div>
 		</div>
-		<div class="card" style="width: 13rem;">
+		<div class="card" style="width: 15rem;">
 			<img src="<%= request.getContextPath() %>/img/Logo.png"
 				class="card-img-top" alt="...">
 			<div class="card-body">
