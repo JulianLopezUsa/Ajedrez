@@ -8,6 +8,8 @@
 <title>MyLocalChess - Partida</title>
 <link rel="stylesheet" href="css/estiloTablero.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
     <div class="container mt-3">

@@ -14,5 +14,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Laura/OneDrive - Universidad Sergio Arboleda/Documentos/Descargas programas/apache-tomcat-10.1.19/lib/servlet-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://jakarta.ee/specifications/servlet/6.0/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Laura/Downloads/SupplyChain-main/SupplyChain-main/src/main/webapp/WEB-INF/lib/gson-2.10.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -27,4 +27,34 @@
     <servlet-name>MovimientoFichaServlet</servlet-name>
     <url-pattern>/MovimientoFichaServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>movimientoFichas</display-name>
+    <servlet-name>movimientoFichas</servlet-name>
+    <servlet-class>controlador.movimientoFichas</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>movimientoFichas</servlet-name>
+    <url-pattern>/movimientoFichas</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AjedrezServlet</display-name>
+    <servlet-name>AjedrezServlet</servlet-name>
+    <servlet-class>controlador.AjedrezServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AjedrezServlet</servlet-name>
+    <url-pattern>/AjedrezServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>movimientos</display-name>
+    <servlet-name>movimientos</servlet-name>
+    <servlet-class>controlador.movimientos</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>movimientos</servlet-name>
+    <url-pattern>/movimientos</url-pattern>
+  </servlet-mapping>
 </web-app>

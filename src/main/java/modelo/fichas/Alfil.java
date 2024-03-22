@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import modelo.Tablero.Tablero;
 
+/**
+ *
+ * @author Laura
+ */
 public class Alfil extends Fichas {
     public ArrayList<String> listaDeMovimientos = new ArrayList<>();
 

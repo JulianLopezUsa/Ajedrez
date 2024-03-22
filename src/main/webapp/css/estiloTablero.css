@@ -11,6 +11,9 @@
 .casilla-negra {
 	background-color: #DEB887;
 }
+.casilla-resaltada {
+    background-color: yellow;
+}
 
 .casilla {
 	position: relative;
