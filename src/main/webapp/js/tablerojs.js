@@ -148,16 +148,24 @@ function resaltarMovimientos(movimientos) {
 
 
 function moverFicha(fila, columna) {
-	var casillasResaltadas = document.querySelectorAll('.casilla-resaltada');
+    var casillasResaltadas = document.querySelectorAll('.casilla-resaltada');
     casillasResaltadas.forEach(function(casilla) {
         casilla.classList.remove('casilla-resaltada');
     });
-    
+
     const fichaSeleccionada = document.querySelector('.ficha-seleccionada');
-    console.log(fichaSeleccionada)
+    console.log(fichaSeleccionada);
     if (fichaSeleccionada) {
         // Obtener la casilla destino
         const casillaDestino = document.querySelector(`.casilla[data-fila="${fila}"][data-columna="${columna}"]`);
+
+        // Verificar si hay una ficha en la casilla destino
+        const fichaEnDestino = casillaDestino.querySelector('img');
+
+        if (fichaEnDestino) {
+            // Eliminar la ficha en la casilla destino
+            fichaEnDestino.remove();
+        }
 
         // Mover la ficha a la casilla destino
         casillaDestino.appendChild(fichaSeleccionada);
@@ -174,6 +182,7 @@ function moverFicha(fila, columna) {
         }
     }
 }
+
 
 
 
