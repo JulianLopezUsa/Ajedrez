@@ -1,0 +1,35 @@
+# Eclipse .classpath file
+.classpath
+
+# Eclipse .project file
+.project
+
+# Eclipse .settings directory
+.settings/
+
+# Eclipse .metadata directory
+.metadata/
+
+# Visual Studio Code .vscode directory
+.vscode/
+
+# NetBeans build directory
+nbproject/build/
+
+# NetBeans private directory
+nbproject/private/
+
+# IntelliJ IDEA .idea directory
+.idea/
+
+# IntelliJ IDEA .iml files
+*.iml
+
+# IntelliJ IDEA .iws files
+*.iws
+
+# Java .class files
+*.class
+
+# Build directory
+build/
